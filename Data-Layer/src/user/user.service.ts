@@ -11,8 +11,8 @@ export class UserService {
 
   constructor(
     // This is the interface of the User Entity that can be used to interact with the database.
-    @InjectRepository(User) private userRepository: Repository<User>,
-    @InjectEntityManager() private manager: EntityManager,
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectEntityManager() private readonly manager: EntityManager,
   ) {}
 
   create(createUserDto: CreateUserDto): Promise<User> {
@@ -33,7 +33,7 @@ export class UserService {
       const existingUser = await manager.findOne(User, id);
       if (!existingUser) throw new NotFoundException(`User with id ${id} was not found`);
       manager.merge(User, existingUser, updateUserDto);
-      return this.manager.save(existingUser);
+      return manager.save(existingUser);
     });
   }
 
