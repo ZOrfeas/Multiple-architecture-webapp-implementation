@@ -1,0 +1,10 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "soa-data-user",
+  "password": "secret-pass",
+  "database": "ama-soa-data",
+  "entities": ["dist/**/*.entity{.ts,.js}"],
+  "synchronize": true
+}
