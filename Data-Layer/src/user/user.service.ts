@@ -25,7 +25,9 @@ export class UserService {
   }
 
   findOne(id: number): Promise<User> {
-    return this.userRepository.findOne(id);
+    return this.userRepository.findOne(id, {
+      relations: ['questions', 'answers', 'keyword'],
+    });
   }
 
   update(id: number, updateUserDto: UpdateUserDto): Promise<User> {

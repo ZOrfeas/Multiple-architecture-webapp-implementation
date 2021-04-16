@@ -1,6 +1,7 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { JoinColumn } from 'typeorm/browser';
+import { Question } from '../../question/entities/question.entity';
 
 @Entity()
 export class Keyword {
@@ -10,10 +11,13 @@ export class Keyword {
   @Column()
   name: string;
 
-  @OneToOne((type) => User, (user) => user.keyword, {
+  @OneToOne(() => User, (user) => user.keyword, {
     nullable: true,
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @ManyToMany(() => Question, (question) => question.keywords)
+  questions: Question[];
 }
