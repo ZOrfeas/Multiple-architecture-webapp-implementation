@@ -33,7 +33,8 @@ export class UserService {
   update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     return this.manager.transaction(async (manager) => {
       const existingUser = await manager.findOne(User, id);
-      if (!existingUser) throw new NotFoundException(`User with id ${id} was not found`);
+      if (!existingUser)
+        throw new NotFoundException(`User with id ${id} was not found`);
       manager.merge(User, existingUser, updateUserDto);
       return manager.save(existingUser);
     });
@@ -42,7 +43,8 @@ export class UserService {
   remove(id: number): Promise<void> {
     return this.manager.transaction(async (manager) => {
       const existingUser = await manager.findOne(User, id);
-      if (!existingUser) throw new NotFoundException(`User with id ${id} was not found`);
+      if (!existingUser)
+        throw new NotFoundException(`User with id ${id} was not found`);
       await manager.delete(User, id);
     });
   }

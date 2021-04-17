@@ -23,7 +23,8 @@ export class KeywordService {
       return this.manager.transaction(async (manager) => {
         const userId = createKeywordDto.user.id;
         const existingUser = await manager.findOne(User, userId);
-        if (!existingUser) throw new NotFoundException(`User with id ${userId} was not found`);
+        if (!existingUser)
+          throw new NotFoundException(`User with id ${userId} was not found`);
         const newKeyword = manager.create(Keyword, createKeywordDto);
         return manager.save(newKeyword);
       });
@@ -41,7 +42,8 @@ export class KeywordService {
   update(id: number, updateKeywordDto: UpdateKeywordDto) {
     return this.manager.transaction(async (manager) => {
       const existingKeyword = await manager.findOne(Keyword, id);
-      if (!existingKeyword) throw new NotFoundException(`Keyword with id ${id} was not found`);
+      if (!existingKeyword)
+        throw new NotFoundException(`Keyword with id ${id} was not found`);
       manager.merge(Keyword, existingKeyword, updateKeywordDto);
       return manager.save(existingKeyword);
     });
@@ -50,7 +52,8 @@ export class KeywordService {
   remove(id: number) {
     return this.manager.transaction(async (manager) => {
       const existingKeyword = await manager.findOne(Keyword, id);
-      if (!existingKeyword) throw new NotFoundException(`Keyword with id ${id} was not found`);
+      if (!existingKeyword)
+        throw new NotFoundException(`Keyword with id ${id} was not found`);
       await manager.delete(Keyword, id);
     });
   }

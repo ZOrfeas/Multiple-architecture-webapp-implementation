@@ -6,7 +6,6 @@ import { EntityManager, Repository } from 'typeorm';
 import { Question } from './entities/question.entity';
 import { User } from '../user/entities/user.entity';
 import { Keyword } from '../keyword/entities/keyword.entity';
-import { Answer } from '../answer/entities/answer.entity';
 
 @Injectable()
 export class QuestionService {
@@ -21,8 +20,9 @@ export class QuestionService {
     return this.manager.transaction(async (manager) => {
       const userId = createQuestionDto.user.id;
       const existingUser = await manager.findOne(User, userId);
-      if (!existingUser) throw new NotFoundException(`User with id ${userId} was not found`);
-      let newQuestion;
+      if (!existingUser)
+        throw new NotFoundException(`User with id ${userId} was not found`);
+      let newQuestion: Question;
       if (!createQuestionDto.keywords || createQuestionDto.keywords.length == 0) { // if the question doesn't have keywords
         newQuestion = manager.create(Question, createQuestionDto);
       } else { // if the question has keywords
@@ -47,7 +47,8 @@ export class QuestionService {
   update(id: number, updateQuestionDto: UpdateQuestionDto): Promise<Question> {
     return this.manager.transaction(async (manager) => {
       const existingQuestion = await manager.findOne(Question, id);
-      if (!existingQuestion) throw new NotFoundException(`Question with id ${id} was not found`);
+      if (!existingQuestion)
+        throw new NotFoundException(`Question with id ${id} was not found`);
       manager.merge(Question, existingQuestion, updateQuestionDto);
       return manager.save(existingQuestion);
     });
@@ -56,7 +57,8 @@ export class QuestionService {
   remove(id: number): Promise<void> {
     return this.manager.transaction(async (manager) => {
       const existingQuestion = await manager.findOne(Question, id);
-      if (!existingQuestion) throw new NotFoundException(`Question with id ${id} was not found`);
+      if (!existingQuestion)
+        throw new NotFoundException(`Question with id ${id} was not found`);
       await manager.delete(Question, id);
     });
   }

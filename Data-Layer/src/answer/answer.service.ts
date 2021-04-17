@@ -19,11 +19,13 @@ export class AnswerService {
   create(createAnswerDto: CreateAnswerDto): Promise<Answer> {
     return this.manager.transaction(async (manager) => {
       const userId = createAnswerDto.user.id;
-      const questionId = createAnswerDto.question.id;
+      const qId = createAnswerDto.question.id;
       const existingUser = await manager.findOne(User, userId);
-      if (!existingUser) throw new NotFoundException(`User with id ${userId} was not found`);
-      const existingQuestion = await manager.findOne(Question, questionId);
-      if (!existingQuestion) throw new NotFoundException(`Question with id ${questionId} was not found`);
+      if (!existingUser)
+        throw new NotFoundException(`User with id ${userId} was not found`);
+      const existingQuestion = await manager.findOne(Question, qId);
+      if (!existingQuestion)
+        throw new NotFoundException(`Question with id ${qId} was not found`);
       const newAnswer = manager.create(Answer, createAnswerDto);
       return manager.save(newAnswer);
     });
@@ -40,7 +42,8 @@ export class AnswerService {
   update(id: number, updateAnswerDto: UpdateAnswerDto): Promise<Answer> {
     return this.manager.transaction(async (manager) => {
       const existingAnswer = await manager.findOne(Answer, id);
-      if (!existingAnswer) throw new NotFoundException(`Answer with id ${id} was not found`);
+      if (!existingAnswer)
+        throw new NotFoundException(`Answer with id ${id} was not found`);
       manager.merge(Answer, existingAnswer, updateAnswerDto);
       return manager.save(existingAnswer);
     });
@@ -49,7 +52,8 @@ export class AnswerService {
   remove(id: number): Promise<void> {
     return this.manager.transaction(async (manager) => {
       const existingAnswer = await manager.findOne(Answer, id);
-      if (!existingAnswer) throw new NotFoundException(`Answer with id ${id} was not found`);
+      if (!existingAnswer)
+        throw new NotFoundException(`Answer with id ${id} was not found`);
       await manager.delete(Answer, id);
     });
   }
