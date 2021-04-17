@@ -1,8 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { Answer } from '../../answer/entities/answer.entity';
 import { Keyword } from '../../keyword/entities/keyword.entity';
-import { JoinTable } from 'typeorm/browser';
 
 @Entity()
 export class Question {

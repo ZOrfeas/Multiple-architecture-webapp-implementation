@@ -17,10 +17,7 @@ export class User {
   @Column()
   password: string;
 
-  @OneToOne(() => Keyword, (keyword) => keyword.user, {
-    nullable: true,
-    onDelete: 'SET NULL',
-  })
+  @OneToOne(() => Keyword, (keyword) => keyword.user)
   keyword: Keyword;
 
   @OneToMany(() => Answer, (answer) => answer.user)

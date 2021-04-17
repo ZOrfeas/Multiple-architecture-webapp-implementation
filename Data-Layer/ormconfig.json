@@ -2,9 +2,9 @@
   "type": "postgres",
   "host": "localhost",
   "port": 5432,
-  "username": "soa-data-user",
-  "password": "secret-pass",
-  "database": "ama-soa-data",
+  "username": "test_user",
+  "password": "12345",
+  "database": "test_db",
   "entities": ["dist/**/*.entity{.ts,.js}"],
   "synchronize": true,
   "logging": true
