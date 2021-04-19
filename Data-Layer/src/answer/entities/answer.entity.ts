@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { Question } from '../../question/entities/question.entity';
 
@@ -10,7 +10,7 @@ export class Answer {
   @Column({ type: 'text' })
   ansContent: string;
 
-  @Column({ type: 'timestamptz' })
+  @CreateDateColumn()
   answeredOn: Date;
 
   @ManyToOne(() => User, (user) => user.answers, {

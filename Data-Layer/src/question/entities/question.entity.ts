@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { Answer } from '../../answer/entities/answer.entity';
 import { Keyword } from '../../keyword/entities/keyword.entity';
@@ -14,7 +14,7 @@ export class Question {
   @Column({ type: 'text' })
   questContent: string;
 
-  @Column({ type: 'timestamptz' })
+  @CreateDateColumn()
   askedOn: Date;
 
   @ManyToOne(() => User, (user) => user.questions, {

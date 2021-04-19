@@ -2,9 +2,9 @@
   "type": "postgres",
   "host": "localhost",
   "port": 5432,
-  "username": "test_user",
+  "username": "data-manager",
   "password": "12345",
-  "database": "test_db",
+  "database": "dl-persistence",
   "entities": ["dist/**/*.entity{.ts,.js}"],
   "synchronize": true,
   "logging": true

@@ -23,6 +23,7 @@ export class AnswerService {
       const existingUser = await manager.findOne(User, userId);
       if (!existingUser)
         throw new NotFoundException(`User with id ${userId} was not found`);
+      // this.logger.error('kalispera');
       const existingQuestion = await manager.findOne(Question, qId);
       if (!existingQuestion)
         throw new NotFoundException(`Question with id ${qId} was not found`);
@@ -36,7 +37,9 @@ export class AnswerService {
   }
 
   findOne(id: number): Promise<Answer> {
-    return this.answerRepository.findOne(id);
+    return this.answerRepository.findOne(id, {
+      relations: ['user', 'question'],
+    });
   }
 
   update(id: number, updateAnswerDto: UpdateAnswerDto): Promise<Answer> {

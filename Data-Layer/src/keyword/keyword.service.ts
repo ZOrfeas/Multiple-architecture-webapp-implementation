@@ -36,7 +36,7 @@ export class KeywordService {
   }
 
   findOne(id: number): Promise<Keyword> {
-    return this.keywordRepository.findOne(id);
+    return this.keywordRepository.findOne(id, { relations: ['user'] });
   }
 
   update(id: number, updateKeywordDto: UpdateKeywordDto) {
