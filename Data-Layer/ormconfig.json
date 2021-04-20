@@ -1,6 +1,6 @@
 {
   "type": "postgres",
-  "host": "localhost",
+  "host": "dl-pg",
   "port": 5432,
   "username": "data-manager",
   "password": "12345",
