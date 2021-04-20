@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ObjectWithId } from 'src/validation-utils';
+import { ObjectWithId } from '../../validation';
 
 export class CreateKeywordDto {
   @IsNotEmpty()
