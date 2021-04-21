@@ -41,7 +41,9 @@ export class QuestionService {
   }
 
   findOne(id: number): Promise<Question> {
-    return this.questionRepository.findOne(id, { relations: ['answers'] });
+    return this.questionRepository.findOne(id, {
+      relations: ['answers', 'user'],
+    });
   }
 
   update(id: number, updateQuestionDto: UpdateQuestionDto): Promise<Question> {

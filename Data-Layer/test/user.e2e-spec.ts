@@ -7,8 +7,9 @@ import { Keyword } from '../src/keyword/entities/keyword.entity';
 import { Question } from '../src/question/entities/question.entity';
 import { User } from '../src/user/entities/user.entity';
 import { UserModule } from '../src/user/user.module';
+import { Dummies } from './testDummies';
 
-describe('UserController (e2e)', () => {
+describe('UserModule (e2e)', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
@@ -37,21 +38,16 @@ describe('UserController (e2e)', () => {
     return request(app.getHttpServer()).get('/user').expect(200).expect([]);
   });
 
-  const new_user = {
-    displayName: 'Kostas',
-    email: 'kost.kost@kost.com',
-    password: 'testpasswordhaha',
-  };
   it('/user (POST) | well-formed user is accepted', async () => {
     const result = await request(app.getHttpServer())
       .post('/user')
-      .send(new_user)
+      .send(Dummies.user)
       .expect(201);
     expect(result.body).toEqual({
       id: 1,
-      displayName: new_user.displayName,
-      email: new_user.email,
-      password: new_user.password,
+      displayName: Dummies.user.displayName,
+      email: Dummies.user.email,
+      password: Dummies.user.password,
     });
   });
 
@@ -61,9 +57,9 @@ describe('UserController (e2e)', () => {
       .expect(200);
     expect(result.body).toEqual({
       id: 1,
-      displayName: new_user.displayName,
-      email: new_user.email,
-      password: new_user.password,
+      displayName: Dummies.user.displayName,
+      email: Dummies.user.email,
+      password: Dummies.user.password,
       questions: [],
       answers: [],
       keyword: null,
@@ -77,29 +73,29 @@ describe('UserController (e2e)', () => {
       .expect([
         {
           id: 1,
-          displayName: new_user.displayName,
-          email: new_user.email,
-          password: new_user.password,
+          displayName: Dummies.user.displayName,
+          email: Dummies.user.email,
+          password: Dummies.user.password,
         },
       ]);
   });
 
   it('/user/{:id} (PATCH) | should return updated user', () => {
-    const new_name = 'new_test_name';
+    const newName = 'new_test_name';
     return request(app.getHttpServer())
       .patch('/user/1')
-      .send({ displayName: new_name })
+      .send({ displayName: newName })
       .expect(200)
       .expect({
         id: 1,
-        displayName: new_name,
-        email: new_user.email,
-        password: new_user.password,
+        displayName: newName,
+        email: Dummies.user.email,
+        password: Dummies.user.password,
       });
   });
 
-  it('/user/{:id} (DELETE) | should return ok', () => {
-    request(app.getHttpServer()).delete('/user/1').expect(200);
-    return request(app.getHttpServer()).get('/user/5').expect(200).expect({});
+  it('/user/{:id} (DELETE) | should return ok', async () => {
+    await request(app.getHttpServer()).delete('/user/1').expect(200);
+    return request(app.getHttpServer()).get('/user/1').expect(200).expect({});
   });
 });

@@ -28,7 +28,6 @@ export class Question {
   answers: Answer[];
 
   @ManyToMany(() => Keyword, (keyword) => keyword.questions, {
-    eager: true,
     nullable: true,
   })
   @JoinTable()
