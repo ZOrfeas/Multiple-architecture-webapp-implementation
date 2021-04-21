@@ -1,0 +1,19 @@
+version: "3.9"
+services: 
+    nest-api:
+        image: zorfeas/soa-datalayer:latest
+        depends_on:
+            - psql-db
+        ports:
+            - 3000:3000
+    psql-db:
+        image: postgres
+        environment:
+            POSTGRES_USER: data-manager
+            POSTGRES_PASSWORD: 12345
+            POSTGRES_DB: dl-persistence
+        volumes:
+            - saas_soa_dl:/var/lib/postgresql/data
+
+volumes:
+    saas_soa_dl:

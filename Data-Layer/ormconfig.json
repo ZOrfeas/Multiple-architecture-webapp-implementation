@@ -1,11 +1,13 @@
 {
   "type": "postgres",
-  "host": "dl-pg",
+  "host": "psql-db",
   "port": 5432,
   "username": "data-manager",
   "password": "12345",
   "database": "dl-persistence",
-  "entities": ["dist/**/*.entity{.ts,.js}"],
+  "entities": [
+    "dist/**/*.entity{.ts,.js}"
+  ],
   "synchronize": true,
   "logging": true
 }
