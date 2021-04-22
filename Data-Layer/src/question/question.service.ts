@@ -51,7 +51,7 @@ export class QuestionService {
 
   findOne(id: number): Promise<Question> {
     return this.questionRepository.findOne(id, {
-      relations: ['answers', 'user'],
+      relations: ['answers', 'user', 'keywords'],
     });
   }
 
