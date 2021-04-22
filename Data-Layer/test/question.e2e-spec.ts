@@ -85,6 +85,7 @@ describe('QuestionModule (e2e)', () => {
       id: 1,
       askedOn: expect.any(String),
       answers: [],
+      keywords: [],
     });
     expect(isNaN(Date.parse(result.body.askedOn))).toEqual(false);
   });
