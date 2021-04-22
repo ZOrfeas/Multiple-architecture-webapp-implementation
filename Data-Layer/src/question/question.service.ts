@@ -26,8 +26,17 @@ export class QuestionService {
       if (!createQuestionDto.keywords || createQuestionDto.keywords.length == 0) { // if the question doesn't have keywords
         newQuestion = manager.create(Question, createQuestionDto);
       } else { // if the question has keywords
-        const keywordIds = createQuestionDto.keywords.map((keyword) => keyword.id);
-        const keywords = await manager.findByIds(Keyword, keywordIds);
+        const keywordIds = createQuestionDto.keywords.map(
+          (keyword) => keyword.id,
+        );
+        const keywords: Keyword[] = [];
+        let tempKeyword: Keyword;
+        keywordIds.forEach(async (id) => {
+          tempKeyword = await manager.findOne(Keyword, id);
+          if (!tempKeyword)
+            throw new NotFoundException(`Keyword with id ${id} was not found`);
+          keywords.push(tempKeyword);
+        });
         createQuestionDto.keywords = undefined;
         newQuestion = manager.create(Question, createQuestionDto);
         newQuestion.keywords = keywords;
