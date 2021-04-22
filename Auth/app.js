@@ -10,14 +10,24 @@ const userRouter = require('./routes/user');
 
 const app = express();
 
-app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(logger('dev'));
+
+require('./config/passport');
 app.use(passport.initialize());
+
+/**
+ * -------------- ROUTES --------------
+ */
 
 app.use('/', indexRouter);
 app.use('/user', userRouter);
+
+/**
+ * -------------- ERROR HANDLER --------------
+ */
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
