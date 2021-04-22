@@ -3,6 +3,8 @@ services:
     nest-api:
         image: zorfeas/soa-datalayer:latest
         container_name: nest-api
+        environment: 
+            DATABASE_HOST: psql-db
         depends_on:
             - psql-db
         ports:

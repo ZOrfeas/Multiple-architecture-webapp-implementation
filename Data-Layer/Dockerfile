@@ -7,7 +7,7 @@ COPY package*.json ./
 RUN npm install --only=prod
 
 COPY dist dist
-COPY ormconfig.json ormconfig.json
+COPY ormconfig.js ormconfig.js
 
 EXPOSE 3000
 
