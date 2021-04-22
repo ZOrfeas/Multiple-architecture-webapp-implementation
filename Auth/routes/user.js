@@ -4,10 +4,9 @@ const router = express.Router();
 router.get('/', (req, res) => {
   res.json(
       {
-        "id": 0,
-        "displayName": "John",
-        "username": "john@mail.com",
-        "password": "secret"
+        "displayName": "Darkwing Duck",
+        "username": "dd@mail.com",
+        "password": "$2b$10$TVDziN/A.PHajChFQComiO0o7/RjiO.KpORwkVUS5/IJox.VlDxES"
       }
   )
 })
