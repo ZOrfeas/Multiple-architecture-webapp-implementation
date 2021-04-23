@@ -16,6 +16,8 @@ services:
             POSTGRES_USER: data-manager
             POSTGRES_PASSWORD: 12345
             POSTGRES_DB: dl-persistence
+        ports:
+            - 15432:5432
         volumes:
             - saas_soa_dl:/var/lib/postgresql/data
 
