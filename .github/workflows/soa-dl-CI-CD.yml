@@ -72,9 +72,7 @@ jobs:
       - name: Setup image tags
         if: github.event_name != 'pull_request'
         run: |
-          echo 'TAG<<EOF' >> $GITHUB_ENV
-          curl http://eurydice.ddns.net/docker/soa-dl-latest-tag.txt >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
+          echo "IMAGE_TAG=$(curl 'http://eurydice.ddns.net/docker/soa-dl-latest-tag.txt')" >> $GITHUB_ENV
 
       - name: Build and push image
         if: github.event_name != 'pull_request'
@@ -86,7 +84,7 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/soa-datalayer:{{ env.TAG }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/soa-datalayer:{{ env.IMAGE_TAG }}
             ${{ secrets.DOCKER_HUB_USERNAME }}/soa-datalayer:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,src=/tmp/.buildx-cache-new
