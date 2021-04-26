@@ -84,7 +84,7 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/soa-datalayer:{{ env.IMAGE_TAG }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/soa-datalayer:${{ env.IMAGE_TAG }}
             ${{ secrets.DOCKER_HUB_USERNAME }}/soa-datalayer:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,src=/tmp/.buildx-cache-new
