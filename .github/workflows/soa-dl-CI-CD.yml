@@ -67,6 +67,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
+      - name: test workflow environment
+        run: |
+          ls -la
+
       - name: Setup tag
         run: |
           echo 'TAG<<EOF' >> $GITHUB_ENV
