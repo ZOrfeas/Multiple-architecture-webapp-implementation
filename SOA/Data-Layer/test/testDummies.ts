@@ -5,6 +5,10 @@ export class Dummies {
     password: 'testpasswordhaha',
   };
 
+  static userByEmail = {
+    email: 'kost.kost@kost.com',
+  };
+
   static keywordOfUser1 = {
     name: 'Test keyword with user',
     user: { id: 1 },

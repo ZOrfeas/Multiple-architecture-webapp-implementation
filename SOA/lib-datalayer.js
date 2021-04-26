@@ -56,6 +56,12 @@ class User {
   }
   /** Deletes a user by id */
   delete(id) { return this.awaiter(axios.delete(this.src + id)); }
+  /** Fetches a user by email */
+  getOneByEmail(emailDTO) { 
+    return this.awaiter(
+      axios.post(this.src + '/by-email', emailDTO)
+    );
+  }
 }
 /**
  * Wrapper of data layer calls refering to Answer

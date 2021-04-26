@@ -1,9 +1,10 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
+import { UserByEmailDto } from './dto/read-user-by-email.dto';
 
 @Injectable()
 export class UserService {
@@ -47,5 +48,19 @@ export class UserService {
         throw new NotFoundException(`User with id ${id} was not found`);
       await manager.delete(User, id);
     });
+  }
+
+  async findOneByEmail(userByEmailDto: UserByEmailDto): Promise<User> {
+    const email = userByEmailDto.email;
+    const users = await this.userRepository.find({
+      where: { email: email },
+      relations: ['keyword'],
+    });
+    if (users.length != 1) {
+      const error = 'Found two users with same email';
+      this.logger.error(error);
+      throw new InternalServerErrorException(error);
+    }
+    return users[0];
   }
 }

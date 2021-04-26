@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Logger, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Logger, ParseIntPipe, HttpCode } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserByEmailDto } from './dto/read-user-by-email.dto';
 
 @Controller('user')
 export class UserController {
@@ -35,5 +36,11 @@ export class UserController {
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.userService.remove(id);
+  }
+
+  @Post('by-email')
+  @HttpCode(200)
+  findOneByEmail(@Body() userByEmailDto: UserByEmailDto) {
+    return this.userService.findOneByEmail(userByEmailDto);
   }
 }

@@ -66,6 +66,20 @@ describe('UserModule (e2e)', () => {
     });
   });
 
+  it('/user/by-email (POST) | previously added user is returned', async () => {
+    const result = await request(app.getHttpServer())
+      .post('/user/by-email')
+      .send(Dummies.userByEmail)
+      .expect(200);
+    expect(result.body).toEqual({
+      id: 1,
+      displayName: Dummies.user.displayName,
+      email: Dummies.user.email,
+      password: Dummies.user.password,
+      keyword: null,
+    });
+  });
+
   it('/user (GET) | should find one user', () => {
     return request(app.getHttpServer())
       .get('/user')
