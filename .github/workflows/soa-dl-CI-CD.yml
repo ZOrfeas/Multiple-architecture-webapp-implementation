@@ -14,7 +14,7 @@ on:
       - 'SOA/Data-Layer/**'
       - '!SOA/Data-Layer/.idea/**'
       - '!SOA/Data-Layer/README.md'
-
+  workflow_dispatch:
 
 defaults:
   run:
