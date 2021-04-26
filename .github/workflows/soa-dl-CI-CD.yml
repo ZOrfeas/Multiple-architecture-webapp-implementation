@@ -22,7 +22,7 @@ defaults:
 
 jobs:
   # prep, transpile, run tests
-  transpile_test:
+  transpile_test_build_push:
     runs-on: ubuntu-latest
     steps:
       - name: Fetch main or PR-merge-branch on runner
@@ -63,6 +63,11 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
+
+      - name: testing workflow
+        run: |
+          ls -la
+          which curl
 
       - name: Setup image tags
         if: github.event_name != 'pull_request'
