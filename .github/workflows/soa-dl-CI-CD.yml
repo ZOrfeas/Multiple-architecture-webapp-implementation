@@ -75,7 +75,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ${{ github.workspace }}/SOA/Data-Layer
-          file: ./Dockerfile
+          file: ${{ github.workspace }}/SOA/Data-Layer/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: |
