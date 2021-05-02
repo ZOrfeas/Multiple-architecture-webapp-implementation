@@ -50,17 +50,22 @@ export class UserService {
     });
   }
 
-  async findOneByEmail(userByEmailDto: UserByEmailDto): Promise<User> {
+  async findOneByEmail(
+    userByEmailDto: UserByEmailDto,
+  ): Promise<User | Record<string, never>> {
     const email = userByEmailDto.email;
     const users = await this.userRepository.find({
       where: { email: email },
       relations: ['keyword'],
     });
-    if (users.length != 1) {
+    if (users.length > 1) {
       const error = 'Found two users with same email';
       this.logger.error(error);
       throw new InternalServerErrorException(error);
+    } else if (users.length == 0) {
+      return {};
+    } else {
+      return users[0];
     }
-    return users[0];
   }
 }
