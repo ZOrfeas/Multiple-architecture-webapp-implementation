@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Logger, ParseIntPipe, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Logger, ParseIntPipe, HttpCode, UseFilters } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserByEmailDto } from './dto/read-user-by-email.dto';
+import { DuplicateKeyExceptionFilter } from '../duplicate-key-exception.filter';
 
 @Controller('user')
 export class UserController {
@@ -11,6 +12,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
+  @UseFilters(DuplicateKeyExceptionFilter)
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
