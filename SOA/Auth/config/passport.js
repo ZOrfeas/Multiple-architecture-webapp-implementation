@@ -3,35 +3,34 @@ const bcrypt = require('bcrypt');
 const axios = require('axios');
 
 /**
- * -------------- LOCAL STRATEGY --------------
+ * -------------- SIGN IN LOCAL STRATEGY --------------
  */
 
 const LocalStrategy = require('passport-local').Strategy;
 
 passport.use(new LocalStrategy((username, password, done) => {
-  //axios.get(`/user/${username}`)
-  axios.get(`/user`)
-      .then((response) => {
-        if (!response.data) { // could not find user
+  axios.post('/user/by-email', { email: username }) // check if user exists
+      .then(async response => {
+        if (Object.keys(response.data).length === 0) { // could not find user
+          return done(null, false);
+        }
+        // compare password hashes
+        const match = await bcrypt.compare(password, response.data.password);
+
+        if (!match) { // hashes don't match
           return done(null, false);
         }
 
-        const hash = response.data.password;
-
-        bcrypt.compare(password, hash, (error, result) => {
-          if (error) {
-            return done(error);
-          }
-          return done(null, result ? { username: response.data.username } : false);
-        });
+        const { id, email } = response.data;
+        return done(null, { id: id, email: email });
       })
-      .catch((error) => {
+      .catch(error => {
         done(error);
       });
 }));
 
 /**
- * -------------- JWT STRATEGY --------------
+ * -------------- PROTECTED JWT STRATEGY --------------
  */
 
 const JwtStrategy = require('passport-jwt').Strategy;
@@ -43,15 +42,16 @@ const options = {
 };
 
 passport.use(new JwtStrategy(options, (jwt_payload, done) => {
-  //axios.get(`/user/${jwt_payload.username}`)
-  axios.get(`/user`)
-      .then((response) => {
-        if (!response.data) { // could not find user
+  axios.get(`/user/${jwt_payload.id}`) // check if user exists
+      .then(response => {
+        if (Object.keys(response.data).length === 0) { // could not find user
           return done(null, false);
         }
-        return done(null, { username: response.data.username });
+        
+        const { id, email } = response.data;
+        return done(null, { id: id, email: email });
       })
-      .catch((error) => {
+      .catch(error => {
         done(error);
       });
 }));

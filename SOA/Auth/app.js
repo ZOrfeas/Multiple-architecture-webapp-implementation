@@ -6,7 +6,6 @@ const passport = require('passport');
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
-const userRouter = require('./routes/user');
 
 const app = express();
 
@@ -23,7 +22,6 @@ app.use(passport.initialize());
  */
 
 app.use('/', indexRouter);
-app.use('/user', userRouter);
 
 /**
  * -------------- ERROR HANDLER --------------

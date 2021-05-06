@@ -6,27 +6,17 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
 
-axios.defaults.baseURL = 'http://localhost:3000';
+axios.defaults.baseURL = process.env.DATA_LAYER_URL;
 
 /**
  * -------------- SIGN UP --------------
  */
 
-router.post('/signup', async (req, res) => {
-  const {error} = joi.validate(req.body); // validate signup data format
+router.post('/signup', async (req, res, next) => {
+  const { error } = joi.validate(req.body); // validate signup data format
   if (error) {
-    return res.json({ message: error.details[0].message });
+    return res.status(400).json({ message: error.details[0].message });
   }
-  /*axios.get(`/user/${req.body.username}`) // check if user already exists
-      .then((response) => {
-        if (response) {
-          return res.json({ message: 'email already exists' });
-        }
-      })
-      .catch((error) => {
-        next(error);
-      })*/
-
   // hash password
   const hash = await bcrypt.hash(req.body.password, parseInt(process.env.SALT_ROUNDS));
 
@@ -36,17 +26,18 @@ router.post('/signup', async (req, res) => {
     password: hash
   };
 
-  /*axios.post('/user', user) // save user
-      .then((response) => {
-        if (response) {
-          res.redirect('/some_page');
-        }
+  axios.post('/user', user) // attempt to save user
+      .then(response => {
+        const { id, email } = response.data;
+        return res.status(200).json({ id: id, email: email });
       })
-      .catch((error) => {
+      .catch(error => {
+        const { statusCode: status, message: msg } = error.response.data;
+        if (status ==  400 && msg == 'Email already exists') {
+          return res.status(status).json({ message: 'email already exists' });
+        }
         next(error);
-      })*/
-
-  return res.json(user);
+      });
 });
 
 /**
@@ -54,7 +45,7 @@ router.post('/signup', async (req, res) => {
  */
 
 router.post('/signin', passport.authenticate('local', { session: false }), (req, res) => {
-  res.json({
+  res.status(200).json({
     token: jwt.sign(req.user, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN })
   });
 });
@@ -64,7 +55,7 @@ router.post('/signin', passport.authenticate('local', { session: false }), (req,
  */
 
 router.get('/protected', passport.authenticate('jwt', { session: false }), (req, res) => {
-  res.json({ user: req.user });
+  res.status(200).json(req.user);
 });
 
 module.exports = router;
