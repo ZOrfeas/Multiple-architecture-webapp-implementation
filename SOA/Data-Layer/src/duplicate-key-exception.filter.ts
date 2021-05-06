@@ -15,12 +15,12 @@ export class DuplicateKeyExceptionFilter implements ExceptionFilter {
       const response = ctx.getResponse<Response>();
       response.status(400).json({
         statusCode: 400,
-        error: 'Email already exists',
+        message: 'Email already exists',
       });
     } else {
       response.status(500).json({
         statusCode: 500,
-        error: 'Internal server error',
+        message: 'Internal server error',
       });
     }
   }
