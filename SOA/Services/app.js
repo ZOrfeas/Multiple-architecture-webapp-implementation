@@ -3,10 +3,10 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
-const questionRouter = require('./routes/services/question');
-const answerRouter = require('./routes/services/answer');
-const browseRouter = require('./routes/services/browse');
-const accountRouter = require('./routes/services/account');
+const questionRouter = require('./services/question/router');
+const answerRouter = require('./services/answer/router');
+const browseRouter = require('./services/browse/router');
+const accountRouter = require('./services/account/router');
 
 const app = express();
 

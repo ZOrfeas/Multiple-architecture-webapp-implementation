@@ -4,7 +4,7 @@ const axios = require('axios');
  * Wrapper class grouping all methods supported by the data layer
  * Create an instance before use.
  */
- export class DataLayer {
+export class DataLayer {
   /**
    * DataLayer constructor
    */
