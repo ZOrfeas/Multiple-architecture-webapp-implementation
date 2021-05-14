@@ -41,6 +41,15 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      
+      - name: Setup Caching for Docker
+        if: github.event_name != 'pull_request'
+        uses: actions/cache@v2
+        with:
+          path: /tmp/auth/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
 
       - name: Setup Docker Buildx
         if: github.event_name != 'pull_request'
@@ -64,11 +73,11 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/soa-authenticator:${{ env.IMAGE_TAG }}
             ${{ secrets.DOCKER_HUB_USERNAME }}/soa-authenticator:latest
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          cache-from: type=local,src=/tmp/auth/.buildx-cache
+          cache-to: type=local,dest=/tmp/auth/.buildx-cache-new
 
       - name: Move cache
         if: github.event_name != 'pull_request'
         run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+          rm -rf /tmp/auth/.buildx-cache
+          mv /tmp/auth/.buildx-cache-new /tmp/auth/.buildx-cache
