@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 function NavBar() {
   return (
       <Navbar className="fixed-top" bg="dark" variant="dark">
-        <Navbar.Brand href="#home">AskMeAnything</Navbar.Brand>
+        <Navbar.Brand href="/">AskMeAnything</Navbar.Brand>
         <Nav className="mr-auto">
           <Nav.Link href="#home">Home</Nav.Link>
         </Nav>

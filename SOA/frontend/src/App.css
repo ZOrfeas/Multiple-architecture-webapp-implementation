@@ -21,7 +21,7 @@ nav .navbar-brand {
 }
 
 .home-content .card {
-  border-color: #e90c22 !important;
+  border-color: #ffbcc3 !important;
 }
 
 .home-content .card-header {
@@ -32,6 +32,7 @@ nav .navbar-brand {
   color: #ff6f00;
   background-color: #fff;
   border-color: #ff6f00;
+  border: 2px solid;
 }
 
 .home-content .btn:hover {
@@ -43,13 +44,6 @@ nav .navbar-brand {
 .home-icon {
   font-size: 72px;
   color: #e90c22;
-}
-
-@media (min-width: 1200px) {
-  .home-content {
-    /*padding-left: 200px !important;
-    padding-right: 200px !important;*/
-  }
 }
 
 .footer {
@@ -69,4 +63,10 @@ nav .navbar-brand {
 
 .footer a:hover {
   color: rgba(255,255,255,.75);
+}
+
+.badge {
+  color: #008a61 !important;
+  background-color: #bfe5d9;
+  cursor: pointer;
 }

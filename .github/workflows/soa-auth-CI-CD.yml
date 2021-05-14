@@ -1,28 +1,27 @@
 # Workflow handling CI/CD of the SOA Data-Layer Component
-name: (Data-Layer) Run tests, Build & Push image
+name: (Auth) Build & Push image
 
 on:
   push: # runs on any push to the main branch
     branches: [ main ]
     paths:
-      - 'SOA/Data-Layer/**'
-      - '!SOA/Data-Layer/.idea/**'
-      - '!SOA/Data-Layer/README.md'
+      - 'SOA/Auth/**'
+      - '!SOA/Auth/.idea/**'
+      - '!SOA/Auth/README.md'
   pull_request: # runs on any pull request with changes on the same files
     branches: [ main ]
     paths:
-      - 'SOA/Data-Layer/**'
-      - '!SOA/Data-Layer/.idea/**'
-      - '!SOA/Data-Layer/README.md'
+      - 'SOA/Auth/**'
+      - '!SOA/Auth/.idea/**'
+      - '!SOA/Auth/README.md'
   workflow_dispatch:
 
 defaults:
   run:
-    working-directory: SOA/Data-Layer
+    working-directory: SOA/Auth
 
 jobs:
-  # prep, transpile, run tests
-  transpile_test_build_push:
+  build_push:
     runs-on: ubuntu-latest
     steps:
       - name: Fetch main or PR-merge-branch on runner
@@ -31,30 +30,23 @@ jobs:
       - name: Setup node environment
         uses: actions/setup-node@v2
         with:
-            node-version: '15'
+          node-version: '15'
       
       - name: Install dependencies
         run: npm install
       
-      - name: Transpile typescript
-        run: npm run build
-      
-      - name: Run tests
-        run: npm run test:e2e
-
-      # builds the docker image and pushes to docker hub
       - name: Login Docker
         if: github.event_name != 'pull_request'
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
+      
       - name: Setup Caching for Docker
         if: github.event_name != 'pull_request'
         uses: actions/cache@v2
         with:
-          path: /tmp/dl/.buildx-cache
+          path: /tmp/auth/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
@@ -66,27 +58,26 @@ jobs:
 
       - name: Setup image tags
         if: github.event_name != 'pull_request'
-        run: |
-          echo "IMAGE_TAG=$(curl -m 20 'http://snf-880282.vm.okeanos.grnet.gr/docker/soa-dl-latest-tag.txt')" >> $GITHUB_ENV
-
+        run : |
+          echo "IMAGE_TAG=$(curl -m 20 'http://snf-880282.vm.okeanos.grnet.gr/docker/soa-auth-latest-tag.txt')" >> $GITHUB_ENV
+      
       - name: Build and push image
         if: github.event_name != 'pull_request'
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          context: ${{ github.workspace }}/SOA/Data-Layer
-          file: ${{ github.workspace }}/SOA/Data-Layer/Dockerfile
+          context: ${{ github.workspace }}/SOA/Auth
+          file: ${{ github.workspace }}/SOA/Auth/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/soa-datalayer:${{ env.IMAGE_TAG }}
-            ${{ secrets.DOCKER_HUB_USERNAME }}/soa-datalayer:latest
-          cache-from: type=local,src=/tmp/dl/.buildx-cache
-          cache-to: type=local,dest=/tmp/dl/.buildx-cache-new
+            ${{ secrets.DOCKER_HUB_USERNAME }}/soa-authenticator:${{ env.IMAGE_TAG }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/soa-authenticator:latest
+          cache-from: type=local,src=/tmp/auth/.buildx-cache
+          cache-to: type=local,dest=/tmp/auth/.buildx-cache-new
 
-      # Seems necessary to not bloat the cache, source: https://github.com/docker/build-push-action/blob/master/docs/advanced/cache.md
       - name: Move cache
         if: github.event_name != 'pull_request'
         run: |
-          rm -rf /tmp/dl/.buildx-cache
-          mv /tmp/dl/.buildx-cache-new /tmp/dl/.buildx-cache
+          rm -rf /tmp/auth/.buildx-cache
+          mv /tmp/auth/.buildx-cache-new /tmp/auth/.buildx-cache
