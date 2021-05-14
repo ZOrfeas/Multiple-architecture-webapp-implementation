@@ -11,7 +11,7 @@ const data = require("./keywords.json");
 function QuestionsPerKeyword() {
   const [keywords] = useState(data);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize] = useState(48);
+  const [pageSize] = useState(6); // multiples of 6
 
   // Get current keywords
   const offset = (currentPage - 1) * pageSize;
@@ -31,6 +31,7 @@ function QuestionsPerKeyword() {
             <PaginationComponent
                 totalItems={keywords.length}
                 pageSize={pageSize}
+                pageRange={5}
                 pageState={[currentPage, setCurrentPage]}
             />
           </Card.Body>
