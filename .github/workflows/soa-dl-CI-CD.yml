@@ -54,7 +54,7 @@ jobs:
         if: github.event_name != 'pull_request'
         uses: actions/cache@v2
         with:
-          path: /tmp/.buildx-cache
+          path: /tmp/dl/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
@@ -81,12 +81,12 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/soa-datalayer:${{ env.IMAGE_TAG }}
             ${{ secrets.DOCKER_HUB_USERNAME }}/soa-datalayer:latest
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          cache-from: type=local,src=/tmp/dl/.buildx-cache
+          cache-to: type=local,dest=/tmp/dl/.buildx-cache-new
 
       # Seems necessary to not bloat the cache, source: https://github.com/docker/build-push-action/blob/master/docs/advanced/cache.md
       - name: Move cache
         if: github.event_name != 'pull_request'
         run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+          rm -rf /tmp/dl/.buildx-cache
+          mv /tmp/dl/.buildx-cache-new /tmp/dl/.buildx-cache
