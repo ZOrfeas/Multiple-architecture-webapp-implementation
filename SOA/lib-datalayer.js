@@ -6,7 +6,7 @@ const axios = require('axios');
  */
 export class DataLayer {
   /**
-   * DataLayer constructor
+   * DataLayer interface constructor
    */
   constructor(url = 'localhost', port = '3000') {
     this.user = new User(url, port);

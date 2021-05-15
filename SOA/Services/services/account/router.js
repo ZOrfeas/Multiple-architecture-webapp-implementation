@@ -1,15 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../authenticate');
-const ansService = requre
+const accountServices = require('./services');
 
 router.get('/', (req, res, next) => {
-  res.send('AMA Account');
-  // createAnswer
-  // const res =  auth.checkToken(req, () => {
-  //   return ansService.createAnswer(req.body);
-  // });
-
+  // res.send('AMA Account');
 });
 
 module.exports = router;
