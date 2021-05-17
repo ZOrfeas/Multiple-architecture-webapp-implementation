@@ -85,7 +85,16 @@ describe('QuestionModule (e2e)', () => {
       id: 1,
       askedOn: expect.any(String),
       answers: [],
-      keywords: [],
+      keywords: [
+        {
+          id: 1,
+          name: Dummies.keywordOfUser1.name,
+        },
+        {
+          id: 2,
+          name: Dummies.keywordSimple.name,
+        },
+      ],
     });
     expect(isNaN(Date.parse(result.body.askedOn))).toEqual(false);
   });
@@ -100,6 +109,31 @@ describe('QuestionModule (e2e)', () => {
         askedOn: expect.any(String),
         questContent: Dummies.question.questContent,
         title: Dummies.question.title,
+      },
+    ]);
+    expect(isNaN(Date.parse(result.body[0].askedOn))).toEqual(false);
+  });
+
+  it('/question/by/keyword (GET) | should return questions containing the keywords provided', async () => {
+    const result = await request(app.getHttpServer())
+      .get('/question/by/keyword?id=1,2')
+      .expect(200);
+    expect(result.body).toEqual([
+      {
+        id: 1,
+        title: Dummies.question.title,
+        questContent: Dummies.question.questContent,
+        askedOn: expect.any(String),
+        keywords: [
+          {
+            id: 1,
+            name: Dummies.keywordOfUser1.name,
+          },
+          {
+            id: 2,
+            name: Dummies.keywordSimple.name,
+          },
+        ],
       },
     ]);
     expect(isNaN(Date.parse(result.body[0].askedOn))).toEqual(false);
