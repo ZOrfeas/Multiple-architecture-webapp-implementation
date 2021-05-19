@@ -76,6 +76,15 @@ jobs:
           cache-from: type=local,src=/tmp/auth/.buildx-cache
           cache-to: type=local,dest=/tmp/auth/.buildx-cache-new
 
+      - name: Pull & restart containers
+        if: github.event_name != 'pull_request'
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOSTNAME }}
+          username: temp
+          key: ${{ secrets.SERVER_PRIVATE_KEY }}
+          script: cd ~/saasClass && ./update.sh
+      
       - name: Move cache
         if: github.event_name != 'pull_request'
         run: |
