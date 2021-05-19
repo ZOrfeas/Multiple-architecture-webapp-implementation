@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const joi = require('../config/joi');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
@@ -13,10 +12,6 @@ axios.defaults.baseURL = process.env.DATA_LAYER_URL;
  */
 
 router.post('/signup', async (req, res, next) => {
-  const { error } = joi.validate(req.body); // validate signup data format
-  if (error) {
-    return res.status(400).json({ message: error.details[0].message });
-  }
   // hash password
   const hash = await bcrypt.hash(req.body.password, parseInt(process.env.SALT_ROUNDS));
 
@@ -33,7 +28,7 @@ router.post('/signup', async (req, res, next) => {
       })
       .catch(error => {
         const { statusCode: status, message: msg } = error.response.data;
-        if (status ==  400 && msg == 'Email already exists') {
+        if (status ===  400 && msg === 'Email already exists') {
           return res.status(status).json({ message: 'email already exists' });
         }
         next(error);
