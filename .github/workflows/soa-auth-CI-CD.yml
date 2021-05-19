@@ -83,7 +83,7 @@ jobs:
           host: ${{ secrets.SERVER_HOSTNAME }}
           username: temp
           key: ${{ secrets.SERVER_PRIVATE_KEY }}
-          script: cd ~/saasClass && ./update.sh
+          script: cd ~/saasClass && ./update.sh authenticator
       
       - name: Move cache
         if: github.event_name != 'pull_request'
