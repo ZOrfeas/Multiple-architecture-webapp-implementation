@@ -1,17 +1,18 @@
-import { useState } from "react";
-import Keyword from "./Keyword";
-import PaginationComponent from "./Pagination";
-import Container from "react-bootstrap/Container";
-import Card from "react-bootstrap/Card";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import './QuestionsPerKeyword.css';
+import { useState } from 'react';
+import Keyword from './Keyword';
+import PaginationComponent from '../Pagination/Pagination';
+import Container from 'react-bootstrap/Container';
+import Card from 'react-bootstrap/Card';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 const data = require("./keywords.json");
 
 function QuestionsPerKeyword() {
   const [keywords] = useState(data);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize] = useState(6); // multiples of 6
+  const [pageSize] = useState(48); // multiples of 6
 
   // Get current keywords
   const offset = (currentPage - 1) * pageSize;

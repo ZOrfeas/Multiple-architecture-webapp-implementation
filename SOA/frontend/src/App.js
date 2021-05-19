@@ -1,18 +1,20 @@
 import './App.css';
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import Container from "react-bootstrap/Container";
-import NavBar from "./Nav";
-import Home from "./Home";
-import Footer from "./Footer";
-import QuestionsPerKeyword from "./QuestionsPerKeywords/QuestionsPerKeyword";
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import NavComponent from './Nav/Nav';
+import Home from './Home/Home';
+import Footer from './Footer/Footer';
+import Signup from './Signup/Signup';
+import QuestionsPerKeyword from './QuestionsPerKeyword/QuestionsPerKeyword';
+import Container from 'react-bootstrap/Container';
 
 function App() {
   return (
       <Router>
         <div className="App">
-          <NavBar />
+          <NavComponent />
           <Container fluid className="content-wrapper">
             <Route path="/" exact component={Home}/>
+            <Route path="/signup" component={Signup}/>
             <Route path="/keywords" component={QuestionsPerKeyword}/>
           </Container>
           <Footer />

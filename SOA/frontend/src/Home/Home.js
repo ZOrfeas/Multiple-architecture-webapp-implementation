@@ -1,6 +1,7 @@
-import Container from "react-bootstrap/Container";
-import CardDeck from "react-bootstrap/CardDeck";
-import Card from "react-bootstrap/Card";
+import './Home.css';
+import Container from 'react-bootstrap/Container';
+import CardDeck from 'react-bootstrap/CardDeck';
+import Card from 'react-bootstrap/Card';
 
 function Home() {
   return (

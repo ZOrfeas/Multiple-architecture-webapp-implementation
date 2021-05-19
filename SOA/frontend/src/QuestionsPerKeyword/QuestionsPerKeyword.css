@@ -1,0 +1,10 @@
+.keywords-content {
+    min-height: 100vh;
+    background: #f0f0d0;
+}
+
+.badge {
+    color: #008a61 !important;
+    background-color: #bfe5d9;
+    cursor: pointer;
+}
