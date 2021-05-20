@@ -1,6 +1,9 @@
 const axios = require('axios');
 
-const authenticatorBaseURL = 'http://some-url:some-port';
+const authenticatorBaseURL = 'http://' + 
+                             process.env.AUTH_HOSTNAME + 
+                             ':' + 
+                             process.env.AUTH_PORT;
 
 /**
  * Authentication wrapper for use in routes requiring authentication
