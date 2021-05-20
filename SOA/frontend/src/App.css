@@ -1,72 +1,9 @@
-nav {
-  padding-left: 7.5rem !important;
-  padding-right: 7.5rem !important;
-}
-
-nav .navbar-brand {
-  /*color: #e44051 !important;*/
-  color: #e90c22 !important;
-  /*color: #de0a1f !important;*/
-}
-
 .content-wrapper {
   margin-top: 56px;
   background: #f0f0d0;
 }
 
-.home-content,
-.keywords-content {
+.home-content {
   min-height: 100vh;
   background: #f0f0d0;
-}
-
-.home-content .card {
-  border-color: #ffbcc3 !important;
-}
-
-.home-content .card-header {
-  background: #f1e5bc;
-}
-
-.home-content .btn {
-  color: #ff6f00;
-  background-color: #fff;
-  border-color: #ff6f00;
-  border: 2px solid;
-}
-
-.home-content .btn:hover {
-  color: #fff;
-  background-color: #ff6f00;
-  border-color: #ff6f00;
-}
-
-.home-icon {
-  font-size: 72px;
-  color: #e90c22;
-}
-
-.footer {
-  height: 100px;
-  background: #212529;
-  /*background: #425066;*/
-}
-
-.footer a {
-  color: rgba(255,255,255,.55);
-  text-decoration: none;
-}
-
-.footer small {
-  color: rgba(255,255,255,.35);
-}
-
-.footer a:hover {
-  color: rgba(255,255,255,.75);
-}
-
-.badge {
-  color: #008a61 !important;
-  background-color: #bfe5d9;
-  cursor: pointer;
 }
