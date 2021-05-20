@@ -28,4 +28,4 @@ async function authenticate(req, res, next) {
     next();
 }
 
-module.exports = { checkToken };
+module.exports = { authenticate };
