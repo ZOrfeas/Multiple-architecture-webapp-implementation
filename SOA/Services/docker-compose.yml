@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+    services:
+        image: zorfeas/soa-services:latest
+        container_name: services
+        environment:
+            DL_HOSTNAME: nest-api
+            DL_PORT: 3000
+            AUTH_HOSTNAME: authenticator
+            AUTH_PORT: 3001
+        ports:
+            - 3002:3000

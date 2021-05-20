@@ -6,13 +6,12 @@ const authenticatorBaseURL = 'http://' +
                              process.env.AUTH_PORT;
 
 /**
- * Authentication wrapper for use in routes requiring authentication
- * @param {*} req The request object provided from the router
- * @param {*} func A 'ready to call' function callback for after successfull authentication
- * @returns the return value of the callback provided
+ * Authentication callback for use in routes requiring authentication  
+ * All arguments are provided by the express router.  
+ * Should be used before the route handler.
  */
-async function checkToken(req, func) {
-    const token = req.headers.authorization
+async function authenticate(req, res, next) {
+    const token = req.headers.authorization;
     let authResponse;
     try {
          authResponse = await axios.get(
@@ -26,7 +25,7 @@ async function checkToken(req, func) {
         return error;
     }
     // reaching here means user was authorized succesfully
-    return func();
+    next();
 }
 
 module.exports = { checkToken };

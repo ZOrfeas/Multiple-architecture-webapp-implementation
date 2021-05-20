@@ -1,3 +1,4 @@
+const { BadRequest } = require('http-errors');
 const dlCon = require('../dlConnector');
 
 class BrowseServices {
