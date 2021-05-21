@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { User } from './entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { getCustomLogger } from 'src/logger.middleware';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])], // This enables UserRepository injection in the Service
@@ -10,4 +11,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   controllers: [UserController],
   providers: [UserService],
 })
-export class UserModule {}
+export class UserModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(getCustomLogger(UserController.name))
+      .forRoutes(UserController);
+  }
+}

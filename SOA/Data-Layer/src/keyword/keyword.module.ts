@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { KeywordService } from './keyword.service';
 import { KeywordController } from './keyword.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Keyword } from './entities/keyword.entity';
+import { getCustomLogger } from 'src/logger.middleware';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Keyword])],
@@ -10,4 +11,10 @@ import { Keyword } from './entities/keyword.entity';
   controllers: [KeywordController],
   providers: [KeywordService],
 })
-export class KeywordModule {}
+export class KeywordModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(getCustomLogger(KeywordController.name))
+      .forRoutes(KeywordController);
+  }
+}

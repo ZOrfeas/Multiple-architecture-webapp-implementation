@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { QuestionController } from './question.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Question } from './entities/question.entity';
+import { getCustomLogger } from 'src/logger.middleware';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Question])],
@@ -10,4 +11,10 @@ import { Question } from './entities/question.entity';
   controllers: [QuestionController],
   providers: [QuestionService],
 })
-export class QuestionModule {}
+export class QuestionModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(getCustomLogger(QuestionController.name))
+      .forRoutes(QuestionController);
+  }
+}
