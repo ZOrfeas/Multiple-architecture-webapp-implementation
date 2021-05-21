@@ -5,7 +5,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
 
-axios.defaults.baseURL = process.env.DATA_LAYER_URL;
+axios.defaults.baseURL = "http://" +
+                          process.env.DL_HOSTNAME + ":" +
+                          process.env.DL_PORT + "/";
 
 /**
  * -------------- SIGN UP --------------

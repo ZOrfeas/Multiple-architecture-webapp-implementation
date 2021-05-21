@@ -1,4 +1,4 @@
-const connector = require('../dlConnector');
+const dlCon = require('../dlConnector');
 
 class AnswerServices {
 

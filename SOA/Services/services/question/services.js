@@ -1,9 +1,7 @@
-const connector = require('../dlConnector');
+const dlCon = require('../dlConnector');
 
 class QuestionServices {
-    // static perKeyword(keywordList) {
-
-    // }
+  
 };
 
 module.exports = QuestionServices;

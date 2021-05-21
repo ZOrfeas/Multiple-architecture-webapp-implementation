@@ -1,6 +1,6 @@
-const connector = require('../lib-datalayer')
+const dlUtils = require('../lib-datalayer')
 
-module.exports = new connector.DataLayer(
+module.exports = new dlUtils(
     process.env.DL_HOSTNAME || 'localhost',
     process.env.DL_PORT || '3000'
 );
