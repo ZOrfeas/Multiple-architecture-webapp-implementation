@@ -3,7 +3,7 @@ import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { User } from './entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { getCustomLogger } from 'src/logger.middleware';
+import { getCustomLogger } from '../logger.middleware';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])], // This enables UserRepository injection in the Service

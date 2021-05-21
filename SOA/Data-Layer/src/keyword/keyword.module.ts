@@ -3,7 +3,7 @@ import { KeywordService } from './keyword.service';
 import { KeywordController } from './keyword.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Keyword } from './entities/keyword.entity';
-import { getCustomLogger } from 'src/logger.middleware';
+import { getCustomLogger } from '../logger.middleware';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Keyword])],

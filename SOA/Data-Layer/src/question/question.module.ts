@@ -3,7 +3,7 @@ import { QuestionService } from './question.service';
 import { QuestionController } from './question.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Question } from './entities/question.entity';
-import { getCustomLogger } from 'src/logger.middleware';
+import { getCustomLogger } from '../logger.middleware';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Question])],
