@@ -22,7 +22,7 @@ passport.use(new LocalStrategy((username, password, done) => {
         }
 
         const { id, email } = response.data;
-        return done(null, { id: id, email: email });
+        return done(null, { id, email });
       })
       .catch(error => {
         done(error);
@@ -49,7 +49,7 @@ passport.use(new JwtStrategy(options, (jwt_payload, done) => {
         }
         
         const { id, email } = response.data;
-        return done(null, { id: id, email: email });
+        return done(null, { id, email });
       })
       .catch(error => {
         done(error);

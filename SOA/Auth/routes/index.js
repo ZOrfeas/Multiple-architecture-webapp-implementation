@@ -24,16 +24,20 @@ router.post('/signup', async (req, res, next) => {
   };
 
   axios.post('/user', user) // attempt to save user
-      .then(response => {
+      .then(response => { // store jwt in cookies (httpOnly)
         const { id, email } = response.data;
-        return res.status(200).json({ id: id, email: email });
+        const token = jwt.sign({ id, email }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
+        res.cookie('token', token, { httpOnly: true })
+        res.status(200).json({ id, email });
       })
       .catch(error => {
-        const { statusCode: status, message: msg } = error.response.data;
-        if (status ===  400 && msg === 'Email already exists') {
-          return res.status(status).json({ message: 'email already exists' });
+        const { statusCode, message } = error.response.data;
+        if (statusCode ===  400 && message === 'Email already exists') {
+          res.status(statusCode).json({ message });
         }
-        next(error);
+        else {
+          next(error);
+        }
       });
 });
 
