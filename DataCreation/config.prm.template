@@ -1,0 +1,5 @@
+host=some_hostname
+port=some_portnr
+database=some_db_name
+user=some_username
+password=some_pass
