@@ -3,6 +3,7 @@ from connect import runQuery
 
 class Answer:
     def __init__(self, content, userId, questionId, insertionDate):
+        """insertionDate should be a datetime object"""
         self.content = content
         self.userId = userId
         self.questionId = questionId

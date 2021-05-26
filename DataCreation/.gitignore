@@ -1,2 +1,4 @@
-config.prm
+*.prm
 __pycache__
+fakerTests.py
+usernames_passwords.txt

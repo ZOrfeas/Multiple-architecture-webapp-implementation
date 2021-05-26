@@ -32,7 +32,7 @@ def runQuery(queryString, params = None):
 def runManyQueries(queryString, paramList):
     try:
         cur.executemany(queryString, paramList)
-        return cur.fetchall()
+        # return cur.fetchall()
     except (Exception, psycopg2.DatabaseError) as e:
         print(e)
         exit(1)

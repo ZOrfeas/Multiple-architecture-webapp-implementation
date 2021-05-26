@@ -3,6 +3,7 @@ from connect import runManyQueries, runQuery
 
 class Question:
     def __init__(self, title, content, userId, keywordsList, insertionDate):
+        """insertionDate should be a datetime object"""
         self.title = title
         self.content = content
         self.userId = userId
@@ -17,9 +18,11 @@ class Question:
         return 'INSERT INTO "question_keywords_keyword"("questionId", "keywordId") VALUES (%s, %s)'
 
     def getPayload(self):
+        # print(self.title, self.content, self.insertionDate, self.userId, sep="||")
         return (self.title, self.content, self.insertionDate, self.userId)
 
     def insert(self):
+        # print(self.getInsertQTemplate(), self.getPayload(), sep="||||")
         q_id = runQuery(self.getInsertQTemplate(), self.getPayload())[0]
         if self.keywordsList:
             paramList = [(q_id, k_id) for k_id in self.keywordsList]
