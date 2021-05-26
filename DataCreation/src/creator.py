@@ -23,7 +23,7 @@ def addUsers(count):
             password = bytes(fakeGenerator.pystr(), 'ascii')
             id = User(displayName, email, password).insert()
             addedUsers.append(id)
-            outFile.write(str(id) + '\t' + displayName + '\t' + password.decode('utf-8') + '\n')
+            outFile.write(str(id) + '\t' + email + '\t' + password.decode('utf-8') + '\n')
     return addedUsers
 def addKeywords(count, userIds):
     addedKeywords = []
