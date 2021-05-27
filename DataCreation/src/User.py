@@ -34,8 +34,5 @@ class User:
         return (self.displayName, self.email, self.encode(self.password))
 
     def insert(self):
-        # print(self.getInsertTemplate(), self.getPayload())
         return runQuery(self.getInsertTemplate(), self.getPayload())[0]
 
-# testPass = b'anothertestpassword'
-# print(User.encode(testPass))

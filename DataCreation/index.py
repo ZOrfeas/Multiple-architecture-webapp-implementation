@@ -11,6 +11,4 @@ if __name__ == "__main__":
     if argCount == 1:
         main(debug=debug)
     else:
-        # print(map(int,sys.argv[1:]))
-        # print(*map(int,sys.argv[1:]))
         main(*map(int,sys.argv[1:]), debug=debug)

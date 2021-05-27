@@ -91,9 +91,3 @@ def main(args = [20, 40, 30, 50], debug = False):
 ###
     ## commit changes and close connection
     closeConn()
-
-################################################################################################
-
-# temp = Question("its a title", "its some question", 1, [1,2,3,4])
-# res = temp.insert()
-# print(res.text)

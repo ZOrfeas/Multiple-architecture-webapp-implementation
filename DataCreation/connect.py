@@ -46,9 +46,3 @@ def closeConn():
     cur.close()
     conn.close()
     return
-
-# print(runQuery('SELECT last_value FROM "user_id_seq"')[0])
-# close()
-# cur.execute('SELECT version()')
-# db_version = cur.fetchone()
-# print(db_version)
