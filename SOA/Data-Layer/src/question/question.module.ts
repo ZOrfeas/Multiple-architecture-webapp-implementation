@@ -15,6 +15,6 @@ export class QuestionModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(getCustomLogger(QuestionController.name))
-      .forRoutes(QuestionController);
+      .forRoutes('/question');
   }
 }

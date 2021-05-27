@@ -23,6 +23,12 @@ export class KeywordController {
     return this.keywordService.findAll();
   }
 
+  @Get('count')
+  @ApiOperation({ summary: 'Returns the total nr. of existing keywords ' })
+  count() {
+    return this.keywordService.count();
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Retruns a keyword by its id' })
   findOne(@Param('id', ParseIntPipe) id: number) {

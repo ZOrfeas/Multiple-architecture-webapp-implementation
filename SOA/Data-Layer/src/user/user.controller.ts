@@ -26,6 +26,12 @@ export class UserController {
     return this.userService.findAll();
   }
 
+  @Get('count')
+  @ApiOperation({ summary: 'Returns the total nr. of existing answers' })
+  count() {
+    return this.userService.count();
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Returns a user by their id' })
   findOne(@Param('id', ParseIntPipe) id: number) {

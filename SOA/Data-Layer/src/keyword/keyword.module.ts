@@ -15,6 +15,6 @@ export class KeywordModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(getCustomLogger(KeywordController.name))
-      .forRoutes(KeywordController);
+      .forRoutes('/keyword');
   }
 }

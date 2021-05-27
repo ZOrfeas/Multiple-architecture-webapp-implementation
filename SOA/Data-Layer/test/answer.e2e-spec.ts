@@ -66,6 +66,14 @@ describe('AnswerModule (e2e)', () => {
     expect(isNaN(Date.parse(result.body.answeredOn))).toEqual(false);
   });
 
+  it('/answer/count (GET) | should return 1', async () => {
+    const result = await request(app.getHttpServer())
+      .get('/answer/count')
+      .expect(200);
+    // console.log(result);
+    expect(result.text).toEqual('1');
+  });
+
   it('/answer/{:id} (GET) | previously added answer is returned', async () => {
     const result = await request(app.getHttpServer())
       .get('/answer/1')

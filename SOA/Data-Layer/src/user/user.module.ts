@@ -13,8 +13,6 @@ import { getCustomLogger } from '../logger.middleware';
 })
 export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(getCustomLogger(UserController.name))
-      .forRoutes(UserController);
+    consumer.apply(getCustomLogger(UserController.name)).forRoutes('/user');
   }
 }

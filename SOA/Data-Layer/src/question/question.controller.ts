@@ -24,6 +24,12 @@ export class QuestionController {
     return this.questionService.findAll();
   }
 
+  @Get('count')
+  @ApiOperation({ summary: 'Returns the total nr. of existing questions' })
+  count() {
+    return this.questionService.count();
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Returns a question by its id' })
   findOne(@Param('id', ParseIntPipe) id: number) {
@@ -74,5 +80,16 @@ export class QuestionController {
         +pageInfo.pagenr,
       );
     }
+  }
+
+  @Get('count/by/keyword')
+  @ApiOperation({
+    summary: 'Returns the count of keywords containing the specified keywords',
+  })
+  countByKeyword(
+    @Query('id', new ParseArrayPipe({ items: Number, separator: ',' }))
+    ids: number[],
+  ) {
+    return this.questionService.countByKeyword(ids);
   }
 }

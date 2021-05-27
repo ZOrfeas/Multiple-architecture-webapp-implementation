@@ -23,6 +23,12 @@ export class AnswerController {
     return this.answerService.findAll();
   }
 
+  @Get('count')
+  @ApiOperation({ summary: 'Returns the total nr. of existing answers' })
+  count() {
+    return this.answerService.count();
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Returs an answer by its id' })
   findOne(@Param('id', ParseIntPipe) id: number) {

@@ -13,8 +13,6 @@ import { getCustomLogger } from '../logger.middleware';
 })
 export class AnswerModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(getCustomLogger(AnswerController.name))
-      .forRoutes(AnswerController);
+    consumer.apply(getCustomLogger(AnswerController.name)).forRoutes('/answer');
   }
 }

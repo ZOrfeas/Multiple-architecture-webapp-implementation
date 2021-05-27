@@ -51,6 +51,14 @@ describe('UserModule (e2e)', () => {
     });
   });
 
+  it('/user/count (GET) | should return 1', async () => {
+    const result = await request(app.getHttpServer())
+      .get('/user/count')
+      .expect(200);
+    // console.log(result);
+    expect(result.text).toEqual('1');
+  });
+
   it('/user/{:id} (GET) | previously added user is returned', async () => {
     const result = await request(app.getHttpServer())
       .get('/user/1')

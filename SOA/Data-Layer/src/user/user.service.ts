@@ -66,4 +66,8 @@ export class UserService {
       return users[0];
     }
   }
+
+  count(): Promise<number> {
+    return this.userRepository.count();
+  }
 }
