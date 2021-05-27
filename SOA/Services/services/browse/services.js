@@ -31,6 +31,10 @@ class BrowseServices {
     return promiseRes;
   };
 
+  /**
+   * Counts all questions containing the provided keywords
+   * @param {number[]} idList Array containing ids of keywords
+   */
   static countQuestionsByKeywords(idListRaw) {
     const idList = idListRaw.split(',').map((str) => {
       const tempId = +str;
