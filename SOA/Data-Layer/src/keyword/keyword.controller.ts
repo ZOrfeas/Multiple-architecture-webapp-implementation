@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Logger, ParseIntPipe
 import { KeywordService } from './keyword.service';
 import { CreateKeywordDto } from './dto/create-keyword.dto';
 import { UpdateKeywordDto } from './dto/update-keyword.dto';
+import { ApiOperation } from '@nestjs/swagger';
 
 @Controller('keyword')
 export class KeywordController {
@@ -10,21 +11,25 @@ export class KeywordController {
   constructor(private readonly keywordService: KeywordService) {}
 
   @Post()
+  @ApiOperation({ summary: 'Creates a new Keyword in database' })
   create(@Body() createKeywordDto: CreateKeywordDto) {
     return this.keywordService.create(createKeywordDto);
   }
 
   @Get()
+  @ApiOperation({ summary: 'Returns all existing Keywords' })
   findAll() {
     return this.keywordService.findAll();
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Retruns a keyword by its id' })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.keywordService.findOne(id);
   }
 
   @Patch(':id')
+  @ApiOperation({ summary: 'Updates a keyword by its id' })
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateKeywordDto: UpdateKeywordDto,
@@ -33,6 +38,7 @@ export class KeywordController {
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Deletes a keyword by its id' })
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.keywordService.remove(id);
   }
