@@ -2,9 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Logger, ParseIntPipe
 import { KeywordService } from './keyword.service';
 import { CreateKeywordDto } from './dto/create-keyword.dto';
 import { UpdateKeywordDto } from './dto/update-keyword.dto';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('keyword')
+@ApiTags('Keyword')
 export class KeywordController {
   private readonly logger = new Logger(KeywordController.name);
 

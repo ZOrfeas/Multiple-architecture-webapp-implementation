@@ -3,9 +3,10 @@ import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { PaginateUtils } from '../pagination';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('question')
+@ApiTags('Question')
 export class QuestionController {
   private readonly logger = new Logger(QuestionController.name);
 

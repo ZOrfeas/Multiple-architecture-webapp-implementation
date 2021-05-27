@@ -4,9 +4,10 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserByEmailDto } from './dto/read-user-by-email.dto';
 import { DuplicateKeyExceptionFilter } from '../duplicate-key-exception.filter';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('user')
+@ApiTags('User')
 export class UserController {
   private readonly logger = new Logger(UserController.name);
 
