@@ -50,9 +50,7 @@ export class UserService {
     });
   }
 
-  async findOneByEmail(
-    userByEmailDto: UserByEmailDto,
-  ): Promise<User | Record<string, never>> {
+  async findOneByEmail(userByEmailDto: UserByEmailDto): Promise<User> {
     const email = userByEmailDto.email;
     const users = await this.userRepository.find({
       where: { email: email },
@@ -63,7 +61,7 @@ export class UserService {
       this.logger.error(error);
       throw new InternalServerErrorException(error);
     } else if (users.length == 0) {
-      return {};
+      throw new NotFoundException(`User with email ${email} was not found`);
     } else {
       return users[0];
     }
