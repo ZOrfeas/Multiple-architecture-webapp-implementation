@@ -7,8 +7,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   const apiConfig = new DocumentBuilder()
-    .setTitle('Docs')
-    .setDescription('DataLayer Capabilities')
+    .setTitle('Data Layer endpoints')
+    .setDescription(
+      'Endpoint capabilities of the DataLayer Component for the askMeAnything SOA implementation',
+    )
     .build();
   const document = SwaggerModule.createDocument(app, apiConfig);
   SwaggerModule.setup('spec', app, document, {
