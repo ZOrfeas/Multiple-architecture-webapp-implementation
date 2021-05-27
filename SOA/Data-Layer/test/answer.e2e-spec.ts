@@ -70,7 +70,6 @@ describe('AnswerModule (e2e)', () => {
     const result = await request(app.getHttpServer())
       .get('/answer/count')
       .expect(200);
-    // console.log(result);
     expect(result.text).toEqual('1');
   });
 
