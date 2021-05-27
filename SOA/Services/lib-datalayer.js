@@ -53,7 +53,7 @@ class User {
   }
   /** Return total count of entites */
   getCount() {
-    return axios.post(this.src + '/count')
+    return axios.get(this.src + '/count')
   }
 }
 /**
@@ -78,7 +78,7 @@ class Answer {
   delete(id) { return axios.delete(this.src + id); }
   /** Return total count of entites */
   getCount() {
-    return axios.post(this.src + '/count')
+    return axios.get(this.src + '/count')
   }
 
 }
@@ -126,7 +126,7 @@ class Question {
   }
   /** Return total count of entites */
   getCount() {
-    return axios.post(this.src + '/count')
+    return axios.get(this.src + '/count')
   }
   /**
    * Counts how many questions have (at least) all the specified keywords
@@ -162,7 +162,7 @@ class Keyword {
   delete(id) { return axios.delete(this.src + id); }
   /** Return total count of entites */
   getCount() {
-    return axios.post(this.src + '/count')
+    return axios.get(this.src + '/count')
   }
 }
 
