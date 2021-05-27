@@ -8,7 +8,7 @@ const doc = {
         title: 'Service endpoints',
         description: 'Endpoint capabilities of the Services Component for the askMeAnything SOA implementation',
     },
-    host: 'lcoalhost:3000',
+    host: 'localhost:3000',
     basepath: '/',
     schemes: ['http'],
     tags: [
