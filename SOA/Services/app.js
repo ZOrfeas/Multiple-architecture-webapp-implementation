@@ -2,6 +2,8 @@ const createError = require('http-errors');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 require('dotenv').config();
 
 const questionRouter = require('./services/question/router');
@@ -20,6 +22,11 @@ app.use(logger('dev'));
  * -------------- ROUTES --------------
  */
 
+app.use('/spec', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.get('/spec-json', (req, res) => {
+  // #swagger.ignore = true
+  res.sendFile('./swagger.json', { root: __dirname })
+})
 app.use('/question', questionRouter);
 app.use('/answer', answerRouter);
 app.use('/browse', browseRouter);

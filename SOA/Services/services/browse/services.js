@@ -16,7 +16,6 @@ class BrowseServices {
       else
         return tempId;
     });
-
     let promiseRes;
     if (pagesize === undefined && pagenr === undefined) {
       promiseRes = dlCon

@@ -4,6 +4,7 @@ const auth = require('../authenticate');
 const accountServices = require('./services');
 
 router.get('/', (req, res, next) => {
+  // #swagger.tags = ['Account']
   // res.send('AMA Account');
 });
 
