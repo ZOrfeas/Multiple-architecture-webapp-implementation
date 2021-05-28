@@ -5,8 +5,8 @@ const swaggerAutogen = require('swagger-autogen')({
 
 const doc = {
     info: {
-        title: 'Service endpoints',
-        description: 'Endpoint capabilities of the Services Component for the askMeAnything SOA implementation',
+        title: 'Service Bus Available endpoints',
+        description: 'Available endpoints provided by the Service Bus Component of the askMeAnything SOA implementation',
     },
     host: 'localhost:3000',
     basepath: '/',

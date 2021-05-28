@@ -1,9 +1,10 @@
+const createError = require('http-errors');
 var express = require('express');
-var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
+const fs = require('fs');
+require('dotenv').config();
 
 var indexRouter = require('./routes/index');
 
@@ -17,7 +18,16 @@ app.use(logger('dev'));
 /**
  * -------------- ROUTES --------------
  */
-app.use('/spec', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/spec', function(req,res,next) {
+  // #swagger.ignore = true
+  const swaggerDocument = JSON.parse(fs.readFileSync('./swagger.json'));
+  req.swaggerDoc = swaggerDocument;
+  next();
+}, swaggerUi.serve, swaggerUi.setup());
+app.get('/spec-json', (req, res) => {
+  // #swagger.ignore = true
+  res.sendFile('./swagger.json', { root: __dirname })
+})
 app.use('/', indexRouter);
 
 /**
