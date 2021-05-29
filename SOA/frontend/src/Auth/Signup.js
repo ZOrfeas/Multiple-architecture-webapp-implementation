@@ -1,6 +1,9 @@
 import './Signup.css';
-import schema from './Schema'
+import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useAuth } from '../AuthContext';
 import { Formik } from 'formik';
+import schema from './Schema'
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
@@ -9,16 +12,27 @@ import Button from 'react-bootstrap/Button';
 
 const axios = require('axios');
 const url = process.env.REACT_APP_AUTH_URL;
+// const url = 'http://localhost:3001'
 
 function Signup() {
+  const history = useHistory();
+  const [showMsg, setShowMsg] = useState(false);
+  const { signin } = useAuth();
+
   const handleSubmit = values => {
-    console.log(values);
     axios.post(`${url}/signup`, values)
         .then(response => {
-          alert(JSON.stringify(response, null, 2));
+          const { user, token } = response.data;
+          signin({ user, token  });
+          history.push('/');
         })
         .catch(error => {
-          console.log(error);
+          if (error.response?.data.message) { // email already exists
+            setShowMsg(true);
+          }
+          else {
+            console.log(error);
+          }
         })
   };
 
@@ -52,7 +66,7 @@ function Signup() {
                     <Form.Group controlId="formGroupDisplayName">
                       <Form.Row className="justify-content-center">
                         <Col xs={7} sm={6} md={4} >
-                          <Form.Label>Display name</Form.Label>
+                          <Form.Label className="font-weight-bold">Display name</Form.Label>
                           <Form.Control
                               type="text"
                               name="displayName"
@@ -66,18 +80,23 @@ function Signup() {
                     <Form.Group controlId="formGroupUsername">
                       <Form.Row className="justify-content-center">
                         <Col xs={7} sm={6} md={4} >
-                          <Form.Label>Email</Form.Label>
+                          <Form.Label className="font-weight-bold">Email</Form.Label>
                           <Form.Control
                               type="email"
                               name="username"
                               autoComplete="username"
                               value={values.username}
-                              onChange={handleChange}
+                              onChange={e => {
+                                if (showMsg) {
+                                  setShowMsg(false)
+                                }
+                                handleChange(e)
+                              }}
                               onBlur={handleBlur}
-                              isInvalid={touched.username && errors.username}
+                              isInvalid={(touched.username && errors.username) || showMsg}
                           />
                           <Form.Control.Feedback type="invalid">
-                            {errors.username}
+                            {showMsg ? 'Email already exists' : errors.username}
                           </Form.Control.Feedback>
                         </Col>
                       </Form.Row>
@@ -86,7 +105,7 @@ function Signup() {
                     <Form.Group controlId="formGroupPassword">
                       <Form.Row className="justify-content-center">
                         <Col xs={7} sm={6} md={4} >
-                          <Form.Label>Password</Form.Label>
+                          <Form.Label className="font-weight-bold">Password</Form.Label>
                           <Form.Control
                               type="password"
                               name="password"
@@ -106,7 +125,7 @@ function Signup() {
                     <Form.Group controlId="formGroupRePassword">
                       <Form.Row className="justify-content-center">
                         <Col xs={7} sm={6} md={4} >
-                          <Form.Label>Retype password</Form.Label>
+                          <Form.Label className="font-weight-bold">Retype password</Form.Label>
                           <Form.Control
                               type="password"
                               name="re_password"
