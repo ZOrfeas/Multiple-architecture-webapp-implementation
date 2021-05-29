@@ -51,6 +51,10 @@ class User {
   getOneByEmail(emailDTO) { 
     return axios.post(this.src + '/by-email', emailDTO);
   }
+  /** Return total count of entites */
+  getCount() {
+    return axios.get(this.src + '/count')
+  }
 }
 /**
  * Wrapper of data layer calls refering to Answer
@@ -72,6 +76,10 @@ class Answer {
   }
   /** Deletes a answer by id */
   delete(id) { return axios.delete(this.src + id); }
+  /** Return total count of entites */
+  getCount() {
+    return axios.get(this.src + '/count')
+  }
 
 }
 /**
@@ -99,6 +107,7 @@ class Question {
    * @param {number[]} idList list containing the ids of the keywords 
    * @param {number} pageNr (optional) page nr, positive integer
    * @param {number} pageSize (optional) page size, positive integer
+   * @returns a list with the questions 
    */
   getAllByKeywords(idList, pageNr, pageSize) {
     let paramWrapper;
@@ -114,6 +123,22 @@ class Question {
     return axios.get(this.src + '/by/keyword', { 
       params: paramWrapper
     });
+  }
+  /** Return total count of entites */
+  getCount() {
+    return axios.get(this.src + '/count')
+  }
+  /**
+   * Counts how many questions have (at least) all the specified keywords
+   * @param {number[]} idList list containing the ids of the keywords
+   * @returns {number} the amount of questions
+   */
+  getCountByKeywords(idList) {
+    const paramWrapper = { id: idList.toString() };
+    return axios.get(
+      this.src + '/count/by/keyword',
+      { params: paramWrapper }
+    )
   }
 }
 /**
@@ -135,7 +160,10 @@ class Keyword {
   }
   /** Deletes a keyword by id */
   delete(id) { return axios.delete(this.src + id); }
-
+  /** Return total count of entites */
+  getCount() {
+    return axios.get(this.src + '/count')
+  }
 }
 
 module.exports = DataLayer;

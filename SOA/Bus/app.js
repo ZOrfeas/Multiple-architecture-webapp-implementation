@@ -1,17 +1,14 @@
 const createError = require('http-errors');
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
+var express = require('express');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
+const fs = require('fs');
 require('dotenv').config();
 
-const questionRouter = require('./services/question/router');
-const answerRouter = require('./services/answer/router');
-const browseRouter = require('./services/browse/router');
-const accountRouter = require('./services/account/router');
+var indexRouter = require('./routes/index');
 
-const app = express();
+var app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -21,16 +18,17 @@ app.use(logger('dev'));
 /**
  * -------------- ROUTES --------------
  */
-
-app.use('/spec', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/spec', function(req,res,next) {
+  // #swagger.ignore = true
+  const swaggerDocument = JSON.parse(fs.readFileSync('./swagger.json'));
+  req.swaggerDoc = swaggerDocument;
+  next();
+}, swaggerUi.serve, swaggerUi.setup());
 app.get('/spec-json', (req, res) => {
   // #swagger.ignore = true
   res.sendFile('./swagger.json', { root: __dirname })
 })
-app.use('/question', questionRouter);
-app.use('/answer', answerRouter);
-app.use('/browse', browseRouter);
-app.use('/account', accountRouter);
+app.use('/', indexRouter);
 
 /**
  * -------------- ERROR HANDLER --------------

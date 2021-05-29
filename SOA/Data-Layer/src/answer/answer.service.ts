@@ -60,4 +60,8 @@ export class AnswerService {
       await manager.delete(Answer, id);
     });
   }
+
+  count(): Promise<number> {
+    return this.answerRepository.count();
+  }
 }

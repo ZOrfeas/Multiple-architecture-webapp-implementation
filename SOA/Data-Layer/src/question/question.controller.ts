@@ -3,29 +3,41 @@ import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { PaginateUtils } from '../pagination';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('question')
+@ApiTags('Question')
 export class QuestionController {
   private readonly logger = new Logger(QuestionController.name);
 
   constructor(private readonly questionService: QuestionService) {}
 
   @Post()
+  @ApiOperation({ summary: 'Creates a new Question in database' })
   create(@Body() createQuestionDto: CreateQuestionDto) {
     return this.questionService.create(createQuestionDto);
   }
 
   @Get()
+  @ApiOperation({ summary: 'Returns all existing Questions' })
   findAll() {
     return this.questionService.findAll();
   }
 
+  @Get('count')
+  @ApiOperation({ summary: 'Returns the total nr. of existing questions' })
+  count() {
+    return this.questionService.count();
+  }
+
   @Get(':id')
+  @ApiOperation({ summary: 'Returns a question by its id' })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.questionService.findOne(id);
   }
 
   @Patch(':id')
+  @ApiOperation({ summary: 'Updates a question by its id' })
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateQuestionDto: UpdateQuestionDto,
@@ -34,22 +46,21 @@ export class QuestionController {
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Deletes a question by its id' })
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.questionService.remove(id);
   }
 
   @Get('by/keyword')
+  @ApiOperation({
+    summary: 'Returns all questions containing the specified keywords',
+  })
   findByKeyword(
     @Query('id', new ParseArrayPipe({ items: Number, separator: ',' }))
     ids: number[],
     @Query()
     pageInfo: PaginateUtils, // also undefined
   ) {
-    // this.logger.debug(ids);
-    // this.logger.debug(pageInfo);
-    // this.logger.debug(pageInfo.pagesize);
-    // this.logger.debug(+pageInfo.pagenr);
-    // this.logger.error(typeof pageInfo.pagenr);
     if (
       typeof pageInfo.pagenr === 'undefined' &&
       typeof pageInfo.pagesize === 'undefined'
@@ -69,5 +80,16 @@ export class QuestionController {
         +pageInfo.pagenr,
       );
     }
+  }
+
+  @Get('count/by/keyword')
+  @ApiOperation({
+    summary: 'Returns the count of keywords containing the specified keywords',
+  })
+  countByKeyword(
+    @Query('id', new ParseArrayPipe({ items: Number, separator: ',' }))
+    ids: number[],
+  ) {
+    return this.questionService.countByKeyword(ids);
   }
 }

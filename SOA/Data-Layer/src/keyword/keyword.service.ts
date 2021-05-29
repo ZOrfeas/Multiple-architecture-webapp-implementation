@@ -57,4 +57,8 @@ export class KeywordService {
       await manager.delete(Keyword, id);
     });
   }
+
+  count(): Promise<number> {
+    return this.keywordRepository.count();
+  }
 }

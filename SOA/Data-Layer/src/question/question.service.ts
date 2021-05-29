@@ -113,4 +113,32 @@ export class QuestionService {
       });
     });
   }
+
+  count(): Promise<number> {
+    return this.questionRepository.count();
+  }
+
+  countByKeyword(keywordIds: number[]): Promise<number> {
+    return this.manager.transaction(async (manager) => {
+      const keywords: Keyword[] = [];
+      let tempKeyword: Keyword;
+      for (let i = 0; i < keywordIds.length; i++) {
+        const id = keywordIds[i];
+        tempKeyword = await manager.findOne(Keyword, id);
+        if (!tempKeyword)
+          throw new NotFoundException(`Keyword with id ${id} was not found`);
+        keywords.push(tempKeyword);
+      }
+      const keywordString = '(' + keywordIds.toString() + ')';
+      const keywordCount = keywordIds.length;
+      const queryString = `SELECT COUNT(*) FROM
+       (SELECT "rel"."questionId" 
+       FROM "question_keywords_keyword" "rel" 
+       WHERE "rel"."keywordId" IN ${keywordString} 
+       GROUP BY "rel"."questionId"
+       HAVING COUNT(DISTINCT "rel"."keywordId") = ${keywordCount}) AS "ids"`;
+      const questionCountObj = await manager.query(queryString);
+      return questionCountObj[0].count;
+    });
+  }
 }

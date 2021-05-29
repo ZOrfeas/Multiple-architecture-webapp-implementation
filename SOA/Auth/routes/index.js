@@ -14,6 +14,8 @@ axios.defaults.baseURL = "http://" +
  */
 
 router.post('/signup', async (req, res, next) => {
+  // #swagger.tags = ['Sign up']
+  // #swagger.summary = 'Signs a new user up'
   // hash password
   const hash = await bcrypt.hash(req.body.password, parseInt(process.env.SALT_ROUNDS));
 
@@ -51,6 +53,8 @@ router.post('/signup', async (req, res, next) => {
  */
 
 router.post('/signin', passport.authenticate('local', { session: false }), (req, res) => {
+  // #swagger.tags = ['Sign in']
+  // #swagger.summary = 'Signs an existing user in'
   const token = jwt.sign(
       req.user,
       process.env.JWT_SECRET,
@@ -65,6 +69,8 @@ router.post('/signin', passport.authenticate('local', { session: false }), (req,
  */
 
 router.get('/protected', passport.authenticate('jwt', { session: false }), (req, res) => {
+  // #swagger.tags = ['Check access']
+  // #swagger.summary = 'Authenticates a user by token'
   res.status(200).json(req.user);
 });
 

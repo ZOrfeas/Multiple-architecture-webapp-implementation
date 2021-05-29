@@ -55,6 +55,14 @@ describe('KeywordModule (e2e)', () => {
     );
   });
 
+  it('/keyword/count (GET) | should return 1', async () => {
+    const result = await request(app.getHttpServer())
+      .get('/keyword/count')
+      .expect(200);
+    // console.log(result);
+    expect(result.text).toEqual('1');
+  });
+
   it('/keyword/{:id} (GET) | previously added keyword is returned', async () => {
     const result = await request(app.getHttpServer())
       .get('/keyword/1')
