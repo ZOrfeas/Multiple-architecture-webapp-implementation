@@ -27,7 +27,7 @@ router.post('/signup', async (req, res, next) => {
 
   axios.post('/user', user) // attempt to save user
       .then(response => {
-        const { id, email } = response.data;
+        const { id, displayName, email } = response.data;
 
         const token = jwt.sign(
             { id, email },
@@ -35,7 +35,7 @@ router.post('/signup', async (req, res, next) => {
             { expiresIn: process.env.JWT_EXPIRES_IN }
         );
 
-        res.status(200).json({ token });
+        res.status(200).json({ user: { displayName, email }, token });
       })
       .catch(error => {
         const { statusCode, message } = error.response.data;
