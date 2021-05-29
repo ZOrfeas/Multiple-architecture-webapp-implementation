@@ -24,11 +24,16 @@ router.post('/signup', async (req, res, next) => {
   };
 
   axios.post('/user', user) // attempt to save user
-      .then(response => { // store jwt in cookies (httpOnly)
+      .then(response => {
         const { id, email } = response.data;
-        const token = jwt.sign({ id, email }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
-        res.cookie('token', token, { httpOnly: true })
-        res.status(200).json({ id, email });
+
+        const token = jwt.sign(
+            { id, email },
+            process.env.JWT_SECRET,
+            { expiresIn: process.env.JWT_EXPIRES_IN }
+        );
+
+        res.status(200).json({ token });
       })
       .catch(error => {
         const { statusCode, message } = error.response.data;
@@ -46,9 +51,13 @@ router.post('/signup', async (req, res, next) => {
  */
 
 router.post('/signin', passport.authenticate('local', { session: false }), (req, res) => {
-  res.status(200).json({
-    token: jwt.sign(req.user, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN })
-  });
+  const token = jwt.sign(
+      req.user,
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRES_IN }
+  );
+
+  res.status(200).json({ token });
 });
 
 /**

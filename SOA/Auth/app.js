@@ -9,21 +9,20 @@ require('dotenv').config();
 const indexRouter = require('./routes/index');
 
 const app = express();
-app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(logger('dev'));
 
-require('./config/passport');
+require('./utils/passport');
 app.use(passport.initialize());
 
 /**
  * -------------- ROUTES --------------
  */
 
-app.use('/', indexRouter);
+app.use('/', cors(), indexRouter);
 
 /**
  * -------------- ERROR HANDLER --------------
