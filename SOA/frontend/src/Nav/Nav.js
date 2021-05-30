@@ -26,7 +26,7 @@ function NavComponent() {
               </Nav>
               :
               <Nav>
-                <Button className="mr-2" variant="outline-primary" href="#">Sign In</Button>
+                <Button className="mr-2" variant="outline-primary" href="/login">Log In</Button>
                 <Button variant="primary" href="/signup">Sign Up</Button>
               </Nav>
           }

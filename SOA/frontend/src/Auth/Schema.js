@@ -1,10 +1,10 @@
-import * as Yup from "yup";
+import * as Yup from 'yup';
 
 /**
  * Schema validation using yup
  */
 
-const schema = Yup.object({
+export const schema = Yup.object({
   username: Yup.string()
       .email('Invalid email address')
       .required('Email cannot be empty'),
@@ -19,6 +19,4 @@ const schema = Yup.object({
   re_password: Yup.string()
       .oneOf([Yup.ref('password'), null], 'Passwords do not match')
       .required('Password cannot be empty')
-});
-
-export default schema;
+})
