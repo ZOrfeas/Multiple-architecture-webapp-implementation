@@ -1,8 +1,11 @@
 .signup-content {
     min-height: 100vh;
-    background: #f0f0d0;
 }
 
 .signup-content .card-header {
     color: #e90c22;
+}
+
+a {
+    text-decoration: none !important;
 }
