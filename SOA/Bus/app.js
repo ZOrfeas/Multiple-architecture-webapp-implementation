@@ -1,14 +1,16 @@
 const createError = require('http-errors');
-var express = require('express');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const swaggerUi = require('swagger-ui-express');
 const fs = require('fs');
 require('dotenv').config();
+const docUtils = require('./docUtils');
+/* const redisCon = */ require('./redisUtils');
 
-var indexRouter = require('./routes/index');
+const pokeRouter = require('./routes/poke');
 
-var app = express();
+const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -20,15 +22,16 @@ app.use(logger('dev'));
  */
 app.use('/spec', function(req,res,next) {
   // #swagger.ignore = true
-  const swaggerDocument = JSON.parse(fs.readFileSync('./swagger.json'));
-  req.swaggerDoc = swaggerDocument;
+  req.swaggerDoc = docUtils.doc;
   next();
 }, swaggerUi.serve, swaggerUi.setup());
 app.get('/spec-json', (req, res) => {
   // #swagger.ignore = true
-  res.sendFile('./swagger.json', { root: __dirname })
+  fs.readFile('./swagger.json', 'utf8', (err, data) => {
+    res.json(JSON.parse(data))
+  })
 })
-app.use('/', indexRouter);
+app.use('/', pokeRouter);
 
 /**
  * -------------- ERROR HANDLER --------------
