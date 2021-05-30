@@ -6,6 +6,7 @@ const logger = require('morgan');
 const passport = require('passport');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
+const fs = require('fs');
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
@@ -27,7 +28,9 @@ app.use(passport.initialize());
 app.use('/spec', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.get('/spec-json', (req, res) => {
   // #swagger.ignore = true
-  res.sendFile('./swagger.json', { root: __dirname });
+  fs.readFile('./swagger.json', 'utf8', (err, data) => {
+    res.json(JSON.parse(data))
+  })
 })
 app.use('/', cors(), indexRouter);
 

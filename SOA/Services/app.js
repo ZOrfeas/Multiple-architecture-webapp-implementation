@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
+const fs = require('fs');
 require('dotenv').config();
 
 const questionRouter = require('./services/question/router');
@@ -25,7 +26,9 @@ app.use(logger('dev'));
 app.use('/spec', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.get('/spec-json', (req, res) => {
   // #swagger.ignore = true
-  res.sendFile('./swagger.json', { root: __dirname })
+  fs.readFile('./swagger.json', 'utf8', (err, data) => {
+    res.json(JSON.parse(data))
+  })
 })
 app.use('/question', questionRouter);
 app.use('/answer', answerRouter);
