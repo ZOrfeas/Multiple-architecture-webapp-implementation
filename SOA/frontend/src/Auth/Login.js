@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useHistory, useLocation, Link } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
 import { Formik } from 'formik'
-import { signupSchema } from './Schema'
+import { loginSchema } from './Schema'
 import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
 import Alert from 'react-bootstrap/Alert'
@@ -14,7 +14,7 @@ const axios = require('axios')
 const url = process.env.REACT_APP_AUTH_URL
 // const url = 'http://localhost:3001'
 
-function Signup() {
+function Login() {
   const [showMsg, setShowMsg] = useState(false)
 
   const { login } = useAuth()
@@ -23,14 +23,14 @@ function Signup() {
   const alert  = location.state?.alert
 
   const handleSubmit = values => {
-    axios.post(`${url}/signup`, values)
+    axios.post(`${url}/signin`, values)
         .then(response => {
           const { user, token } = response.data
           login({ user, token  })
           history.push('/')
         })
         .catch(error => {
-          if (error.response?.data.message) { // user already exists
+          if (error.response?.status === 401) { // user doesn't exists
             setShowMsg(true)
           }
           else {
@@ -49,19 +49,17 @@ function Signup() {
               <Alert className='mb-5' variant='warning'>
                 <div>
                   <p className='text-center mb-0'>You must me logged in to ask a question</p>
-                  <p className='text-center mb-0'>Sign up or <Link to={{ pathname: '/login', state: location.state }}>Log in</Link></p>
+                  <p className='text-center mb-0'>Log in or <Link to={{ pathname: '/signup', state: location.state }}>Sign up</Link></p>
                 </div>
               </Alert>}
               <Formik
                   initialValues={{
-                    displayName: '',
                     username: '',
-                    password: '',
-                    re_password: ''
+                    password: ''
                   }}
-                  validationSchema={signupSchema}
-                  onSubmit={({ displayName, username, password }, { setSubmitting }) => {
-                    handleSubmit({ displayName, username, password })
+                  validationSchema={loginSchema}
+                  onSubmit={(values, { setSubmitting }) => {
+                    handleSubmit(values)
                     setSubmitting(false)
                   }}
               >
@@ -74,16 +72,6 @@ function Signup() {
                     errors
                   }) => (
                     <Form noValidate onSubmit={handleSubmit}>
-                      <Form.Group controlId='formGroupDisplayName'>
-                        <Form.Label className='font-weight-bold'>Display name</Form.Label>
-                        <Form.Control
-                            type='text'
-                            name='displayName'
-                            value={values.displayName}
-                            onChange={handleChange}
-                        />
-                      </Form.Group>
-
                       <Form.Group controlId='formGroupUsername'>
                         <Form.Label className='font-weight-bold'>Email</Form.Label>
                         <Form.Control
@@ -101,7 +89,7 @@ function Signup() {
                             isInvalid={(touched.username && errors.username) || showMsg}
                         />
                         <Form.Control.Feedback type='invalid'>
-                          {showMsg ? 'Email already exists' : errors.username}
+                          {showMsg ? 'Email or password is incorrect' : errors.username}
                         </Form.Control.Feedback>
                       </Form.Group>
 
@@ -121,34 +109,18 @@ function Signup() {
                         </Form.Control.Feedback>
                       </Form.Group>
 
-                      <Form.Group controlId='formGroupRePassword'>
-                        <Form.Label className='font-weight-bold'>Retype password</Form.Label>
-                        <Form.Control
-                            type='password'
-                            name='re_password'
-                            autoComplete='new-password'
-                            value={values.re_password}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            isInvalid={touched.re_password && errors.re_password}
-                        />
-                        <Form.Control.Feedback type='invalid'>
-                          {errors.re_password}
-                        </Form.Control.Feedback>
-                      </Form.Group>
-
-                      <Button className='w-100' variant='primary' type='submit'>Sign up</Button>
+                      <Button className='w-100' variant='primary' type='submit'>Log in</Button>
                     </Form>
                 )}
               </Formik>
             </Card.Body>
           </Card>
           <div className='w-100 text-center mt-2'>
-            Already have an account? <Link to={{ pathname: '/login', state: location.state }}>Log in</Link>
+            Don't have an account? <Link to={{ pathname: '/signup', state: location.state }}>Sign up</Link>
           </div>
         </div>
       </Container>
   )
 }
 
-export default Signup
+export default Login
