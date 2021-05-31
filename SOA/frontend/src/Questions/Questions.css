@@ -1,0 +1,23 @@
+.content-wrapper {
+    margin-top: 56px;
+    background: #f0f0d0;
+}
+
+.questions-content {
+    min-height: 100vh;
+    background: #f0f0d0;
+}
+
+/*.question-p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}*/
+
+.blue {
+    color: #0063af;
+}
+
+.answer-icon {
+    font-size: 21px;
+}
