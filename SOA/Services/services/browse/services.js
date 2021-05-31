@@ -58,6 +58,10 @@ class BrowseServices {
   static countKeywords() {
     return dlCon.keyword.getCount();
   };
+
+  static getPage(pageNr, pageSize) {
+    return dlCon.question.getPage(pageNr, pageSize);
+  };
 };
 
 module.exports = BrowseServices;

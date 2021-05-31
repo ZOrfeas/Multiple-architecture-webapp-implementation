@@ -137,8 +137,15 @@ class Question {
     const paramWrapper = { id: idList.toString() };
     return axios.get(
       this.src + '/count/by/keyword',
-      { params: paramWrapper }
-    )
+      { params: paramWrapper },
+    );
+  }
+  getPage(pageNr, pageSize) {
+    const paramWrapper = { pagesize: pageSize, pagenr: pageNr };
+    return axios.get(
+      this.src + '/browse',
+      { params: paramWrapper },
+    );
   }
 }
 /**
@@ -162,7 +169,7 @@ class Keyword {
   delete(id) { return axios.delete(this.src + id); }
   /** Return total count of entites */
   getCount() {
-    return axios.get(this.src + '/count')
+    return axios.get(this.src + '/count');
   }
 }
 

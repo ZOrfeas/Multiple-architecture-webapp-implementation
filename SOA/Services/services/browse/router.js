@@ -55,5 +55,24 @@ router.get('/count/users', (req, res, next) => {
     .catch(next);
 });
 
+router.get('/questions', (req, res, next) => {
+  // #swagger.tags = ['Browse']
+  // #swagger.summary = 'Get a page of questions, sorted by date'
+  const pagesize = req.query.pagesize;
+  const pagenr = req.query.pagenr;
+  browseServices.getPage(pagenr, pagesize)
+    .then(dlres => {
+      const retList = [];
+      dlres.data.forEach((element) => {
+        const retObj = element.question;
+        retObj.ansCount = element.ansCount;
+        retList.push(retObj);
+      });
+      res
+        .status(200)
+        .json(retList)
+    })
+    .catch(next);
+})
 
 module.exports = router;
