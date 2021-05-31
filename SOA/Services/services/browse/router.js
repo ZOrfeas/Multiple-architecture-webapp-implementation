@@ -66,6 +66,8 @@ router.get('/questions', (req, res, next) => {
       dlres.data.forEach((element) => {
         const retObj = element.question;
         retObj.ansCount = element.ansCount;
+        // delete password if question.user exists
+        !retObj.user || delete retObj.user.password;
         retList.push(retObj);
       });
       res
