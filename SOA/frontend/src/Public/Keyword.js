@@ -5,7 +5,7 @@ function Keyword({ name, count }) {
   return (
       <Card>
         <Card.Body className='d-flex justify-content-center'>
-          <Badge>{name}</Badge>
+          <Badge className='keyword-badge'>{name}</Badge>
         </Card.Body>
         <Card.Footer className='text-center text-muted'>
           <small>{count} questions</small>

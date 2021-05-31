@@ -52,7 +52,7 @@ function Home() {
               </Card.Text>
             </Card.Body>
             <Card.Footer className='text-center'>
-              <Button href='/questions'>Ask a question</Button>
+              <Button href='#'>Ask a question</Button>
             </Card.Footer>
           </Card>
 
@@ -68,7 +68,7 @@ function Home() {
               </Card.Text>
             </Card.Body>
             <Card.Footer className='text-center'>
-              <Button href='/browse'>Browse and answer questions</Button>
+              <Button href='/questions'>Browse and answer questions</Button>
             </Card.Footer>
           </Card>
         </CardDeck>
