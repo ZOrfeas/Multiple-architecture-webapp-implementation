@@ -4,6 +4,7 @@ import { AuthProvider } from './AuthContext'
 import ProtectedRoute from './ProtectedRoute'
 import Public from './Public/Public'
 import Signup from './Auth/Signup'
+import Login from './Auth/Login'
 import Questions from './Questions/Questions'
 
 function App() {
@@ -13,9 +14,10 @@ function App() {
           <AuthProvider>
             <Switch>
               <ProtectedRoute path='/signup' onUser redirect='/' component={Signup} />
+              <ProtectedRoute path='/login' onUser redirect='/' component={Login} />
               <ProtectedRoute
                   path='/questions'
-                  redirect='/signup'
+                  redirect='/login'
                   state={{ alert: true }}
                   component={Questions}
               />

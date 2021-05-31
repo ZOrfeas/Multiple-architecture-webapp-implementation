@@ -55,13 +55,15 @@ router.post('/signup', async (req, res, next) => {
 router.post('/signin', passport.authenticate('local', { session: false }), (req, res) => {
   // #swagger.tags = ['Sign in']
   // #swagger.summary = 'Signs an existing user in'
+  const { id, displayName, email } = req.user;
+
   const token = jwt.sign(
-      req.user,
+      { id, email },
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRES_IN }
   );
 
-  res.status(200).json({ token });
+  res.status(200).json({ user: { displayName, email }, token });
 });
 
 /**

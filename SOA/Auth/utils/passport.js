@@ -21,8 +21,8 @@ passport.use(new LocalStrategy((username, password, done) => {
           return done(null, false);
         }
 
-        const { id, email } = response.data;
-        return done(null, { id, email });
+        const { id, displayName, email } = response.data;
+        return done(null, { id, displayName, email });
       })
       .catch(error => {
         done(error);
@@ -47,7 +47,7 @@ passport.use(new JwtStrategy(options, (jwt_payload, done) => {
         if (Object.keys(response.data).length === 0) { // could not find user
           return done(null, false);
         }
-        
+
         const { id, email } = response.data;
         return done(null, { id, email });
       })
