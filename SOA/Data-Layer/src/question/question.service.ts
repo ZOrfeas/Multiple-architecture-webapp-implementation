@@ -6,6 +6,8 @@ import { EntityManager, Repository } from 'typeorm';
 import { Question } from './entities/question.entity';
 import { User } from '../user/entities/user.entity';
 import { Keyword } from '../keyword/entities/keyword.entity';
+import { Answer } from '../answer/entities/answer.entity';
+import { QuestionWithAnsCount } from './dto/question-with-ansCount.dto';
 
 @Injectable()
 export class QuestionService {
@@ -139,6 +141,26 @@ export class QuestionService {
        HAVING COUNT(DISTINCT "rel"."keywordId") = ${keywordCount}) AS "ids"`;
       const questionCountObj = await manager.query(queryString);
       return questionCountObj[0].count;
+    });
+  }
+
+  getPage(pageSize: number, pageNr: number): Promise<QuestionWithAnsCount[]> {
+    return this.manager.transaction(async (manager) => {
+      const questions = await manager.find(Question, {
+        order: { askedOn: 'DESC' },
+        take: pageSize,
+        skip: (pageNr - 1) * pageSize,
+        relations: ['keywords', 'user'],
+      });
+      const res: QuestionWithAnsCount[] = [];
+      for (let i = 0; i < questions.length; i++) {
+        const question = questions[i];
+        const [, ansCount] = await manager.findAndCount(Answer, {
+          where: { question: question.id },
+        });
+        res.push(new QuestionWithAnsCount(question, ansCount));
+      }
+      return res;
     });
   }
 }

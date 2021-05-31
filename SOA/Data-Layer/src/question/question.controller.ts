@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Logger, ParseIntPipe
 import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
-import { PaginateUtils } from '../pagination';
+import { paginateOrNot, PaginateUtils } from '../pagination';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('question')
@@ -28,6 +28,23 @@ export class QuestionController {
   @ApiOperation({ summary: 'Returns the total nr. of existing questions' })
   count() {
     return this.questionService.count();
+  }
+
+  @Get('browse')
+  @ApiOperation({ summary: 'Returns a page of sorted questions with info' })
+  browse(
+    @Query()
+    pageInfo: PaginateUtils, // also undefined
+  ) {
+    return paginateOrNot(
+      pageInfo,
+      () => this.questionService.getPage(+pageInfo.pagesize, +pageInfo.pagenr),
+      () => {
+        throw new BadRequestException(
+          'Too much data requested, specify pagesize and pagenr',
+        );
+      },
+    );
   }
 
   @Get(':id')
@@ -61,25 +78,16 @@ export class QuestionController {
     @Query()
     pageInfo: PaginateUtils, // also undefined
   ) {
-    if (
-      typeof pageInfo.pagenr === 'undefined' &&
-      typeof pageInfo.pagesize === 'undefined'
-    ) {
-      return this.questionService.findByKeyword(ids);
-    } else if (
-      typeof pageInfo.pagenr === 'undefined' ||
-      typeof pageInfo.pagesize === 'undefined'
-    ) {
-      throw new BadRequestException(
-        'Please specify both or neither of pagesize and pagenr params',
-      );
-    } else {
-      return this.questionService.findByKeyword(
-        ids,
-        +pageInfo.pagesize,
-        +pageInfo.pagenr,
-      );
-    }
+    return paginateOrNot(
+      pageInfo,
+      () =>
+        this.questionService.findByKeyword(
+          ids,
+          +pageInfo.pagesize,
+          +pageInfo.pagenr,
+        ),
+      () => this.questionService.findByKeyword(ids),
+    );
   }
 
   @Get('count/by/keyword')
