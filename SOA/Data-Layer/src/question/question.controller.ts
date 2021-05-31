@@ -3,7 +3,7 @@ import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { paginateOrNot, PaginateUtils } from '../pagination';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 @Controller('question')
 @ApiTags('Question')
@@ -72,6 +72,8 @@ export class QuestionController {
   @ApiOperation({
     summary: 'Returns all questions containing the specified keywords',
   })
+  @ApiQuery({ name: 'pagenr', description: 'page number requested' })
+  @ApiQuery({ name: 'pagesize', description: 'the size of the page' })
   findByKeyword(
     @Query('id', new ParseArrayPipe({ items: Number, separator: ',' }))
     ids: number[],

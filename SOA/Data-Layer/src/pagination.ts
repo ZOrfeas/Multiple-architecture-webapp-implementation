@@ -1,15 +1,21 @@
 import { BadRequestException } from '@nestjs/common';
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumberString, IsOptional } from 'class-validator';
 
 export class PaginateUtils {
   @IsNumberString()
   @IsOptional()
   @IsNotEmpty()
+  @ApiProperty({ description: 'the page number requested', required: false })
   readonly pagenr: string;
 
   @IsNumberString()
   @IsOptional()
   @IsNotEmpty()
+  @ApiProperty({
+    description: 'the size of the page to fetch',
+    required: false,
+  })
   readonly pagesize: string;
 }
 
