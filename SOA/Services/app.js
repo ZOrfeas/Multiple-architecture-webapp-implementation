@@ -5,6 +5,7 @@ const logger = require('morgan');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const fs = require('fs');
+const cors = require('cors');
 require('dotenv').config();
 
 const questionRouter = require('./services/question/router');
@@ -13,6 +14,7 @@ const browseRouter = require('./services/browse/router');
 const accountRouter = require('./services/account/router');
 
 const app = express();
+app.use(cors())
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
