@@ -80,8 +80,6 @@ router.get('/questions', (req, res, next) => {
 router.get('/question', (req, res, next) => {
   // #swagger.tags = ['Browse']
   // #swagger.summary = 'Get all details of a question'
-
-  console.log(process.env.DL_HOSTNAME);
   const id = req.query.id;
   browseServices.getQuestionInfo(id)
     .then(dlres => {
