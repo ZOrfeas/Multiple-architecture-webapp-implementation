@@ -62,6 +62,10 @@ class BrowseServices {
   static getPage(pageNr, pageSize) {
     return dlCon.question.getPage(pageNr, pageSize);
   };
+
+  static getQuestionInfo(id) {
+    return dlCon.question.getInfo(id);
+  }
 };
 
 module.exports = BrowseServices;

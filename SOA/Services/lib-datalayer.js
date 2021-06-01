@@ -147,6 +147,10 @@ class Question {
       { params: paramWrapper },
     );
   }
+  getInfo(id) {
+    const paramWrapper = { id: id };
+    return axios.get(this.src + '/info', { params: paramWrapper });
+  }
 }
 /**
  * Wrapper of data layer calls refering to Keyword

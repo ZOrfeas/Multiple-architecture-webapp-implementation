@@ -77,4 +77,19 @@ router.get('/questions', (req, res, next) => {
     .catch(next);
 })
 
+router.get('/question', (req, res, next) => {
+  // #swagger.tags = ['Browse']
+  // #swagger.summary = 'Get all details of a question'
+
+  console.log(process.env.DL_HOSTNAME);
+  const id = req.query.id;
+  browseServices.getQuestionInfo(id)
+    .then(dlres => {
+      const retObj = dlres.data;
+      !retObj.user || delete retObj.user.password;
+      res.status(200).json(retObj);
+    })
+    .catch(next);
+})
+
 module.exports = router;
