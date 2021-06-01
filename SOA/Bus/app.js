@@ -5,10 +5,11 @@ const logger = require('morgan');
 const swaggerUi = require('swagger-ui-express');
 const fs = require('fs');
 require('dotenv').config();
-const docUtils = require('./docUtils');
+const serviceManager = require('./serviceManager');
 /* const redisCon = */ require('./redisUtils');
 
 const pokeRouter = require('./routes/poke');
+const httpRouter = require('./routes/httpRouter');
 
 const app = express();
 
@@ -22,7 +23,7 @@ app.use(logger('dev'));
  */
 app.use('/spec', function(req,res,next) {
   // #swagger.ignore = true
-  req.swaggerDoc = docUtils.doc;
+  req.swaggerDoc = serviceManager.doc;
   next();
 }, swaggerUi.serve, swaggerUi.setup());
 app.get('/spec-json', (req, res) => {
@@ -31,7 +32,7 @@ app.get('/spec-json', (req, res) => {
     res.json(JSON.parse(data))
   })
 })
-app.use('/', pokeRouter);
+app.use('/', httpRouter);
 
 /**
  * -------------- ERROR HANDLER --------------

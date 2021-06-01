@@ -22,6 +22,17 @@ class Service {
       return this.endpoints[httpMethod].has(url);
     }
   };
+  dumpServiceInfo() {
+    console.log("Service URL is:", this.baseUrl);
+    console.log("is Up?:", this.up);
+    console.log("Registered endpoints:");
+    for (const key in this.endpoints) {
+      console.log(key.toUpperCase(), 'endpoints:');
+      for (let item of this.endpoints[key]) {
+        console.log(" ", item);
+      }
+    }
+  }
 }
 
 class ServiceManager {
@@ -40,8 +51,8 @@ class ServiceManager {
         );
         const response = await axios.get(serviceSpecURL);
         const serviceEndpoints = response.data.paths;
+        const UpperCaseServiceName = capitalize(serviceName)
         for (const [path, details] of Object.entries(serviceEndpoints)) {
-          const UpperCaseServiceName = capitalize(serviceName)
           for (let method in details) {
             details[method].tags = [UpperCaseServiceName];
             this.services[serviceName].addEndpoint(path, method);
@@ -50,6 +61,9 @@ class ServiceManager {
         }
         this.services[serviceName].up = true;
         console.log(`Service ${UpperCaseServiceName} added`);
+        console.log(`=======${UpperCaseServiceName}=======`);
+        this.services[serviceName].dumpServiceInfo();
+        console.log(`=======${UpperCaseServiceName}=======`);
       }
     } catch (error) {
       console.log(error);
@@ -67,14 +81,17 @@ class ServiceManager {
     }
   }
 
-  checkServiceEndpoint(serviceName, url, httpMethod) {
-    if (typeof this.services[serviceName] === 'undefined') {
+  getRealEndpoint(serviceName, fullUrl) {
+    let slicedUrl = fullUrl.slice(serviceName.length + 1);
+    if (slicedUrl.length == 0) return '/';
+    else return slicedUrl;
+  }
+
+  checkServiceEndpoint(serviceName, fullUrl, httpMethod) {
+    if (!this.serviceIsUp(serviceName)) {
       return false;
     }
-    let slicedUrl = url.slice(serviceName.length + 1)
-    if (slicedUrl.length == 0) {
-      slicedUrl = '/';
-    }
+    const slicedUrl = this.getRealEndpoint(serviceName, fullUrl);
     return this.services[serviceName]
       .checkEndpoint(slicedUrl, httpMethod);
   };
@@ -88,6 +105,30 @@ class ServiceManager {
     }
     delete this.services[serviceName];
   };
+
+  getTargetUrl(serviceName, fullUrl, queryParams) {
+    const baseUrl = this.services[serviceName].baseUrl;
+    const realEndpoint = this.getRealEndpoint(serviceName, fullUrl);
+    return queryParams ?
+           baseUrl + realEndpoint + queryParams:
+           baseUrl + realEndpoint;
+  }
+
+  /** Assumes service and endpoint are up */
+  doGet(serviceName, fullUrl, queryParams, headers) {
+    const targetUrl = this.getTargetUrl(serviceName, fullUrl, queryParams);
+    console.log('FORWARD GET', targetUrl);
+    return axios.get(targetUrl, { headers: headers });
+  }
+  
+  /** Assumes service and endpoint are up */
+  doPost(serviceName, fullUrl, queryParams, headers, body) {
+    const targetUrl = this.getTargetUrl(serviceName, fullUrl, queryParams);
+    console.log('FORWARD POST', targetUrl);
+    return axios.post(
+      targetUrl, body, { headers: headers }
+    );
+  }
 
 };
 
