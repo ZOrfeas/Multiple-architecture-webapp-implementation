@@ -110,7 +110,7 @@ class ServiceManager {
     const baseUrl = this.services[serviceName].baseUrl;
     const realEndpoint = this.getRealEndpoint(serviceName, fullUrl);
     return queryParams ?
-           baseUrl + realEndpoint + queryParams:
+           baseUrl + realEndpoint + '?' + queryParams:
            baseUrl + realEndpoint;
   }
 
