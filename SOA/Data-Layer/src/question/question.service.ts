@@ -8,6 +8,7 @@ import { User } from '../user/entities/user.entity';
 import { Keyword } from '../keyword/entities/keyword.entity';
 import { Answer } from '../answer/entities/answer.entity';
 import { QuestionWithAnsCount } from './dto/question-with-ansCount.dto';
+import { AllQuestionInfo, AnswerWithAuthorName } from './dto/all-question-info.dto';
 
 @Injectable()
 export class QuestionService {
@@ -161,6 +162,27 @@ export class QuestionService {
         res.push(new QuestionWithAnsCount(question, ansCount));
       }
       return res;
+    });
+  }
+
+  getInfo(id: number): Promise<AllQuestionInfo> {
+    return this.manager.transaction(async (manager) => {
+      const question = await manager.findOne(Question, id, {
+        relations: ['answers', 'keywords', 'user'],
+      });
+      const retVal = new AllQuestionInfo(question);
+
+      for (let i = 0; i < question.answers.length; i++) {
+        const answer = question.answers[i];
+        const queryString = `SELECT "user"."displayName" FROM "answer"
+          JOIN "user" ON "answer"."user_id" = "user"."id"
+          WHERE "answer"."id" = ${answer.id}`;
+        const authorName = await this.manager.query(queryString);
+        retVal.answers.push(
+          new AnswerWithAuthorName(answer, authorName[0].displayName),
+        );
+      }
+      return retVal;
     });
   }
 }

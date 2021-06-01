@@ -47,6 +47,12 @@ export class QuestionController {
     );
   }
 
+  @Get('info')
+  @ApiOperation({ summary: 'Returns all details on a question ' })
+  getInfo(@Query('id', ParseIntPipe) id: number) {
+    return this.questionService.getInfo(id);
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Returns a question by its id' })
   findOne(@Param('id', ParseIntPipe) id: number) {
