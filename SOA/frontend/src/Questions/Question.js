@@ -1,37 +1,32 @@
 import { Link } from 'react-router-dom'
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Badge from 'react-bootstrap/Badge';
 
-function Question() {
+function Question({ title, summary, keywords, askedOn, askedBy, answerCount }) {
+  const dateFormat = date => {
+    const dateObj = new Date(date.split('.')[0])
+    const [, month, dayNum, year] = dateObj.toDateString().split(' ')
+    return `${month}, ${dayNum} ${year}`
+  }
+
   return (
-      <div>
-        <h5><Link to='#'>Title</Link></h5>
-        <p className='question-p small'>
-          Content Content Content Content Content Content Content Content Content Content Content Content Content Content Content Content Content Content Content
-        </p>
-        <Row className='mx-0'>
-          <Col className='mb-2 px-0' md={8}>
-            <Badge className='keyword-badge mr-1'>java</Badge>
-            <Badge className='keyword-badge mr-1'>arrays</Badge>
-            <Badge className='keyword-badge mr-1'>java</Badge>
-            <Badge className='keyword-badge mr-1'>arrays</Badge>
-            <Badge className='keyword-badge mr-1'>java</Badge>
-            <Badge className='keyword-badge mr-1'>arrays</Badge>
-          </Col>
-          <Col className='mb-2 px-0' md={4}>
-            <p className='blue small text-right mb-0'>
-              2 answers
-              <i className='material-icons-outlined ml-2 answer-icon'>question_answer</i>
-            </p>
-          </Col>
-          <p className='small text-muted text-right mb-0 px-0'>
-            asked Aug 1 '08 at 12:30
-          </p>
-          <p className='blue small text-right mb-0 px-0'>
-            Hugh J
-          </p>
-        </Row>
+      <div className='d-flex'>
+        <div className='question-item p-2'>
+          <h5 className='question-title'><Link to='#'>{title}</Link></h5>
+          <p className='question-summary small mb-2'>{summary}</p>
+          <div className='keyword mb-2'>
+            {keywords.map(keyword => (
+                <Badge key={keyword.id} className='keyword-badge mr-1'>{keyword.name}</Badge>
+            ))}
+          </div>
+          <p className='asked-on-by text-muted mb-0 px-0'>asked on {dateFormat(askedOn)} by {askedBy ? askedBy : '[deleted]'}</p>
+        </div>
+        <div className='stats flex-shrink-0 text-right ml-3 p-2'>
+          {answerCount > 0 &&
+          <div className='answer-count'>
+            <span className='material-icons-outlined mr-1 qa-icon'>question_answer</span>
+            <span className='small'>{answerCount}</span>
+          </div>}
+        </div>
       </div>
   )
 }

@@ -14,10 +14,28 @@
     text-overflow: ellipsis;
 }*/
 
-.blue {
-    color: #0063af;
+.question-item {
+    flex: auto;
 }
 
-.answer-icon {
+.stats {
+    width: 120px;
+    /*border: 1px solid;
+    border-color: red;*/
+    color: #0d6efd;
+    /*color: #586069;*/
+    /*color: #0077cc;*/
+}
+
+.question-title a {
+    font-weight: bold;
+    color: #212529;
+}
+
+.asked-on-by {
+    font-size: .75rem;
+}
+
+.qa-icon {
     font-size: 21px;
 }
