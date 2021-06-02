@@ -38,9 +38,10 @@ router.post('/signup', async (req, res, next) => {
         res.status(200).json({ user: { displayName, email }, token });
       })
       .catch(error => {
-        const { statusCode, message } = error.response.data;
-        if (statusCode ===  400 && message === 'Email already exists') {
-          res.status(statusCode).json({ message });
+        const status = error.response.status
+        const message = error.response.data?.message
+        if (status ===  400 && message === 'Email already exists') {
+          res.status(status).json({ message });
         }
         else {
           next(error);

@@ -45,7 +45,7 @@ app.use(function(req, res, next) {
 
 // log errors
 app.use(function(err, req, res, next) {
-  const status = err.status || 500;
+  const status = err.response.status || 500;
   if (status >= 500 && req.app.get('env') === 'development') {
     console.error(err.stack);
   }
@@ -54,11 +54,10 @@ app.use(function(err, req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-  const status = err.status;
-  res.status(status);
+  const status = err.response.status;
   const message = status >= 500 ? "Something's wrong" : err.message;
   const expose = status >= 500 && req.app.get('env') === 'development';
-  res.end(expose ? message + '\n\n' + err.stack : message);
+  res.status(status).end(expose ? message + '\n\n' + err.stack : message);
 });
 
 module.exports = app;
