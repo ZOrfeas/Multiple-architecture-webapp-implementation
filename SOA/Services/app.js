@@ -6,7 +6,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const fs = require('fs');
 const cors = require('cors');
-const { client } = require('./redisUtils');
+require('./redisUtils');
 require('dotenv').config();
 
 const questionRouter = require('./services/question/router');
