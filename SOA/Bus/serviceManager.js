@@ -60,7 +60,7 @@ class ServiceManager {
           this.doc.paths['/' + serviceName + path] = details;
         }
         this.services[serviceName].up = true;
-        console.log(`.Service ${UpperCaseServiceName} added.`);
+        console.log(`Service '${UpperCaseServiceName}' added`);
         console.log(`=======${UpperCaseServiceName}=======`);
         this.services[serviceName].dumpServiceInfo();
         console.log(`=======${UpperCaseServiceName}=======`);

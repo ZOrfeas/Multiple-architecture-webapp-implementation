@@ -9,9 +9,9 @@ client.on("error", (error) => {
 });
 
 client.on("pmessage", (pattern, channel, message) => {
-  console.log("Received message");
+  console.log("Received message...");
   const [action, serviceName] = channel.split('.');
-  console.log("Service", serviceName, "requested", action);
+  console.log("Service","'" + serviceName + "'", "requested", "'" + action + "'");
   // console.log("Message was:", message);
   console.log("Beginning action processing...");
   switch (action) {
