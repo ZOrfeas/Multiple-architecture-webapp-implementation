@@ -42,7 +42,8 @@ class ServiceManager {
   };
 
   async addService(serviceName, serviceSpecURL) {
-    console.log("Adding service...");
+    const UpperCaseServiceName = capitalize(serviceName)
+    // console.log(`Adding service ${UpperCaseServiceName} ...`);
     try {
       if (!this.serviceIsUp(serviceName)) {
         this.services[serviceName] = new Service(
@@ -51,7 +52,6 @@ class ServiceManager {
         );
         const response = await axios.get(serviceSpecURL);
         const serviceEndpoints = response.data.paths;
-        const UpperCaseServiceName = capitalize(serviceName)
         for (const [path, details] of Object.entries(serviceEndpoints)) {
           for (let method in details) {
             details[method].tags = [UpperCaseServiceName];
@@ -60,14 +60,27 @@ class ServiceManager {
           this.doc.paths['/' + serviceName + path] = details;
         }
         this.services[serviceName].up = true;
-        console.log(`Service ${UpperCaseServiceName} added`);
+        console.log(`Service '${UpperCaseServiceName}' added`);
         console.log(`=======${UpperCaseServiceName}=======`);
         this.services[serviceName].dumpServiceInfo();
         console.log(`=======${UpperCaseServiceName}=======`);
+      } else {
+        console.log("Service already up and running");
       }
     } catch (error) {
       console.log(error);
     }
+  };
+
+  removeService(serviceName) {
+    console.log(`Dropping service ${capitalize(serviceName)}...`);
+    const checkString = '/' + serviceName;
+    for (let path in this.doc.paths) {
+      if (path.startsWith(checkString)) {
+        delete this.doc.paths[path];
+      }
+    }
+    delete this.services[serviceName];
   };
 
   serviceIsUp(serviceName) {
@@ -94,16 +107,6 @@ class ServiceManager {
     const slicedUrl = this.getRealEndpoint(serviceName, fullUrl);
     return this.services[serviceName]
       .checkEndpoint(slicedUrl, httpMethod);
-  };
-
-  removeService(serviceName) {
-    const checkString = '/' + serviceName;
-    for (let path in this.doc.paths) {
-      if (path.startsWith(checkString)) {
-        delete this.doc.paths[path];
-      }
-    }
-    delete this.services[serviceName];
   };
 
   getTargetUrl(serviceName, fullUrl, queryParams) {

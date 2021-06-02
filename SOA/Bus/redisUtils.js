@@ -2,21 +2,18 @@ const redis = require('redis');
 const serviceManager = require('./serviceManager');
 
 const client = redis.createClient({
-  host: process.env.REDIS_HOST || 'localhost',  
+  host: process.env.REDIS_HOSTNAME || 'localhost',  
 });
 client.on("error", (error) => {
   console.log(error);
 });
-client.psubscribe("p[uo][tp].*");
 
 client.on("pmessage", (pattern, channel, message) => {
-  console.log("Received message");
-  console.log("On pattern:", pattern);
+  console.log("Received message...");
   const [action, serviceName] = channel.split('.');
-  console.log("On postfix:", action);
-  console.log("And prefix", serviceName);
-  console.log("Message was:", message);
-  console.log("attempting action requested...");
+  console.log("Service","'" + serviceName + "'", "requested", "'" + action + "'");
+  // console.log("Message was:", message);
+  console.log("Beginning action processing...");
   switch (action) {
     case 'put':
       serviceManager.addService(serviceName, message);
@@ -29,5 +26,7 @@ client.on("pmessage", (pattern, channel, message) => {
       return;
   }
 })
+
+client.psubscribe("p[uo][tp].*");
 
 module.exports = client;

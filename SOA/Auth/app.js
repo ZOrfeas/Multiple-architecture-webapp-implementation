@@ -7,6 +7,7 @@ const passport = require('passport');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const fs = require('fs');
+require('./utils/redisUtils');
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');

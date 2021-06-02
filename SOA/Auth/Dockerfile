@@ -2,7 +2,7 @@ FROM node:15.14-alpine
 
 WORKDIR /user/src/app
 
-COPY package*.json ./
+COPY package.json ./
 
 # swap these two when the necessary
 # dependencies are moved to production 
