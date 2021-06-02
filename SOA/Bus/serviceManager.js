@@ -60,7 +60,7 @@ class ServiceManager {
           this.doc.paths['/' + serviceName + path] = details;
         }
         this.services[serviceName].up = true;
-        console.log(`Service ${UpperCaseServiceName} added`);
+        console.log(`.Service ${UpperCaseServiceName} added.`);
         console.log(`=======${UpperCaseServiceName}=======`);
         this.services[serviceName].dumpServiceInfo();
         console.log(`=======${UpperCaseServiceName}=======`);
@@ -71,7 +71,7 @@ class ServiceManager {
   };
 
   removeService(serviceName) {
-    console.log(`Dropping service ${capitalize(serviceName)} ...`);
+    console.log(`Dropping service ${capitalize(serviceName)}...`);
     const checkString = '/' + serviceName;
     for (let path in this.doc.paths) {
       if (path.startsWith(checkString)) {

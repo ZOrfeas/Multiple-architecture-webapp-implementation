@@ -13,7 +13,7 @@ client.on("pmessage", (pattern, channel, message) => {
   const [action, serviceName] = channel.split('.');
   console.log("Service", serviceName, "requested", action);
   // console.log("Message was:", message);
-  console.log("Beginning action processing ...");
+  console.log("Beginning action processing...");
   switch (action) {
     case 'put':
       serviceManager.addService(serviceName, message);
