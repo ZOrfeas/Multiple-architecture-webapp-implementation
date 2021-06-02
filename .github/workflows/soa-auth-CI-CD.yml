@@ -32,8 +32,10 @@ jobs:
         with:
           node-version: '15'
       
-      #- name: Install dependencies
-      #  run: npm install
+      - name: Install dependencies
+        run: |
+          rm package-lock.json
+          npm install
       
       - name: Login Docker
         if: github.event_name != 'pull_request'
