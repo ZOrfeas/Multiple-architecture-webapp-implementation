@@ -7,16 +7,13 @@ const client = redis.createClient({
 client.on("error", (error) => {
   console.log(error);
 });
-client.psubscribe("p[uo][tp].*");
 
 client.on("pmessage", (pattern, channel, message) => {
   console.log("Received message");
-  console.log("On pattern:", pattern);
   const [action, serviceName] = channel.split('.');
-  console.log("On postfix:", action);
-  console.log("And prefix", serviceName);
-  console.log("Message was:", message);
-  console.log("attempting action requested...");
+  console.log("Service", serviceName, "requested", action);
+  // console.log("Message was:", message);
+  console.log("Beginning action processing ...");
   switch (action) {
     case 'put':
       serviceManager.addService(serviceName, message);
@@ -29,5 +26,7 @@ client.on("pmessage", (pattern, channel, message) => {
       return;
   }
 })
+
+client.psubscribe("p[uo][tp].*");
 
 module.exports = client;
