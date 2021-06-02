@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const serviceManager = require('../serviceManager');
-const axios = require('axios');
 
 const matchAllPattern = '*';
 

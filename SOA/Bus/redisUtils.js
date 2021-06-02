@@ -2,7 +2,7 @@ const redis = require('redis');
 const serviceManager = require('./serviceManager');
 
 const client = redis.createClient({
-  host: process.env.REDIS_HOST || 'localhost',  
+  host: process.env.REDIS_HOSTNAME || 'localhost',  
 });
 client.on("error", (error) => {
   console.log(error);
