@@ -14,4 +14,17 @@ services:
         container_name: msg-q
         expose:
             - 6379
-        
+    # services:
+    #     image: zorfeas/soa-services:test
+    #     container_name: services
+    #     environment:
+    #         DL_HOSTNAME: saas-15.ddns.net
+    #         DL_PORT: 3000
+    #         REDIS_HOSTNAME: msg-q
+    #         SERVICE_DOC_URL: http://services:3000/spec-json
+    #         AUTH_HOSTNAME: saas-15.ddns.net
+    #         AUTH_PORT: 3001
+    #     depends_on:
+    #         - msg-q
+    #     expose:
+    #         - 3000

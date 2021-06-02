@@ -64,6 +64,8 @@ class ServiceManager {
         console.log(`=======${UpperCaseServiceName}=======`);
         this.services[serviceName].dumpServiceInfo();
         console.log(`=======${UpperCaseServiceName}=======`);
+      } else {
+        console.log("Service already up and running");
       }
     } catch (error) {
       console.log(error);
