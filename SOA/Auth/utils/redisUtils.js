@@ -1,12 +1,13 @@
 const redis = require('redis');
 
+const hostname = process.env.REDIS_HOSTNAME || 'localhost';
 const REDIS_MAX_ATTEMPTS = +process.env.REDIS_MAX_ATTEMPTS || 10;
 const serviceName = process.env.SERVICE_NAME || "authenticator";
 const specDocUrl = process.env.SERVICE_DOC_URL || "http://localhost:3000/spec-json";
 const retry_time = +process.env.RETRY_TIME || 30000; // 30 seconds
 
 const client = redis.createClient({
-  host: process.env.REDIS_HOSTNAME || 'localhost',
+  host: hostname,
   retry_strategy: (options) => {
     if (options.error && options.error.code === "ECONNREFUSED" && options.attempt > REDIS_MAX_ATTEMPTS) {
       return new Error(`REDIS: Redis connection failed ${REDIS_MAX_ATTEMPTS} times, won't attempt again.`);
