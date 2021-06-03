@@ -40,13 +40,13 @@ app.use('/', cors(), indexRouter);
  */
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   next(createError(404));
 });
 
 // log errors
-app.use(function(err, req, res, next) {
-  const status = err.response.status || 500;
+app.use((err, req, res, next) => {
+  const status = err.response?.status || 500;
   if (status >= 500 && req.app.get('env') === 'development') {
     console.error(err.stack);
   }
@@ -54,8 +54,8 @@ app.use(function(err, req, res, next) {
 });
 
 // error handler
-app.use(function(err, req, res, next) {
-  const status = err.response.status;
+app.use((err, req, res, next) => {
+  const status = err.response?.status || 500;
   const message = status >= 500 ? "Something's wrong" : err.message;
   const expose = status >= 500 && req.app.get('env') === 'development';
   res.status(status).end(expose ? message + '\n\n' + err.stack : message);

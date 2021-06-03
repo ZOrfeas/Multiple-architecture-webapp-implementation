@@ -16,37 +16,41 @@ axios.defaults.baseURL = "http://" +
 router.post('/signup', async (req, res, next) => {
   // #swagger.tags = ['Sign up']
   // #swagger.summary = 'Signs a new user up'
-  // hash password
-  const hash = await bcrypt.hash(req.body.password, parseInt(process.env.SALT_ROUNDS));
+  try {
+    // hash password
+    const hash = await bcrypt.hash(undefined, parseInt(process.env.SALT_ROUNDS));
 
-  const user = { // create new user
-    displayName: req.body.displayName,
-    email: req.body.username,
-    password: hash
-  };
+    const user = { // create new user
+      displayName: req.body.displayName,
+      email: req.body.username,
+      password: hash
+    };
 
-  axios.post('/user', user) // attempt to save user
-      .then(response => {
-        const { id, displayName, email } = response.data;
+    axios.post('/user', user) // attempt to save user
+        .then(response => {
+          const { id, displayName, email } = response.data;
 
-        const token = jwt.sign(
-            { id, email },
-            process.env.JWT_SECRET,
-            { expiresIn: process.env.JWT_EXPIRES_IN }
-        );
+          const token = jwt.sign(
+              { id, email },
+              process.env.JWT_SECRET,
+              { expiresIn: process.env.JWT_EXPIRES_IN }
+          );
 
-        res.status(200).json({ user: { displayName, email }, token });
-      })
-      .catch(error => {
-        const status = error.response.status
-        const message = error.response.data?.message
-        if (status ===  400 && message === 'Email already exists') {
-          res.status(status).json({ message });
-        }
-        else {
-          next(error);
-        }
-      });
+          res.status(200).json({ user: { displayName, email }, token });
+        })
+        .catch(error => {
+          const status = error.response.status;
+          const message = error.response.data?.message;
+          if (status ===  400 && message === 'Email already exists') {
+            res.status(status).json({ message });
+          }
+          else {
+            next(error);
+          }
+        });
+  } catch(error) {
+    next(error);
+  }
 });
 
 /**
