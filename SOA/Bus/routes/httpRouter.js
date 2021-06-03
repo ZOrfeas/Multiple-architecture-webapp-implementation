@@ -22,8 +22,9 @@ router.get(matchAllPattern, (req, res, next) => {
         res.status(callRes.status).json(callRes.data);
       })
       .catch((err) => {
-        // console.log(err.response);
-        res.status(err.response.status).send(err.response.statusText);
+        res.status(err.response.status).send(
+          err.response.data ? err.response.data : err.response.statusText
+        );
       })
       .catch(() => {
         console.log("GET Failed"); res.sendStatus(500);
@@ -51,7 +52,9 @@ router.post(matchAllPattern, (req, res, next) => {
         res.status(callRes.status).json(callRes.data);
       })
       .catch((err) => {
-        res.status(err.response.status).send(err.response.statusText);
+        res.status(err.response.status).send(
+          err.response.data ? err.response.data : err.response.statusText
+        );
       })
       .catch(() => {
         console.log("POST Failed"); res.sendStatus(500);
