@@ -7,6 +7,7 @@ const fs = require('fs');
 require('dotenv').config();
 const serviceManager = require('./serviceManager');
 /* const redisCon = */ require('./redisUtils');
+const cors = require('cors');
 
 const pokeRouter = require('./routes/poke');
 const httpRouter = require('./routes/httpRouter');
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(logger('dev'));
 
+app.use(cors());
 /**
  * -------------- ROUTES --------------
  */
