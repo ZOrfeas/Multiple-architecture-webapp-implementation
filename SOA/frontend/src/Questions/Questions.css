@@ -8,11 +8,21 @@
     background: #f0f0d0;
 }
 
-/*.question-p {
+/*.question-summary {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }*/
+
+.hand-icon {
+    font-size: 21px;
+    color: #0d6efd;
+}
+
+.ama-logo {
+    font-size: 1.25rem;
+    color: #e90c22;
+}
 
 .question-item {
     flex: auto;
