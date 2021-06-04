@@ -2,7 +2,7 @@
 
 ## Installation
 * `pip3 install Faker` for data generation
-* `pip3 install psycopg2` for data insertion
+* `pip3 install psycopg2-binary` for data insertion
 * `pip3 install bcrypt` for password encryption 
 
 ## Run
