@@ -5,7 +5,7 @@ import ProtectedRoute from './ProtectedRoute'
 import Public from './Public/Public'
 import Signup from './Auth/Signup'
 import Login from './Auth/Login'
-import Questions from './Questions/Questions'
+import QuestionsRoute from './Questions/QuestionsRoute'
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
                   path='/questions'
                   redirect='/login'
                   state={{ alert: true }}
-                  component={Questions}
+                  component={QuestionsRoute}
               />
               <Route path='/' component={Public} />
             </Switch>
