@@ -66,6 +66,10 @@ class BrowseServices {
   static getQuestionInfo(id) {
     return dlCon.question.getInfo(id);
   }
+
+  static getKeywordsByPopularity(pageNr, pageSize) {
+    return dlCon.keyword.getPageByPopularity(pageNr, pageSize);
+  }
 };
 
 module.exports = BrowseServices;

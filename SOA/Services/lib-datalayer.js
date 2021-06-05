@@ -175,6 +175,13 @@ class Keyword {
   getCount() {
     return axios.get(this.src + '/count');
   }
+  getPageByPopularity(pageNr, pageSize) {
+    const paramWrapper = { pagesize: pageSize, pagenr: pageNr };
+    return axios.get(
+      this.src + '/by/popularity',
+      { params: paramWrapper },  
+    )
+  }
 }
 
 module.exports = DataLayer;

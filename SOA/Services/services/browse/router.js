@@ -90,4 +90,16 @@ router.get('/question', (req, res, next) => {
     .catch(next);
 })
 
+router.get('/keywordsByPopularity', (req, res, next) => {
+  // #swagger.tags = ['Browse']
+  // #swagger.summary = get a page of keywords sorted by popularity
+
+  const pagenr = req.query.pagenr;
+  const pagesize = req.query.pagesize;
+  console.log(pagenr, pagesize)
+  browseServices.getKeywordsByPopularity(pagenr, pagesize)
+    .then(dlres => res.status(200).json(dlres.data))
+    .catch(next);
+})
+
 module.exports = router;
