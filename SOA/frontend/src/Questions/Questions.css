@@ -8,20 +8,28 @@
     background: #f0f0d0;
 }
 
-/*.question-summary {
-    white-space: nowrap;
+.questions-content .card-header {
+    background-color: #fff;
+}
+
+.question-summary {
     overflow: hidden;
     text-overflow: ellipsis;
-}*/
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    -webkit-box-orient: vertical;
+}
 
 .hand-icon {
     font-size: 21px;
-    color: #0d6efd;
+    color: #0366d6;
 }
 
 .ama-logo {
     font-size: 1.25rem;
     color: #e90c22;
+    /*color: #e44051;*/
+    /*color: #de0a1f;*/
 }
 
 .question-item {
@@ -32,9 +40,15 @@
     width: 120px;
     /*border: 1px solid;
     border-color: red;*/
-    color: #0d6efd;
+    color: #0366d6;
     /*color: #586069;*/
     /*color: #0077cc;*/
+}
+
+@media (min-width: 768px) {
+    .d-md-block {
+        display: block !important;
+    }
 }
 
 .question-title a {

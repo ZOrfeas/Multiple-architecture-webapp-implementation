@@ -47,46 +47,50 @@ function Questions() {
         <Container fluid className='content-wrapper'>
           <Container className='questions-content py-5'>
             <Card className='d-flex align-items-center justify-content-center'>
-              <Card.Header className='w-100 py-4' style={{ maxWidth: '902px' }}>
-                <div className='text-center px-0'>
-                  <h5>
-                    <span className='material-icons-outlined mr-2 hand-icon'>waving_hand</span>
-                    Want to contribute to <span className='ama-logo'>AskMeAnything</span>?
-                  </h5>
-                  <p className='mb-4'>Ask a question or help others answer theirs</p>
-                </div>
-                <Row className='align-items-center mx-0 mb-2'>
-                  <Col className='px-0'>
-                    <h5 className='font-weight-bold mb-0'>All questions</h5>
-                  </Col>
-                  <Col className='px-0 text-right'>
-                    <Button variant='success'>Ask question</Button>
-                  </Col>
-                </Row>
-                <div className='px-0'>{totalQuestions} questions</div>
-              </Card.Header>
-              <Card.Body className='w-100' style={{ maxWidth: '950px' }}>
-                <ListGroup variant='flush'>
-                  {questions.map(question => (
-                      <ListGroup.Item  key={question.id}>
-                        <Question
-                            title={question.title}
-                            summary={question.questContent}
-                            keywords={question.keywords}
-                            askedOn={question.askedOn}
-                            askedBy={question.user?.displayName}
-                            answerCount={question.ansCount}
-                        />
-                      </ListGroup.Item>
-                  ))}
-                </ListGroup>
-                <PaginationComponent
-                    totalItems={totalQuestions}
-                    pageSize={pageSize}
-                    pageRange={5}
-                    pageState={[currentPage, setCurrentPage]}
-                />
-              </Card.Body>
+              <div  className='w-100' style={{ maxWidth: '950px' }}>
+                <Card.Header className='py-4'>
+                  <div className='px-4'>
+                    <div className='text-center px-0'>
+                      <h5>
+                        <span className='material-icons-outlined mr-2 hand-icon'>waving_hand</span>
+                        Want to contribute to <span className='ama-logo'>AskMeAnything</span>?
+                      </h5>
+                      <p className='mb-4'>Ask a question or help others answer theirs</p>
+                    </div>
+                    <Row className='align-items-center mx-0 mb-2'>
+                      <Col className='px-0'>
+                        <h5 className='font-weight-bold mb-0'>All questions</h5>
+                      </Col>
+                      <Col className='px-0 text-right'>
+                        <Button variant='success'>Ask question</Button>
+                      </Col>
+                    </Row>
+                    <div className='px-0'>{totalQuestions} questions</div>
+                  </div>
+                </Card.Header>
+                <Card.Body>
+                  <ListGroup variant='flush'>
+                    {questions.map(question => (
+                        <ListGroup.Item  key={question.id}>
+                          <Question
+                              title={question.title}
+                              summary={question.questContent}
+                              keywords={question.keywords}
+                              askedOn={question.askedOn}
+                              askedBy={question.user?.displayName}
+                              answerCount={question.ansCount}
+                          />
+                        </ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                  <PaginationComponent
+                      totalItems={totalQuestions}
+                      pageSize={pageSize}
+                      pageRange={5}
+                      pageState={[currentPage, setCurrentPage]}
+                  />
+                </Card.Body>
+              </div>
             </Card>
           </Container>
         </Container>

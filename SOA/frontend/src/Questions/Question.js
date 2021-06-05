@@ -20,7 +20,7 @@ function Question({ title, summary, keywords, askedOn, askedBy, answerCount }) {
           </div>
           <p className='asked-on-by text-muted mb-0 px-0'>asked on {dateFormat(askedOn)} by {askedBy ? askedBy : '[deleted]'}</p>
         </div>
-        <div className='stats flex-shrink-0 text-right ml-3 p-2'>
+        <div className='stats d-none d-md-block flex-shrink-0 text-right ml-3 p-2'>
           {answerCount > 0 &&
           <div className='answer-count'>
             <span className='material-icons-outlined mr-1 qa-icon'>question_answer</span>

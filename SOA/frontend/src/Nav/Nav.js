@@ -9,7 +9,7 @@ function NavComponent() {
   const { user } = useAuth();
   return (
       <Navbar className="fixed-top" bg="dark" variant="dark">
-        <Navbar.Brand href="/">AskMeAnything</Navbar.Brand>
+        <Navbar.Brand href="/"><span className='ama-logo'>AskMeAnything</span></Navbar.Brand>
         <Nav className="mr-auto">
         </Nav>
           {user ?

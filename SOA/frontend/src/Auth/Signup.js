@@ -45,7 +45,9 @@ function Signup() {
       <Container className='signup-content d-flex align-items-center justify-content-center py-5'>
         <div className='w-100' style={{ maxWidth: '400px' }}>
           <Card className='border-0'>
-            <Card.Header as='h4' className='text-center border-bottom-0 p-4'>AskMeAnything</Card.Header>
+            <Card.Header className='text-center border-bottom-0 p-4'>
+              <span className='ama-logo'>AskMeAnything</span>
+            </Card.Header>
             <Card.Body className='p-4'>
               {alert &&
               <Alert className='mb-5' variant='warning'>
