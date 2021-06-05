@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import NavComponent from '../Nav/Nav'
 import Footer from '../Footer/Footer'
-import BrowseQuestions from './BrowseQuestions';
-import Question from './Question';
+import BrowseQuestions from './BrowseQuestions'
+import Question from './Question'
 import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
 

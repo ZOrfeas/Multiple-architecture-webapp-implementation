@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import Badge from 'react-bootstrap/Badge';
+import Badge from 'react-bootstrap/Badge'
 
 function BrowseQuestionItem({ id, title, summary, keywords, askedOn, askedBy, answerCount }) {
   const dateFormat = date => {
@@ -18,7 +18,7 @@ function BrowseQuestionItem({ id, title, summary, keywords, askedOn, askedBy, an
                 <Badge key={keyword.id} className='keyword-badge mr-1'>{keyword.name}</Badge>
             ))}
           </div>
-          <p className='asked-on-by text-muted mb-0 px-0'>asked on {dateFormat(askedOn)} by {askedBy ? askedBy : '[deleted]'}</p>
+          <p className='date-user text-muted mb-0 px-0'>asked on {dateFormat(askedOn)} by {askedBy ? askedBy : '[deleted]'}</p>
         </div>
         <div className='stats d-none d-md-block flex-shrink-0 text-right ml-3 p-2'>
           {answerCount > 0 &&

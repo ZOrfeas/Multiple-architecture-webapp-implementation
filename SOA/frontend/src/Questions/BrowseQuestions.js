@@ -1,12 +1,12 @@
 import './Questions.css'
 import React, { useState, useEffect } from 'react'
-import BrowseQuestionItem from './BrowseQuestionItem';
+import BrowseQuestionItem from './BrowseQuestionItem'
 import PaginationComponent from '../Pagination/Pagination'
 import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import ListGroup from 'react-bootstrap/ListGroup'
-import Button from "react-bootstrap/Button";
+import Button from 'react-bootstrap/Button'
 
 const axios = require('axios')
 const url = process.env.REACT_APP_BROWSE_URL
@@ -35,9 +35,6 @@ function BrowseQuestions() {
         })
   }, [currentPage])
 
-  console.log(questions)
-  console.log(totalQuestions)
-
   return (
       <div  className='w-100' style={{ maxWidth: '950px' }}>
         <Card.Header className='py-4'>
@@ -54,10 +51,12 @@ function BrowseQuestions() {
                 <h5 className='font-weight-bold mb-0'>All questions</h5>
               </Col>
               <Col className='px-0 text-right'>
-                <Button variant='success'>Ask question</Button>
+                <Button variant='success'>Ask a question</Button>
               </Col>
             </Row>
-            <div className='px-0'>{totalQuestions} questions</div>
+            <div className='px-0'>
+              {totalQuestions} question{totalQuestions !== 1 && 's'}
+            </div>
           </div>
         </Card.Header>
         <Card.Body>

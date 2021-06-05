@@ -20,11 +20,6 @@
     -webkit-box-orient: vertical;
 }
 
-.hand-icon {
-    font-size: 21px;
-    color: #0366d6;
-}
-
 .ama-logo {
     font-size: 1.25rem;
     color: #e90c22;
@@ -54,10 +49,12 @@
     color: #212529;
 }
 
-.asked-on-by {
+.date-user {
     font-size: .75rem;
 }
-
-.qa-icon {
+.hand-icon,
+.qa-icon,
+.idea-icon {
     font-size: 21px;
+    color: #0366d6;
 }

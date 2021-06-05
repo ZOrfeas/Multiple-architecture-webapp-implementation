@@ -81,7 +81,7 @@ function PaginationComponent({ totalItems, pageSize, pageRange, pageState }) {
   }
 
   return (
-      <Pagination className='mb-0 pb-3 justify-content-end' size='sm'>
+      <Pagination className='mb-0 py-3 justify-content-end' size='sm'>
         {pages}
       </Pagination>
   )
