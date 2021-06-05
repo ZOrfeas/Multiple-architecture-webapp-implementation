@@ -3,7 +3,7 @@ import { KeywordService } from './keyword.service';
 import { CreateKeywordDto } from './dto/create-keyword.dto';
 import { UpdateKeywordDto } from './dto/update-keyword.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { PaginateUtils } from 'src/pagination';
+import { PaginateUtils } from '../pagination';
 
 @Controller('keyword')
 @ApiTags('Keyword')
