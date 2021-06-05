@@ -61,4 +61,18 @@ export class KeywordService {
   count(): Promise<number> {
     return this.keywordRepository.count();
   }
+
+  findByPopularity(pageSize: number, pageNr: number) {
+    return this.manager.transaction(async (manager) => {
+      const queryString = `SELECT "keyword"."name", "rel"."keywordId", COUNT("rel"."questionId") as "occurrencies"
+      FROM "question_keywords_keyword" as "rel" JOIN "keyword" ON "rel"."keywordId" = "keyword"."id"
+      GROUP BY "rel"."keywordId", "keyword"."name" ORDER BY "occurrencies" DESC
+      LIMIT $1 OFFSET $2`;
+      const retList = await manager.query(queryString, [
+        pageSize,
+        (pageNr - 1) * pageSize,
+      ]);
+      return retList;
+    });
+  }
 }

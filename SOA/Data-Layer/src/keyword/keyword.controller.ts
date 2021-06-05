@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Logger, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Logger, ParseIntPipe, Query } from '@nestjs/common';
 import { KeywordService } from './keyword.service';
 import { CreateKeywordDto } from './dto/create-keyword.dto';
 import { UpdateKeywordDto } from './dto/update-keyword.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { PaginateUtils } from 'src/pagination';
 
 @Controller('keyword')
 @ApiTags('Keyword')
@@ -48,5 +49,17 @@ export class KeywordController {
   @ApiOperation({ summary: 'Deletes a keyword by its id' })
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.keywordService.remove(id);
+  }
+
+  @Get('by/popularity')
+  @ApiOperation({ summary: 'Returns keywords by popularity '})
+  findByPopularity(
+    @Query()
+    pageInfo: PaginateUtils,
+  ) {
+    return this.keywordService.findByPopularity(
+      +pageInfo.pagesize,
+      +pageInfo.pagenr,
+    );
   }
 }
