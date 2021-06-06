@@ -8,29 +8,25 @@ const axios = require('axios');
 
 const LocalStrategy = require('passport-local').Strategy;
 
-passport.use(new LocalStrategy((username, password, done) => {
+passport.use(new LocalStrategy(async (username, password, done) => {
   try {
-    axios.post('/user/by-email', { email: username }) // check if user exists
-        .then(async response => {
-          if (Object.keys(response.data).length === 0) { // could not find user
-            return done(null, false);
-          }
-          // compare password hashes
-          const match = await bcrypt.compare(password, response.data.password);
+    // check if user exists
+    const response = await axios.post('/user/by-email', { email: username })
 
-          if (!match) { // hashes don't match
-            return done(null, false);
-          }
+    if (Object.keys(response.data).length === 0) { // could not find user
+      return done(null, false);
+    }
+    // compare password hashes
+    const match = await bcrypt.compare(undefined, response.data.password);
 
-          const { id, displayName, email } = response.data;
-          return done(null, { id, displayName, email });
-        })
-        .catch(error => {
-          done(error);
-        });
+    if (!match) { // hashes don't match
+      return done(null, false);
+    }
+
+    const { id, displayName, email } = response.data;
+    return done(null, { id, displayName, email });
   } catch(error) {
-    console.log('sign in error...')
-    next(error);
+    done(error);
   }
 }));
 

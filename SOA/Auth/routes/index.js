@@ -18,38 +18,34 @@ router.post('/signup', async (req, res, next) => {
   // #swagger.summary = 'Signs a new user up'
   try {
     // hash password
-    const hash = await bcrypt.hash(undefined, parseInt(process.env.SALT_ROUNDS));
+    const hash = await bcrypt.hash(req.body.password, parseInt(process.env.SALT_ROUNDS));
 
-    const user = { // create new user
+    const user = { // new user
       displayName: req.body.displayName,
       email: req.body.username,
       password: hash
     };
 
-    axios.post('/user', user) // attempt to save user
-        .then(response => {
-          const { id, displayName, email } = response.data;
+    const response = await axios.post('/user', user) // attempt to save user
 
-          const token = jwt.sign(
-              { id, email },
-              process.env.JWT_SECRET,
-              { expiresIn: process.env.JWT_EXPIRES_IN }
-          );
+    const { id, displayName, email } = response.data;
 
-          res.status(200).json({ user: { displayName, email }, token });
-        })
-        .catch(error => {
-          const status = error.response.status;
-          const message = error.response.data?.message;
-          if (status ===  400 && message === 'Email already exists') {
-            res.status(status).json({ message });
-          }
-          else {
-            next(error);
-          }
-        });
+    const token = jwt.sign(
+        { id, email },
+        process.env.JWT_SECRET,
+        { expiresIn: process.env.JWT_EXPIRES_IN }
+    );
+
+    res.status(200).json({ user: { displayName, email }, token });
   } catch(error) {
-    next(error);
+    const status = error.response?.status;
+    const message = error.response?.data?.message;
+    if (status ===  400 && message === 'Email already exists') {
+      res.status(status).json({ message });
+    }
+    else {
+      next(error);
+    }
   }
 });
 
