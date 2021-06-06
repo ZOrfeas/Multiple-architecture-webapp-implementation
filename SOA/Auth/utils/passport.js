@@ -17,7 +17,7 @@ passport.use(new LocalStrategy(async (username, password, done) => {
       return done(null, false);
     }
     // compare password hashes
-    const match = await bcrypt.compare(undefined, response.data.password);
+    const match = await bcrypt.compare(password, response.data.password);
 
     if (!match) { // hashes don't match
       return done(null, false);
