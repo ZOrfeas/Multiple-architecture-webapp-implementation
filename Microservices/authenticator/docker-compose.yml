@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+    authenticator:
+        image: zorfeas/soa-authenticator:latest
+        container_name: authenticator
+        environment:
+            DL_HOSTNAME: nest-api
+            DL_PORT: 3000
+            JWT_SECRET: 49ajfdngak43ksmaam3482ui5lmfa
+            JWT_EXPIRES_IN: 1h
+            SALT_ROUNDS: 10
+        ports:
+            - 3001:3000

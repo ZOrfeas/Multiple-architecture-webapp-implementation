@@ -1,0 +1,32 @@
+{
+  "name": "authenticator",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start:only": "node ./bin/www",
+    "start:nodb": "node ./swagger.js",
+    "start": "node ./database/create.js"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "dotenv": "^9.0.2",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "~1.9.1",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "pg": "^8.6.0",
+    "pg-hstore": "^2.3.3",
+    "pgtools": "^0.3.2",
+    "redis": "^3.1.2",
+    "sequelize": "^6.6.2",
+    "swagger-autogen": "^2.9.1",
+    "swagger-ui-express": "^4.1.6"
+  }
+}
