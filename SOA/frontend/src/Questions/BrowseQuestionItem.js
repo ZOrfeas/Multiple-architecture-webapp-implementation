@@ -13,7 +13,7 @@ function BrowseQuestionItem({ id, title, summary, keywords, askedOn, askedBy, an
         <div className='question-item p-2'>
           <h5 className='question-title'><Link to={`/questions/${id}`}>{title}</Link></h5>
           <p className='question-summary small mb-2'>{summary}</p>
-          <div className='keyword mb-2'>
+          <div className='keywords mb-2'>
             {keywords.map(keyword => (
                 <Badge key={keyword.id} className='keyword-badge mr-1'>{keyword.name}</Badge>
             ))}

@@ -35,7 +35,7 @@ function Question() {
         </Card.Header>
         <Card.Body className='question'>
           <p>{question.questContent}</p>
-          <div className='keyword mb-2'>
+          <div className='keywords mb-2'>
             {question.keywords &&
             question.keywords.map(keyword => (
                 <Badge key={keyword.id} className='keyword-badge mr-1'>{keyword.name}</Badge>
@@ -48,12 +48,12 @@ function Question() {
         <Card.Body className='answers'>
           <p>
             {question.answers?.length !== undefined && `${question.answers.length} answer`}
-            {question.answers?.length !== undefined && question.answers.length !== 1 && 's'}
+            {question.answers?.length !== undefined && question.answers.length != 1 && 's'}
           </p>
           <ListGroup className="list-group-flush">
             {question.answers &&
             question.answers.map(answer => (
-                <ListGroup.Item>
+                <ListGroup.Item key={answer.id}>
                   <p>{answer.ansContent}</p>
                   <p className='date-user text-muted mb-0 px-0'>
                     answered on {answer.answeredOn && dateFormat(answer.answeredOn)} by {answer.displayName ? answer.displayName : '[deleted]'}

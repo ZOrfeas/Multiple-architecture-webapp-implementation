@@ -13,9 +13,9 @@ const url = process.env.REACT_APP_BROWSE_URL
 
 function BrowseQuestions() {
   const [questions, setQuestions] = useState([])
+  const [totalQuestions, setTotalQuestions] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize] = useState(10)
-  const [totalQuestions, setTotalQuestions] = useState(0)
 
   useEffect(() => {
     axios.get(`${url}/count/questions`)
@@ -55,7 +55,7 @@ function BrowseQuestions() {
               </Col>
             </Row>
             <div className='px-0'>
-              {totalQuestions} question{totalQuestions !== 1 && 's'}
+              {totalQuestions} question{totalQuestions != 1 && 's'}
             </div>
           </div>
         </Card.Header>
