@@ -21,37 +21,30 @@ router.post('/signup', async (req, res, next) => {
     // hash password
     const hash = await bcrypt.hash(req.body.password, parseInt(process.env.SALT_ROUNDS));
 
-    const userDetails = { // create new user
+    const userDetails = { // new user
       email: req.body.username,
       password_hash: hash
     };
 
-    // axios.post('/user', user) // attempt to save user
-    User.create(userDetails)
-        .then(user => {
-          // const { id, displayName, email } = response.data;
+    const user = await User.create(userDetails);
 
-          const token = jwt.sign(
-              { email: user.email },
-              process.env.JWT_SECRET,
-              { expiresIn: process.env.JWT_EXPIRES_IN }
-          );
-          
-          res.status(200).json({ email: user.email , token });
-        })
-        .catch(error => {
-          console.log(error.errors[0].message);
-          // const status = error.response.status;
-          const message = error.errors[0].message;
-          if (message === 'email must be unique') {
-            res.status(400).json({ message: 'Email already exists' });
-          }
-          else {
-            next(error);
-          }
-        });
+    const token = jwt.sign(
+        { email: user.email },
+        process.env.JWT_SECRET,
+        { expiresIn: process.env.JWT_EXPIRES_IN }
+    );
+
+    res.status(200).json({ email: user.email , token });
   } catch(error) {
-    next(error);
+    console.log(error.errors[0]?.message);
+    // const status = error.response?.status;
+    const message = error.errors[0]?.message;
+    if (message === 'email must be unique') {
+      res.status(400).json({ message: 'Email already exists' });
+    }
+    else {
+      next(error);
+    }
   }
 });
 

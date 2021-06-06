@@ -9,30 +9,24 @@ const { User } = require('../database/utils');
 
 const LocalStrategy = require('passport-local').Strategy;
 
-passport.use(new LocalStrategy((username, password, done) => {
+passport.use(new LocalStrategy(async (username, password, done) => {
   try {
-    // axios.post('/user/by-email', { email: username }) // check if user exists
-    User.findByPk(username)
-      .then(async user => {
-        if (!user) { // could not find user
-          return done(null, false);
-        }
-        // compare password hashes
-        const match = await bcrypt.compare(password, user.password_hash);
+     // check if user exists
+    const user = await User.create(userDetails);
 
-        if (!match) { // hashes don't match
-          return done(null, false);
-        }
+    if (!user) { // could not find user
+      return done(null, false);
+    }
+    // compare password hashes
+    const match = await bcrypt.compare(password, user.password_hash);
 
-        // const { id, displayName, email } = response.data;
-        return done(null, user.email);
-      })
-      .catch(error => {
-        done(error);
-      });
+    if (!match) { // hashes don't match
+      return done(null, false);
+    }
+
+    return done(null, user.email);
   } catch(error) {
-    console.log('sign in error...')
-    next(error);
+    done(error);
   }
 }));
 
