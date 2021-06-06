@@ -12,7 +12,7 @@ const LocalStrategy = require('passport-local').Strategy;
 passport.use(new LocalStrategy(async (username, password, done) => {
   try {
      // check if user exists
-    const user = await User.create(userDetails);
+    const user = await User.findByPk(username);
 
     if (!user) { // could not find user
       return done(null, false);
