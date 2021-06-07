@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { Unauthorized } = require('http-errors');
 
 const authenticatorBaseURL = 'http://' + 
                              process.env.AUTH_HOSTNAME + 
@@ -11,21 +12,22 @@ const authenticatorBaseURL = 'http://' +
  * Should be used before the route handler.
  */
 async function authenticate(req, res, next) {
-    const token = req.headers.authorization;
-    let authResponse;
-    try {
-         authResponse = await axios.get(
-            authenticatorBaseURL + '/protected', 
-            { 
-                headers: {
-                'Authorization': token,
-                }
-            });
-    } catch (error) {
-        return error;
-    }
-    // reaching here means user was authorized succesfully
-    next();
+  const token = req.headers.authorization;
+  let authResponse;
+  try {
+    authResponse = await axios.get(
+      authenticatorBaseURL + '/protected', 
+      { 
+          headers: {
+          'Authorization': token,
+          }
+    });
+    req.user = authResponse.data;
+  } catch {
+    next(new Unauthorized('Invalid token'));
+  }
+  // reaching here means user was authorized succesfully
+  next();
 }
 
 module.exports = { authenticate };

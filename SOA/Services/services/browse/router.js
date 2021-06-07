@@ -93,7 +93,6 @@ router.get('/question', (req, res, next) => {
 router.get('/keywordsByPopularity', (req, res, next) => {
   // #swagger.tags = ['Browse']
   // #swagger.summary = 'Get a page of keywords sorted by popularity'
-
   const pagenr = req.query.pagenr;
   const pagesize = req.query.pagesize;
   console.log(pagenr, pagesize)
