@@ -1,5 +1,5 @@
 # Workflow handling CI/CD of the SOA Data-Layer Component
-name: (Data-Layer) Run tests, Build & Push image
+name: (Frontend) Build & Push image
 
 on:
   push: # runs on any push to the main branch
