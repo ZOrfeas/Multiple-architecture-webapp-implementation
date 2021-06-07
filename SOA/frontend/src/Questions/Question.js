@@ -4,16 +4,20 @@ import Card from 'react-bootstrap/Card'
 import Badge from 'react-bootstrap/Badge'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
 
 const axios = require('axios')
-const url = process.env.REACT_APP_BROWSE_URL
+const browse_url = process.env.REACT_APP_BROWSE_URL
+const answer_url = process.env.REACT_APP_ANSWER_URL
 
 function Question() {
-  const [question, setQuestion] = useState([])
+  const [question, setQuestion] = useState({})
+  const [answerText, setAnswerText] = useState('')
   const { id } = useParams()
 
+  // get question object on reload
   useEffect(() => {
-    axios.get(`${url}/question?id=${id}`)
+    axios.get(`${browse_url}/question?id=${id}`)
         .then(response => {
           setQuestion(response.data)
         })
@@ -21,6 +25,26 @@ function Question() {
           console.log(error)
         })
   }, [])
+
+  // submit handler to post new answer
+  const handleSubmit = e => {
+    e.preventDefault()
+    const answer = {
+      ansContent: answerText,
+      question: question
+    }
+    const token = JSON.parse(localStorage.getItem('token'))
+    const config = { headers: { 'Authorization': `Bearer ${token}` } }
+
+    axios.post(`${answer_url}/create`, answer, config)
+        .then(() => {
+          // reload page to get updated question
+          window.location.reload(true)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+  }
 
   const dateFormat = date => {
     const dateObj = new Date(date.split('.')[0])
@@ -33,6 +57,7 @@ function Question() {
         <Card.Header className='py-4'>
           <h5 className='font-weight-bold mb-0'>{question.title}</h5>
         </Card.Header>
+
         <Card.Body className='question'>
           <p>{question.questContent}</p>
           <div className='keywords mb-2'>
@@ -45,6 +70,7 @@ function Question() {
             asked on {question.askedOn && dateFormat(question.askedOn)} by {question.user?.displayName ? question.user.displayName : '[deleted]'}
           </p>
         </Card.Body>
+
         <Card.Body className='answers'>
           <p>
             {question.answers?.length !== undefined && `${question.answers.length} answer`}
@@ -62,15 +88,33 @@ function Question() {
             ))}
           </ListGroup>
         </Card.Body>
-        <Card.Body>
+
+        <Card.Body className='post-answer'>
           <div className='text-center'>
             <span className='material-icons-outlined mr-2 idea-icon'>lightbulb</span>
             Feel like something is missing or have a brilliant idea?
             <p>Post your answer.</p>
           </div>
-          <div className='text-right'>
-            <Button variant='success'>Add your answer</Button>
-          </div>
+
+          <Form noValidate validated={false} onSubmit={handleSubmit}>
+            <Form.Group controlId='formGroupTextarea'>
+              <Form.Label>Your answer</Form.Label>
+              <Form.Control
+                  as='textarea'
+                  name='answer-text'
+                  onChange={e => setAnswerText(e.target.value)}
+                  style={{ height: '175px' }}
+                  required
+              />
+              <Form.Control.Feedback type='invalid'>
+                Answer cannot be empty
+              </Form.Control.Feedback>
+            </Form.Group>
+            <div className='text-right'>
+              <Button variant='success' type='submit'>Add your answer</Button>
+            </div>
+          </Form>
+
         </Card.Body>
       </div>
   )

@@ -30,7 +30,7 @@ function Login() {
           history.push('/')
         })
         .catch(error => {
-          const status = error.response.status
+          const status = error.response?.status
           if (status === 400 || status === 401 || status === 404) { // user doesn't exists
             setShowMsg(true)
           }

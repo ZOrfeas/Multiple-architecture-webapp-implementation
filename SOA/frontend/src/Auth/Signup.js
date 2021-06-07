@@ -30,8 +30,8 @@ function Signup() {
           history.push('/')
         })
         .catch(error => {
-          const status = error.response.status
-          const message = error.response.data?.message
+          const status = error.response?.status
+          const message = error.response?.data?.message
           if (status === 400 && message === 'Email already exists') { // user already exists
             setShowMsg(true)
           }
