@@ -7,7 +7,7 @@ export class Keyword {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
   @OneToOne(() => User, (user) => user.keyword, {
