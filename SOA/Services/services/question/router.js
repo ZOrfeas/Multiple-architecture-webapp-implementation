@@ -23,7 +23,7 @@ router.post('/create/keyword', authenticate, (req, res, next) => {
     .catch(next);
 })
 
-router.get('/getKeywords', (req, res, next) => {
+router.get('/getAllKeywords', (req, res, next) => {
   // #swagger.tags = ['Question']
   // #swagger.summary = 'Gets all keywords'
   questionServices.getAllKeywords()
