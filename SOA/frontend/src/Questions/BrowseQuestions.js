@@ -51,7 +51,7 @@ function BrowseQuestions() {
                 <h5 className='font-weight-bold mb-0'>All questions</h5>
               </Col>
               <Col className='px-0 text-right'>
-                <Button variant='success'>Ask a question</Button>
+                <Button variant='success' href='/questions/ask'>Ask a question</Button>
               </Col>
             </Row>
             <div className='px-0'>
@@ -59,6 +59,7 @@ function BrowseQuestions() {
             </div>
           </div>
         </Card.Header>
+
         <Card.Body>
           <ListGroup variant='flush'>
             {questions.map(question => (

@@ -13,6 +13,7 @@ const answer_url = process.env.REACT_APP_ANSWER_URL
 function Question() {
   const [question, setQuestion] = useState({})
   const [answerText, setAnswerText] = useState('')
+
   const { id } = useParams()
 
   // get question object on reload
@@ -26,7 +27,7 @@ function Question() {
         })
   }, [])
 
-  // submit handler to post new answer
+  // post new answer
   const handleSubmit = e => {
     e.preventDefault()
     const answer = {
@@ -96,9 +97,9 @@ function Question() {
             <p>Post your answer.</p>
           </div>
 
-          <Form noValidate validated={false} onSubmit={handleSubmit}>
+          <Form noValidate onSubmit={handleSubmit}>
             <Form.Group controlId='formGroupTextarea'>
-              <Form.Label>Your answer</Form.Label>
+              <Form.Label className='font-weight-bold'>Your answer</Form.Label>
               <Form.Control
                   as='textarea'
                   name='answer-text'
