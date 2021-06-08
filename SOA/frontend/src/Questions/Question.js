@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { useAuth } from '../AuthContext'
 import Card from 'react-bootstrap/Card'
 import Badge from 'react-bootstrap/Badge'
 import ListGroup from 'react-bootstrap/ListGroup'
@@ -15,6 +16,7 @@ function Question() {
   const [answerText, setAnswerText] = useState('')
 
   const { id } = useParams()
+  const { token } = useAuth()
 
   // get question object on reload
   useEffect(() => {
@@ -34,14 +36,10 @@ function Question() {
       ansContent: answerText,
       question: question
     }
-    const token = JSON.parse(localStorage.getItem('token'))
     const config = { headers: { 'Authorization': `Bearer ${token}` } }
 
     axios.post(`${answer_url}/create`, answer, config)
-        .then(() => {
-          // reload page to get updated question
-          window.location.reload(true)
-        })
+        .then(() => window.location.reload(true))
         .catch(error => {
           console.log(error)
         })

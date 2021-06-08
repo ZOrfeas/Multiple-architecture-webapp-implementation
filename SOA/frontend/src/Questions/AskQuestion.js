@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import { useAuth } from '../AuthContext'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Badge from 'react-bootstrap/Badge'
@@ -15,6 +16,7 @@ function AskQuestion() {
   const [keywordsSelected, setKeywordsSelected] = useState([])
 
   const history = useHistory()
+  const { token } = useAuth()
 
   // get all keywords and fill select form control
   useEffect(() => {
@@ -45,13 +47,10 @@ function AskQuestion() {
       questContent: questionText,
       keywords: keywordsSelected
     }
-    const token = JSON.parse(localStorage.getItem('token'))
     const config = { headers: { 'Authorization': `Bearer ${token}` } }
 
     axios.post(`${url}/create`, question, config)
-        .then(() => {
-          history.push('/questions')
-        })
+        .then(() => history.push('/questions'))
         .catch(error => {
           console.log(error)
         })

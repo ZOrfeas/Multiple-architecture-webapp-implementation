@@ -8,11 +8,17 @@ class Auth {
     localStorage.setItem('token', JSON.stringify(token))
   }
 
+  logout() {
+    localStorage.removeItem('user')
+    localStorage.removeItem('token')
+  }
+
   getUser() {
     return JSON.parse(localStorage.getItem('user'))
   }
 
-  logout() {
+  getToken() {
+    return JSON.parse(localStorage.getItem('token'))
   }
 
   /*async isAuth() {
