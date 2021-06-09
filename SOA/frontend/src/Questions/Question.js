@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
+import { useAuth } from '../AuthContext'
 import Card from 'react-bootstrap/Card'
 import Badge from 'react-bootstrap/Badge'
 import ListGroup from 'react-bootstrap/ListGroup'
@@ -13,37 +15,47 @@ const answer_url = process.env.REACT_APP_ANSWER_URL
 function Question() {
   const [question, setQuestion] = useState({})
   const [answerText, setAnswerText] = useState('')
-  const { id } = useParams()
+  const [validated, setValidated] = useState(false)
 
-  // get question object on reload
+  const history = useHistory()
+  const { id } = useParams()
+  const { token, logout } = useAuth()
+
+  // get question
   useEffect(() => {
     axios.get(`${browse_url}/question?id=${id}`)
-        .then(response => {
-          setQuestion(response.data)
-        })
+        .then(response => setQuestion(response.data))
         .catch(error => {
           console.log(error)
         })
   }, [])
 
-  // submit handler to post new answer
+  // post new answer
   const handleSubmit = e => {
     e.preventDefault()
-    const answer = {
-      ansContent: answerText,
-      question: question
+    const form = e.currentTarget
+    if (!form.checkValidity()) {
+      e.stopPropagation()
+      setValidated(true)
     }
-    const token = JSON.parse(localStorage.getItem('token'))
-    const config = { headers: { 'Authorization': `Bearer ${token}` } }
+    else {
+      const answer = {
+        ansContent: answerText,
+        question: question
+      }
+      const config = { headers: { 'Authorization': `Bearer ${token}` } }
 
-    axios.post(`${answer_url}/create`, answer, config)
-        .then(() => {
-          // reload page to get updated question
-          window.location.reload(true)
-        })
-        .catch(error => {
-          console.log(error)
-        })
+      axios.post(`${answer_url}/create`, answer, config)
+          .then(() => window.location.reload(true))
+          .catch(error => {
+            const status = error.response?.status
+            // if unauthorized, prompt user to log in again
+            if (status === 401) {
+              logout()
+              history.push('/login')
+            }
+          })
+    }
   }
 
   const dateFormat = date => {
@@ -96,9 +108,9 @@ function Question() {
             <p>Post your answer.</p>
           </div>
 
-          <Form noValidate validated={false} onSubmit={handleSubmit}>
+          <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Group controlId='formGroupTextarea'>
-              <Form.Label>Your answer</Form.Label>
+              <Form.Label className='font-weight-bold'>Your answer</Form.Label>
               <Form.Control
                   as='textarea'
                   name='answer-text'

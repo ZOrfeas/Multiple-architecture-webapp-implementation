@@ -52,7 +52,7 @@ function Home() {
               </Card.Text>
             </Card.Body>
             <Card.Footer className='text-center'>
-              <Button href='#'>Ask a question</Button>
+              <Button href='questions/ask'>Ask a question</Button>
             </Card.Footer>
           </Card>
 

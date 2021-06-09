@@ -19,17 +19,13 @@ function BrowseQuestions() {
 
   useEffect(() => {
     axios.get(`${url}/count/questions`)
-        .then(response => {
-          setTotalQuestions(response.data)
-        })
+        .then(response => setTotalQuestions(response.data))
         .catch(error => {
           console.log(error)
         })
 
     axios.get(`${url}/questions?pagesize=${pageSize}&pagenr=${currentPage}`)
-        .then(response => {
-          setQuestions(response.data)
-        })
+        .then(response => setQuestions(response.data))
         .catch(error => {
           console.log(error)
         })
@@ -51,7 +47,7 @@ function BrowseQuestions() {
                 <h5 className='font-weight-bold mb-0'>All questions</h5>
               </Col>
               <Col className='px-0 text-right'>
-                <Button variant='success'>Ask a question</Button>
+                <Button variant='success' href='/questions/ask'>Ask a question</Button>
               </Col>
             </Row>
             <div className='px-0'>
@@ -59,6 +55,7 @@ function BrowseQuestions() {
             </div>
           </div>
         </Card.Header>
+
         <Card.Body>
           <ListGroup variant='flush'>
             {questions.map(question => (

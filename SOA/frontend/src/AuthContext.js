@@ -9,20 +9,27 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(auth.getUser())
-  console.log(user)
+  const [token, setToken] = useState(auth.getToken())
 
   // useEffect(() => {})
 
   function login({ user, token }) {
     auth.login({ user, token })
     setUser(user)
+    setToken(token)
+  }
+
+  function logout() {
+    auth.logout()
   }
 
   return (
       <AuthContext.Provider value={
         {
           user,
-          login
+          token,
+          login,
+          logout,
         }
       }>
         {children}
