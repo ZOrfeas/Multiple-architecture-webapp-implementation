@@ -7,8 +7,11 @@ const passport = require('passport');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const fs = require('fs');
+
 const { sequelize } = require('./database/utils')
 sequelize.sync(); // sync tables to database
+
+require('./redis/setListeners');
 
 const indexRouter = require('./routes/index');
 
