@@ -51,7 +51,10 @@ class Listeners {
             host: process.env.REDIS_HOSTNAME || 'localhost',
           });
           client.on("error", errorHandlerFactory(entity, action));
-          client.on("message", (channel, message) => callback(message));
+          client.on("message", (channel, message) => {
+            console.log(`${new Date().toISOString()}: Received message on channel ${channel}:`)
+            callback(message);
+          });
           client.subscribe(`${entity}.${action}`);
           this.listeners[entity] = { action: client };
         }
