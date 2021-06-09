@@ -72,7 +72,4 @@ class Listeners {
   }
 }
 
-// console.log(typeof Listeners);
-// new Listeners();
-
 module.exports = {Listeners, EntityEnum, ActionEnum };

@@ -12,7 +12,9 @@ const LocalStrategy = require('passport-local').Strategy;
 passport.use(new LocalStrategy(async (username, password, done) => {
   try {
      // check if user exists
-    const user = await User.findByPk(username);
+    const user = await User.findOne({
+      where: { email: username }
+    });
 
     if (!user) { // could not find user
       return done(null, false);
@@ -24,7 +26,7 @@ passport.use(new LocalStrategy(async (username, password, done) => {
       return done(null, false);
     }
 
-    return done(null, user.email);
+    return done(null, { id: user.id, email: user.email });
   } catch(error) {
     done(error);
   }
@@ -45,14 +47,16 @@ const options = {
 passport.use(new JwtStrategy(options, (jwt_payload, done) => {
   // axios.get(`/user/${jwt_payload.id}`) // check if user exists
   // console.log(jwt_payload.email);
-  User.findByPk(jwt_payload.email)
+  User.findOne({
+    where: { email: jwt_payload.email }
+  })
     .then(user => {
       if (!user) { // could not find user
         return done(null, false);
       }
 
       // const { id, email } = response.data;
-      return done(null, user.email);
+      return done(null, { id: user.id, email: user.email });
     })
     .catch(error => {
       done(error);

@@ -25,16 +25,17 @@ router.post('/signup', async (req, res, next) => {
       email: req.body.username,
       password_hash: hash
     };
+    const displayName = req.body.displayName;
 
     const user = await User.create(userDetails);
 
     const token = jwt.sign(
-        { email: user.email },
+        { id: user.id, email: user.email },
         process.env.JWT_SECRET,
         { expiresIn: process.env.JWT_EXPIRES_IN }
     );
 
-    res.status(200).json({ email: user.email , token });
+    res.status(200).json({ email: user.email, id: user.id , token });
   } catch(error) {
     console.log(error.errors[0]?.message);
     // const status = error.response?.status;
@@ -55,15 +56,15 @@ router.post('/signup', async (req, res, next) => {
 router.post('/signin', passport.authenticate('local', { session: false }), (req, res) => {
   // #swagger.tags = ['Sign in']
   // #swagger.summary = 'Signs an existing user in'
-  const { email } = req.user;
+  const { id, email } = req.user;
 
   const token = jwt.sign(
-      { email: email },
+      { id: id, email: email },
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRES_IN }
   );
 
-  res.status(200).json({ email: email, token });
+  res.status(200).json({ email: email, id: id, token });
 });
 
 /**
