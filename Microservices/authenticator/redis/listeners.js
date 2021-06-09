@@ -1,4 +1,4 @@
-const redis = require('redis')
+const redis = require('redis');
 
 /** Enum of available entities to attach listeners to. */
 const EntityEnum = Object.freeze({
@@ -46,17 +46,16 @@ class Listeners {
           if (action !== ActionEnum[action]) throw new TypeError('Invalid action provided to Listener constructor');
           if (typeof callback !== 'function') throw new TypeError('Invalid callback provided to Listener constructor, is not callable');
           // After all checks here you are safe to establish listeners or what have you.
-          // If you want to do something with each, do it here.
-          const client = redis.createClient({
+          const listener = redis.createClient({
             host: process.env.REDIS_HOSTNAME || 'localhost',
           });
-          client.on("error", errorHandlerFactory(entity, action));
-          client.on("message", (channel, message) => {
+          listener.on("error", errorHandlerFactory(entity, action));
+          listener.on("message", (channel, message) => {
             console.log(`${new Date().toISOString()}: Received message on channel ${channel}:`)
             callback(message);
           });
-          client.subscribe(`${entity}.${action}`);
-          this.listeners[entity] = { action: client };
+          listener.subscribe(`${entity}.${action}`);
+          this.listeners[entity] = { action: listener };
         }
       }
       // store the configObj for possible further use

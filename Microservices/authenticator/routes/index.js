@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
 const { User } = require('../database/utils');
+const { EntityEnum, ActionEnum, publish } = require('../redis/publishers');
 
 axios.defaults.baseURL = "http://" +
                           process.env.DL_HOSTNAME + ":" +
@@ -25,9 +26,11 @@ router.post('/signup', async (req, res, next) => {
       email: req.body.username,
       password_hash: hash
     };
-    const displayName = req.body.displayName;
-
+    const displayName = req.body.displayName; //will throw if does not exist
     const user = await User.create(userDetails);
+
+    user.displayName = displayName;
+    publish(EntityEnum.user, ActionEnum.create, user);
 
     const token = jwt.sign(
         { id: user.id, email: user.email },
@@ -37,10 +40,9 @@ router.post('/signup', async (req, res, next) => {
 
     res.status(200).json({ email: user.email, id: user.id , token });
   } catch(error) {
-    console.log(error.errors[0]?.message);
-    // const status = error.response?.status;
     const message = error.errors[0]?.message;
     if (message === 'email must be unique') {
+      console.log('User creation attempt with existing email');
       res.status(400).json({ message: 'Email already exists' });
     }
     else {
