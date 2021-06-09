@@ -19,17 +19,13 @@ function BrowseQuestions() {
 
   useEffect(() => {
     axios.get(`${url}/count/questions`)
-        .then(response => {
-          setTotalQuestions(response.data)
-        })
+        .then(response => setTotalQuestions(response.data))
         .catch(error => {
           console.log(error)
         })
 
     axios.get(`${url}/questions?pagesize=${pageSize}&pagenr=${currentPage}`)
-        .then(response => {
-          setQuestions(response.data)
-        })
+        .then(response => setQuestions(response.data))
         .catch(error => {
           console.log(error)
         })

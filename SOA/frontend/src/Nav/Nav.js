@@ -10,7 +10,7 @@ function NavComponent() {
   const { user, logout } = useAuth()
   const history = useHistory()
 
-  // click handler to logout
+  // logout
   const handleClick = () => {
     logout()
     history.push('/')

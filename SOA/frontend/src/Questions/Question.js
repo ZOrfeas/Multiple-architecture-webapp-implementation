@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
 import Card from 'react-bootstrap/Card'
@@ -14,16 +15,16 @@ const answer_url = process.env.REACT_APP_ANSWER_URL
 function Question() {
   const [question, setQuestion] = useState({})
   const [answerText, setAnswerText] = useState('')
+  const [validated, setValidated] = useState(false)
 
+  const history = useHistory()
   const { id } = useParams()
-  const { token } = useAuth()
+  const { token, logout } = useAuth()
 
-  // get question object on reload
+  // get question
   useEffect(() => {
     axios.get(`${browse_url}/question?id=${id}`)
-        .then(response => {
-          setQuestion(response.data)
-        })
+        .then(response => setQuestion(response.data))
         .catch(error => {
           console.log(error)
         })
@@ -32,17 +33,29 @@ function Question() {
   // post new answer
   const handleSubmit = e => {
     e.preventDefault()
-    const answer = {
-      ansContent: answerText,
-      question: question
+    const form = e.currentTarget
+    if (!form.checkValidity()) {
+      e.stopPropagation()
+      setValidated(true)
     }
-    const config = { headers: { 'Authorization': `Bearer ${token}` } }
+    else {
+      const answer = {
+        ansContent: answerText,
+        question: question
+      }
+      const config = { headers: { 'Authorization': `Bearer ${token}` } }
 
-    axios.post(`${answer_url}/create`, answer, config)
-        .then(() => window.location.reload(true))
-        .catch(error => {
-          console.log(error)
-        })
+      axios.post(`${answer_url}/create`, answer, config)
+          .then(() => window.location.reload(true))
+          .catch(error => {
+            const status = error.response?.status
+            // if unauthorized, prompt user to log in again
+            if (status === 401) {
+              logout()
+              history.push('/login')
+            }
+          })
+    }
   }
 
   const dateFormat = date => {
@@ -95,7 +108,7 @@ function Question() {
             <p>Post your answer.</p>
           </div>
 
-          <Form noValidate onSubmit={handleSubmit}>
+          <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Group controlId='formGroupTextarea'>
               <Form.Label className='font-weight-bold'>Your answer</Form.Label>
               <Form.Control
