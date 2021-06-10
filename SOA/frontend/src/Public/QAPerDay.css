@@ -1,0 +1,8 @@
+.calendar {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.date-icon {
+    color: #0366d6;
+}

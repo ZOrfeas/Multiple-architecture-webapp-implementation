@@ -4,6 +4,7 @@ import NavComponent from '../Nav/Nav'
 import Footer from '../Footer/Footer'
 import Home from './Home'
 import QuestionsPerKeyword from './QuestionsPerKeyword'
+import QAPerDay from './QAPerDay'
 import Container from 'react-bootstrap/Container'
 
 function Public() {
@@ -13,6 +14,7 @@ function Public() {
         <Container fluid className='content-wrapper'>
           <Route exact path='/' component={Home} />
           <Route path='/keywords' component={QuestionsPerKeyword} />
+          <Route path='/calendar' component={QAPerDay} />
         </Container>
         <Footer />
       </Router>

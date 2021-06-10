@@ -29,7 +29,7 @@ function AskQuestion() {
   }, [])
 
   // get selected keywords
-  const handleSelect = e => {
+  const handleChange = e => {
     const select = e.target
     const id = select.children[select.selectedIndex].id
     const name = e.target.value
@@ -134,14 +134,15 @@ function AskQuestion() {
               </Form.Text>
               <Form.Control
                   as='select'
-                  onChange={handleSelect}
+                  onChange={handleChange}
                   disabled={keywordsSelected.length === 5}
                   custom
               >
                 <option></option>
                 {keywordsAll.map(keyword1 => {
-                  return keywordsSelected.every(keyword2 => keyword1.id !== keyword2.id) ?
-                      <option key={keyword1.id} id={keyword1.id}>{keyword1.name}</option> : null
+                  return keywordsSelected.every(keyword2 => keyword1.id !== keyword2.id)
+                      ? <option key={keyword1.id} id={keyword1.id}>{keyword1.name}</option>
+                      : null
                 })}
               </Form.Control>
             </Form.Group>

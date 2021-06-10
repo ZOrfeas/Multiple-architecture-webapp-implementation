@@ -17,18 +17,16 @@ function BrowseQuestions() {
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize] = useState(10)
 
+  // get total number of questions and questions for current page
   useEffect(() => {
-    axios.get(`${url}/count/questions`)
-        .then(response => setTotalQuestions(response.data))
-        .catch(error => {
-          console.log(error)
-        })
-
-    axios.get(`${url}/questions?pagesize=${pageSize}&pagenr=${currentPage}`)
-        .then(response => setQuestions(response.data))
-        .catch(error => {
-          console.log(error)
-        })
+    try {
+      axios.get(`${url}/count/questions`)
+          .then(response => setTotalQuestions(response.data))
+      axios.get(`${url}/questions?pagesize=${pageSize}&pagenr=${currentPage}`)
+          .then(response => setQuestions(response.data))
+    } catch(error) {
+      console.log(error)
+    }
   }, [currentPage])
 
   return (

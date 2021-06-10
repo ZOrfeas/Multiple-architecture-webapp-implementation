@@ -36,7 +36,7 @@ function Home() {
               </Card.Text>
             </Card.Body>
             <Card.Footer className='text-center'>
-              <Button href='#'>Show calendar</Button>
+              <Button href='/calendar'>Show calendar</Button>
             </Card.Footer>
           </Card>
 
