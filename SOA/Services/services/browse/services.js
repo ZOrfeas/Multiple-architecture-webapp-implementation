@@ -70,6 +70,14 @@ class BrowseServices {
   static getKeywordsByPopularity(pageNr, pageSize) {
     return dlCon.keyword.getPageByPopularity(pageNr, pageSize);
   }
+
+  static getQuestionCountByYear(year) {
+    return dlCon.question.getCountByYear(year);
+  }
+
+  static getAnswerCountByYear(year) {
+    return dlCon.answer.getCountByYear(year);
+  }
 };
 
 module.exports = BrowseServices;

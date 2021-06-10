@@ -80,7 +80,13 @@ class Answer {
   getCount() {
     return axios.get(this.src + '/count')
   }
-
+  getCountByYear(year) {
+    const paramWrapper = { year: year };
+    return axios.get(
+      this.src + '/count/by/year',
+      { params: paramWrapper }
+    );
+  }
 }
 /**
  * Wrapper of data layer calls refering to Question
@@ -150,6 +156,13 @@ class Question {
   getInfo(id) {
     const paramWrapper = { id: id };
     return axios.get(this.src + '/info', { params: paramWrapper });
+  }
+  getCountByYear(year) {
+    const paramWrapper = { year: year };
+    return axios.get(
+      this.src + '/count/by/year',
+      { params: paramWrapper }
+    );
   }
 }
 /**
