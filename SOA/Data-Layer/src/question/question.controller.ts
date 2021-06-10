@@ -100,12 +100,23 @@ export class QuestionController {
 
   @Get('count/by/keyword')
   @ApiOperation({
-    summary: 'Returns the count of keywords containing the specified keywords',
+    summary: 'Returns the count of questions containing the specified keywords',
   })
   countByKeyword(
     @Query('id', new ParseArrayPipe({ items: Number, separator: ',' }))
     ids: number[],
   ) {
     return this.questionService.countByKeyword(ids);
+  }
+
+  @Get('count/by/year')
+  @ApiOperation({
+    summary: 'Returns the count of questions submitted by day for a given year',
+  })
+  countByYear(
+    @Query('year', ParseIntPipe)
+    year: number,
+  ) {
+    return this.questionService.countByYear(year);
   }
 }
