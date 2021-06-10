@@ -4,11 +4,7 @@ WORKDIR /user/src/app
 
 COPY package.json ./
 
-# swap these two when the necessary
-# dependencies are moved to production 
-# ###########################
 RUN npm install --only=prod
-# RUN npm install 
 
 COPY . .
 

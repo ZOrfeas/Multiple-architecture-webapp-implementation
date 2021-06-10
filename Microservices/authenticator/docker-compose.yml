@@ -1,13 +1,37 @@
 version: "3.9"
 services:
     authenticator:
-        image: zorfeas/soa-authenticator:latest
+        image: zorfeas/ms-authenticator:init
         container_name: authenticator
+        depends_on: 
+            - psql-db
         environment:
-            DL_HOSTNAME: nest-api
-            DL_PORT: 3000
+            PGHOST: psql-db
+            PGPORT: 5432
+            PGUSER: data-manager
+            PGPASSWORD: 12345
+            PGDATABASE: ms-auth
+            REDIS_HOSTNAME: msg-q
             JWT_SECRET: 49ajfdngak43ksmaam3482ui5lmfa
             JWT_EXPIRES_IN: 1h
             SALT_ROUNDS: 10
         ports:
-            - 3001:3000
+            - 3000:3000
+    msg-q:
+        image: redis:6.2.3-alpine3.13
+        container_name: msg-q
+        expose:
+            - 6379
+    psql-db:
+        image: postgres:9.6.21-alpine
+        container_name: psql-db
+        environment: 
+            POSTGRES_USER: data-manager
+            POSTGRES_PASSWORD: 12345
+        expose:
+            - 5432
+        volumes:
+            - ms_auth_temp:/var/lib/postgresql/data
+volumes:
+    ms_auth_temp:
+            
