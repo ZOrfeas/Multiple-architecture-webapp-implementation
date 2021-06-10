@@ -64,4 +64,13 @@ export class AnswerService {
   count(): Promise<number> {
     return this.answerRepository.count();
   }
+
+  countByYear(year: number): Promise<any> {
+    const fromDate = year.toString() + '-01-01';
+    const toDate = (year + 1).toString() + '-01-01';
+    const queryString = `SELECT COUNT(*) as count, date_trunc('day', "askedOn") as day
+      FROM "question" WHERE "askedOn">='${fromDate}' AND "askedOn"<'${toDate}'
+      GROUP BY day`;
+    return this.manager.query(queryString);
+  }
 }

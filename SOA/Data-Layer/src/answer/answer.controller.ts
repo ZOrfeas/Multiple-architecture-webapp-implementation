@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Logger, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Logger, ParseIntPipe, Query } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AnswerService } from './answer.service';
 import { CreateAnswerDto } from './dto/create-answer.dto';
@@ -48,5 +48,16 @@ export class AnswerController {
   @ApiOperation({ summary: 'Deletes an answer by its id' })
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.answerService.remove(id);
+  }
+
+  @Get('count/by/year')
+  @ApiOperation({
+    summary: 'Returns the count of questions submitted by day for a given year',
+  })
+  countByYear(
+    @Query('year', ParseIntPipe)
+    year: number,
+  ) {
+    return this.answerService.countByYear(year);
   }
 }
