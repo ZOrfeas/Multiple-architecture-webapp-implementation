@@ -3,7 +3,7 @@ import datetime
 from faker import Faker
 from faker.providers import profile
 ##
-from src.Keyword import Keyword
+from src.Keyword import Keyword, getExisting, existingNames
 from src.Question import Question
 from src.Answer import Answer
 from src.User import User
@@ -32,6 +32,9 @@ def addKeywords(count, userIds):
     index = 0
     for __ in range(count):
         name = fakeGenerator.word()
+        while name in existingNames:
+            name = fakeGenerator.word()
+        existingNames.add(name)
         if index < len(usersWithKeywords): 
             id = Keyword(name, usersWithKeywords[index]).insert()
             index += 1
@@ -46,7 +49,7 @@ def addQuestions(count, userIds, keywordIds):
         content = ' '.join(fakeGenerator.sentence() for __ in range(random.randint(10,15)))
         userId = random.choice(userIds)
         keywordList = random.sample(keywordIds,random.randint(0,5))
-        insertionDate = fakeGenerator.date_time_between(start_date='-30y')
+        insertionDate = fakeGenerator.date_time_between(start_date='-7y')
         id = Question(title, content, userId, keywordList, insertionDate).insert()
         addedQuestions.append(id)
     return addedQuestions
@@ -56,7 +59,7 @@ def addAnswers(count, userIds, questionIds):
         content = ' '.join(fakeGenerator.sentence() for __ in range(random.randint(15,19)))
         userId = random.choice(userIds)
         questionId = random.choice(questionIds)
-        insertionDate = fakeGenerator.date_time_between(start_date='-30y')
+        insertionDate = fakeGenerator.date_time_between(start_date='-7y')
         id = Answer(content, userId, questionId, insertionDate).insert()
         addedAnswers.append(id)
     return addedAnswers
@@ -73,6 +76,7 @@ def main(args = [20, 40, 30, 50], debug = False):
 ###
     print('=============================================')
     print("Adding keywords...")
+    getExisting()
     addedKeywordIds = addKeywords(amounts['keyword'], addedUserIds)
     print("Added {} keyword with ids:".format(len(addedKeywordIds)))
     print(addedKeywordIds)
@@ -91,3 +95,7 @@ def main(args = [20, 40, 30, 50], debug = False):
 ###
     ## commit changes and close connection
     closeConn()
+
+# def main(args = [20, 40, 30, 50], debug = False):
+#     temp = Keyword('kostas')
+#     temp.getExisting()

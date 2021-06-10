@@ -1,5 +1,7 @@
 import json
-from connect import runQuery
+from connect import runQuery, cur
+
+existingNames = set()
 
 class Keyword:
     def __init__(self, name, userId = None):
@@ -15,3 +17,15 @@ class Keyword:
 
     def insert(self):
         return runQuery(self.getInsertTemplate(), self.getPayload())[0]
+
+def getExisting():
+    queryString = 'SELECT "name" FROM "keyword"'
+    cur.execute(queryString)
+    existing = cur.fetchall()
+    for tup in existing:
+        name = tup[0]
+        existingNames.add(name)
+
+    
+# temp = Keyword('kostas')
+# temp.getExisting()
