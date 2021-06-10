@@ -69,7 +69,7 @@ export class AnswerService {
     const fromDate = year.toString() + '-01-01';
     const toDate = (year + 1).toString() + '-01-01';
     const queryString = `SELECT COUNT(*) as count, date_trunc('day', "answeredOn") as day
-      FROM "question" WHERE "answeredOn">='${fromDate}' AND "answeredOn"<'${toDate}'
+      FROM "answer" WHERE "answeredOn">='${fromDate}' AND "answeredOn"<'${toDate}'
       GROUP BY day`;
     return this.manager.query(queryString);
   }
