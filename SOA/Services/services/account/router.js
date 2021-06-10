@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../authenticate');
+const { authenticate } = require('../authenticate');
 const accountServices = require('./services');
 
-router.get('/info', (req, res, next) => {
+router.get('/info', authenticate, (req, res, next) => {
   // #swagger.tags = ['Account']
   // #swagger.summary = 'Return all account info of a user'
-  const id = req.query.id;
+  const id = req.user.id;
   accountServices.getAccountInfo(id)
     .then(dlres => {
       const retObj = dlres.data;
