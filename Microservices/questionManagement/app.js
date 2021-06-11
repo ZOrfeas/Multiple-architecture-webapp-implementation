@@ -20,7 +20,13 @@ app.use(cookieParser());
 /**
  * -------------- ROUTES --------------
  */
-
+app.use('/spec', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/spec-json', (req, res) => {
+  // #swagger.ignore = true
+  fs.readFile('./swagger.json', 'utf8', (err, data) => {
+    res.json(JSON.parse(data));
+  });
+})
 app.use('/', indexRouter);
 
 /**

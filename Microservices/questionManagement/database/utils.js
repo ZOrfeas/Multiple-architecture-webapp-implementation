@@ -27,9 +27,33 @@ const Question = sequelize.define('question', {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
-  keywords: {
-    type: DataTypes.ARRAY(DataTypes.INTEGER),
-  },
-})
+});
 
-module.exports = { sequelize, Question };
+
+const Keyword = sequelize.define('keyword', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+  },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  }
+}, { timestamps: false });
+
+Question.belongsToMany(Keyword, { through: 'question_keywords_keyword' });
+Keyword.belongsToMany(Question, { through: 'question_keywords_keyword' });
+
+async function keywordsExist(keywords) {
+  res = await Keyword.count({ where: {
+    id: { in: keywords },
+  }});
+  if (res === keywords.length) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+module.exports = { sequelize, Question, Keyword, keywordsExist };

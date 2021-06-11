@@ -6,7 +6,7 @@ const EntityEnum = Object.freeze({
   question: 'question',
   answer: 'answer',
   keyword: 'keyword',
-  qHasA: 'qHasA', // question has keyword relationship channel
+  qHasA: 'qHasK', // question has keyword relationship channel
 });
 /** Enum of available actions to listen for. */
 const ActionEnum = Object.freeze({
@@ -52,7 +52,7 @@ class Listeners {
           listener.on("error", errorHandlerFactory(entity, action));
           listener.on("message", (channel, message) => {
             console.log(`${new Date().toISOString()}: Received message on channel ${channel}:`)
-            callback(message);
+            callback(JSON.parse(message));
           });
           listener.subscribe(`${entity}.${action}`);
           this.listeners[entity] = { action: listener };
