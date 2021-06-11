@@ -41,11 +41,11 @@ function Login() {
   }
 
   return (
-      <Container className='signup-content d-flex align-items-center justify-content-center py-5'>
+      <Container className='login-content d-flex align-items-center justify-content-center py-5'>
         <div className='w-100' style={{ maxWidth: '400px' }}>
           <Card className='border-0'>
             <Card.Header className='text-center border-bottom-0 p-4'>
-              <span className='ama-logo'>AskMeAnything</span>
+              <a className='ama-logo' href='/'>AskMeAnything</a>
             </Card.Header>
             <Card.Body className='p-4'>
               {alert &&
