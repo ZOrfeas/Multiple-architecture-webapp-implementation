@@ -1,8 +1,7 @@
 const { Listeners, EntityEnum, ActionEnum } = require('./listeners');
 const { User, sequelize } = require('../database/utils');
 
-async function updateUser(message) {
-  const dto = JSON.parse(message);
+async function updateUser(dto) {
   if (!('id' in dto) || !('email' in dto)){
     console.log('Invalid update message, should have an \'id\' and \'email\' field');
     return;
