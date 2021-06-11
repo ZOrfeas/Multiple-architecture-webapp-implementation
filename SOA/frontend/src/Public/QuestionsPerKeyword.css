@@ -10,3 +10,7 @@
     font-weight: 500 !important;
     cursor: pointer;
 }
+
+.keyword-badge a {
+    color: #439a80 !important;
+}
