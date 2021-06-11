@@ -2,7 +2,7 @@ const express = require('express');
 const { BadRequest } = require('http-errors');
 const router = express.Router();
 const { authenticate } = require('../authenticate');
-const { sequelize, Question, Keyword, keywordsExist } = require('../database/utils');
+const { Question, Keyword, keywordsExist } = require('../database/utils');
 const { publish, EntityEnum, ActionEnum } = require('../redis/publishers');
 
 router.post('/', authenticate, async (req, res, next) => {
