@@ -15,9 +15,10 @@ function QuestionsRoute() {
           <Container className='questions-content py-5'>
             <Card className='d-flex align-items-center justify-content-center'>
               <Switch>
-                <Route exact path='/questions' component={BrowseQuestions} />
                 <Route exact path='/questions/ask' component={AskQuestion} />
-                <Route path='/questions/:id' component={Question} />
+                <Route exact path='/questions/:id' component={Question} />
+                <Route path='/questions' component={BrowseQuestions} />
+                <Route path='/questions/keyword/:id' component={BrowseQuestions} />
               </Switch>
             </Card>
           </Container>

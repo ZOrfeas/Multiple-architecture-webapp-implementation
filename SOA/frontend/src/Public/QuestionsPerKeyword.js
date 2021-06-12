@@ -17,21 +17,14 @@ function QuestionsPerKeyword() {
   const [pageSize] = useState(48) // multiples of 6
 
   useEffect(() => {
-    axios.get(`${url}/count/keywords`)
-        .then(response => {
-          setTotalKeywords(response.data)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-
-    axios.get(`${url}/keywordsByPopularity?pagesize=${pageSize}&pagenr=${currentPage}`)
-        .then(response => {
-          setKeywords(response.data)
-        })
-        .catch(error => {
-          console.log(error)
-        })
+    try {
+      axios.get(`${url}/count/keywords`)
+          .then(response => setTotalKeywords(response.data))
+      axios.get(`${url}/keywordsByPopularity?pagesize=${pageSize}&pagenr=${currentPage}`)
+          .then(response => setKeywords(response.data))
+    } catch(error) {
+      console.log(error)
+    }
   }, [currentPage])
 
   return (
@@ -41,7 +34,7 @@ function QuestionsPerKeyword() {
             <Row>
               {keywords.map(keyword => (
                   <Col key={keyword.keywordId} className='pb-3' xs={12} sm={6} md={4} lg={3} xl={2}>
-                    <KeywordItem name={keyword.name} count={keyword.occurrencies} />
+                    <KeywordItem id={keyword.keywordId} name={keyword.name} count={keyword.occurrencies} />
                   </Col>
               ))}
             </Row>

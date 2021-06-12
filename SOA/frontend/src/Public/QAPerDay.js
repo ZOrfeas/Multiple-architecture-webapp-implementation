@@ -40,7 +40,7 @@ function QAPerDay() {
     f2(sum)
   }
 
-  const years = () => {
+  const getYears = () => {
     const years = []
     for (let i = new Date().getFullYear(); i >= 2015; --i) {
       years.push(<option key={i}>{i}</option>)
@@ -76,7 +76,7 @@ function QAPerDay() {
                   onChange={e => setYear(parseInt(e.target.value))}
                   custom
               >
-                {years()}
+                {getYears()}
               </Form.Control>
             </InputGroup>
           </Card.Header>

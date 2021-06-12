@@ -8,7 +8,9 @@ function ProtectedRoute({ onUser, redirect, state, component: Component, ...rest
       <Route
           {...rest}
           render={props => {
-            return protect ? <Redirect to={{ pathname: redirect, state: (state || props.location.state) }} /> : <Component />
+            return protect
+                ? <Redirect to={{ pathname: redirect, state: { ...props.location.state, ...state  } }} />
+                : <Component />
           }}
       />
   )

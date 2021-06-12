@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
 import Card from 'react-bootstrap/Card'
 import Badge from 'react-bootstrap/Badge'
@@ -58,7 +57,7 @@ function Question() {
     }
   }
 
-  const dateFormat = date => {
+  const formatDate = date => {
     const dateObj = new Date(date.split('.')[0])
     const [, month, dayNum, year] = dateObj.toDateString().split(' ')
     return `${month}, ${dayNum} ${year}`
@@ -79,7 +78,7 @@ function Question() {
             ))}
           </div>
           <p className='date-user text-muted mb-0 px-0'>
-            asked on {question.askedOn && dateFormat(question.askedOn)} by {question.user?.displayName ? question.user.displayName : '[deleted]'}
+            asked on {question.askedOn && formatDate(question.askedOn)} by {question.user?.displayName ? question.user.displayName : '[deleted]'}
           </p>
         </Card.Body>
 
@@ -94,7 +93,7 @@ function Question() {
                 <ListGroup.Item key={answer.id}>
                   <p>{answer.ansContent}</p>
                   <p className='date-user text-muted mb-0 px-0'>
-                    answered on {answer.answeredOn && dateFormat(answer.answeredOn)} by {answer.displayName ? answer.displayName : '[deleted]'}
+                    answered on {answer.answeredOn && formatDate(answer.answeredOn)} by {answer.displayName ? answer.displayName : '[deleted]'}
                   </p>
                 </ListGroup.Item>
             ))}
