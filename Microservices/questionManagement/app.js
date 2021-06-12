@@ -7,6 +7,11 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const fs = require('fs');
 
+const { sequelize } = require('./database/utils');
+sequelize.sync();
+
+require('./redis/setListeners');
+
 const indexRouter = require('./routes/index');
 
 const app = express();
@@ -40,7 +45,7 @@ app.use((req, res, next) => {
 
 // log errors
 app.use((err, req, res, next) => {
-  const status = err.response?.status || 500;
+  const status = err.status || 500;
   if (status >= 500 && req.app.get('env') === 'development') {
     console.error(err.stack);
   }
@@ -49,7 +54,7 @@ app.use((err, req, res, next) => {
 
 // error handler
 app.use((err, req, res, next) => {
-  const status = err.response?.status || 500;
+  const status = err.status || 500;
   const message = status >= 500 ? "Something's wrong" : err.message;
   const expose = status >= 500 && req.app.get('env') === 'development';
   res.status(status).end(expose ? message + '\n\n' + err.stack : message);
