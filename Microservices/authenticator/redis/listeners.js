@@ -6,7 +6,7 @@ const EntityEnum = Object.freeze({
   question: 'question',
   answer: 'answer',
   keyword: 'keyword',
-  qHasA: 'qHasK', // question has keyword relationship channel
+  qHasK: 'qHasK', // question has keyword relationship channel
 });
 /** Enum of available actions to listen for. */
 const ActionEnum = Object.freeze({
