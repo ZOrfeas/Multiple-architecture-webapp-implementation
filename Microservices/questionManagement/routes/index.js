@@ -89,13 +89,14 @@ router.get('/by/keyword', async (req, res, next) => {
         HAVING COUNT(DISTINCT "rel"."keywordId") = ${keywordCount}
         LIMIT ${pagesize}
         OFFSET ${(pagenr - 1) * pagesize}`;
-        const questionIdObjs = await sequelize.query(queryString);
+        const questionIdObjs = await sequelize.query(queryString, { transaction: t });
         const questionIds = questionIdObjs[0].map((idObj) => idObj.questionId);
         console.log("QuestionIdObjs:", questionIdObjs);
         console.log("QuestionIds:",questionIds);
         return Question.findAll({
           where: {id: { [Op.or]: questionIds }},
-          include: { model: Keyword, through: { attributes: [] }}
+          include: { model: Keyword, through: { attributes: [] }},
+          transaction: t
         });
       } else {
         throw new BadRequest('Question keyword ids not existing');
