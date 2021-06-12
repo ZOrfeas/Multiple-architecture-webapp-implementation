@@ -15,7 +15,7 @@ router.post('/', /**authenticate,*/ async (req, res, next) => {
       // user_id: req.user.id // from authentication
       user_id: req.body.user.id,
     };
-    const keywords = req.body.keywords === [] ?
+    const keywords = req.body.keywords !== [] ?
                      req.body.keywords.map((idObj) => idObj.id):
                      undefined;
     let newQuestion;
@@ -30,7 +30,9 @@ router.post('/', /**authenticate,*/ async (req, res, next) => {
     await newQuestion.reload({ include: {
       model: Keyword, through: { attributes: [] }
     }});
+    const newRels = await sequelize.query(`SELECT * FROM "question_keywords_keyword" WHERE "questionId"=${newQuestion.id}`);
     publish(EntityEnum.question, ActionEnum.create, newQuestion);
+    publish(EntityEnum.qHasK, ActionEnum.create, newRels[0]);
     res.status(201).json(newQuestion);
   } catch (err) {
     next(err);
