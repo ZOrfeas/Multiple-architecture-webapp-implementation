@@ -64,11 +64,44 @@ router.get('/count', async (req, res, next) => {
   res.status(200).send(count.toString());
 });
 
-router.get('/by/keyword', async (req, res, next) => {
+router.get('/count/by/keywords', async (req, res, next) => {
+  // #swagger.tags = ['Question']
+  // #swagger.summary = 'Counts all questions that have the specified keywords'
+  try {
+    const ids = req.query.id;
+    if (!ids)
+      throw new BadRequest('Invalid query params');
+    const keywordIds = ids.split(',').map((str) => {
+      const nr = +str;
+      if (isNaN(nr)) throw new BadRequest('Invalid keyword id query param');
+      return nr;
+    });
+    const retVal = await sequelize.transaction(async (t) => {
+      if (await keywordsExist(keywordIds, t)) {
+        const keywordString = '(' + keywordIds.toString() + ')';
+        const keywordCount = keywordIds.length;
+        const queryString = `SELECT COUNT(*) FROM
+          (SELECT "rel"."questionId" FROM "question_keywords_keyword" "rel"
+          WHERE "rel"."keywordId" IN ${keywordString}
+          GROUP BY "rel"."questionId"
+          HAVING COUNT(DISTINCT "rel"."keywordId") = ${keywordCount}) AS "ids"`;
+        const questionCountObj = await sequelize.query(queryString, { transaction: t });
+        return questionCountObj[0][0].count;
+      } else {
+        throw new BadRequest('Question keyword ids not existing');
+      }
+    })
+    res.status(200).send(retVal.toString());
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get('/by/keywords', async (req, res, next) => {
   // #swagger.tags = ['Question']
   // #swagger.summary = 'Fetches all questions that have the specified keywords'
   try {
-    const ids = req.query.ids; // could use a regexp to check here
+    const ids = req.query.id; // could use a regexp to check here
     const pagenr = req.query.pagenr;
     const pagesize = req.query.pagesize;
     if (isNaN(pagesize) || isNaN(pagenr) || !ids)
@@ -83,16 +116,14 @@ router.get('/by/keyword', async (req, res, next) => {
         const keywordString = '(' + keywordIds.toString() + ')';
         const keywordCount = keywordIds.length;
         const queryString = `SELECT "rel"."questionId"
-        FROM "question_keywords_keyword" "rel"
-        WHERE "rel"."keywordId" IN ${keywordString}
-        GROUP BY "rel"."questionId"
-        HAVING COUNT(DISTINCT "rel"."keywordId") = ${keywordCount}
-        LIMIT ${pagesize}
-        OFFSET ${(pagenr - 1) * pagesize}`;
+          FROM "question_keywords_keyword" "rel"
+          WHERE "rel"."keywordId" IN ${keywordString}
+          GROUP BY "rel"."questionId"
+          HAVING COUNT(DISTINCT "rel"."keywordId") = ${keywordCount}
+          LIMIT ${pagesize}
+          OFFSET ${(pagenr - 1) * pagesize}`;
         const questionIdObjs = await sequelize.query(queryString, { transaction: t });
         const questionIds = questionIdObjs[0].map((idObj) => idObj.questionId);
-        console.log("QuestionIdObjs:", questionIdObjs);
-        console.log("QuestionIds:",questionIds);
         return Question.findAll({
           where: {id: { [Op.or]: questionIds }},
           include: { model: Keyword, through: { attributes: [] }},
@@ -103,6 +134,35 @@ router.get('/by/keyword', async (req, res, next) => {
       }
     });
     res.status(200).json(retVal);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get('/count/by/year', async (req, res, next) => {
+  // #swagger.tags = ['Question']
+  // #swagger.summary = 'Get question count per day by year'
+  try {
+    const year = +req.query.year;
+    if (!year || isNaN(year)) throw new BadRequest('Invalid year query param');
+    const fromDate = year.toString() + '-01-01';
+    const toDate = (year + 1).toString() + '-01-01';
+    const queryString = `SELECT COUNT(*) as count, date_trunc('day', "createdAt") as day
+      FROM "questions" WHERE "createdAt">='${fromDate}' AND "createdAt"<'${toDate}'
+      GROUP BY day`;
+    const retVal = await sequelize.query(queryString);
+    const processed = {};
+    retVal[0].forEach(({count, day}) => {
+      const date = new Date(day);
+      const mm = date.getMonth() + 1;
+      const dd = date.getDate();
+      const key = [date.getFullYear(),
+                   (mm>9 ? '' : '0') + mm,
+                   (dd>9 ? '' : '0') + dd,
+                  ].join('-');
+      processed[key] = count;
+    });
+    res.status(200).send(processed);
   } catch (err) {
     next(err);
   }
