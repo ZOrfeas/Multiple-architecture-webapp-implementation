@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes, Op } = require('sequelize');
 
 const sequelize = new Sequelize({
   database: process.env.PGDATABASE,
@@ -29,7 +29,6 @@ const Question = sequelize.define('question', {
   },
 });
 
-
 const Keyword = sequelize.define('keyword', {
   id: {
     type: DataTypes.INTEGER,
@@ -42,13 +41,18 @@ const Keyword = sequelize.define('keyword', {
   }
 }, { timestamps: false });
 
-Question.belongsToMany(Keyword, { through: 'question_keywords_keyword' });
-Keyword.belongsToMany(Question, { through: 'question_keywords_keyword' });
+Question.belongsToMany(Keyword, { through: 'question_keywords_keyword', timestamps: false });
+Keyword.belongsToMany(Question, { through: 'question_keywords_keyword', timestamps: false });
 
-async function keywordsExist(keywords) {
-  res = await Keyword.count({ where: {
-    id: { in: keywords },
-  }});
+/** Can optionally perform check in an active transaction */
+async function keywordsExist(keywords, t) {
+  let res;
+  const countOptions = { where: { id: { [Op.or]: keywords }}};
+  if (t) {
+    res = await Keyword.count(countOptions, {transaction: t});
+  } else {
+    res = await Keyword.count(countOptions);
+  }
   if (res === keywords.length) {
     return true;
   } else {
@@ -56,4 +60,4 @@ async function keywordsExist(keywords) {
   }
 }
 
-module.exports = { sequelize, Question, Keyword, keywordsExist };
+module.exports = { sequelize, Question, Keyword, keywordsExist, Op};
