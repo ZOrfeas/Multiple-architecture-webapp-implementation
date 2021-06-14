@@ -46,7 +46,7 @@ router.get('/page', async (req, res, next) => {
     const pagesize = +req.query.pagesize;
     const pagenr = +req.query.pagenr;
     if (isNaN(pagesize) || isNaN(pagenr))
-    throw new BadRequest('Invalid pagesize or pagenr query params');
+      throw new BadRequest('Invalid pagesize or pagenr query params');
     const questions = await Question.findAll({
       order: [['createdAt', 'DESC']],
       offset: (pagenr - 1) * pagesize,
