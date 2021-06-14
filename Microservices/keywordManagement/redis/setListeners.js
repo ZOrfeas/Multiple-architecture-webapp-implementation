@@ -21,7 +21,7 @@ async function createRelations(fullDto) {
     return;
   }
   const retVal = await question_keywords_keyword.bulkCreate(fullDto);
-  console.log(`Created ${retVal.count} relations`);
+  console.log(`Created ${retVal.length} relations`);
   return;
 }
 async function deleteRelations(dto) {
@@ -32,7 +32,7 @@ async function deleteRelations(dto) {
   const retVal = await question_keywords_keyword.destroy({
     where: { questionId: dto.id },
   });
-  console.log(`Deleted ${retval} relations`);
+  console.log(`Deleted ${retVal} relations`);
   return;
 }
 
