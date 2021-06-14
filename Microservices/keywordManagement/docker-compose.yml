@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+    keyword-manager:
+        image: zorfeas/ms-keyword-manager:latest
+        container_name: keyword-manager
+        depends_on:
+            - psql-db
+        environment: 
+            PGHOST: psql-db
+            PGPORT: 5432
+            PGUSER: data-manager
+            PGPASSWORD: 12345
+            PGDATABASE: ms-keywords
+            REDIS_HOSTNAME: msg-q
+        ports:
+            - 3000:3000
+    msg-q:
+        image: redis:6.2.3-alpine3.13
+        container_name: msg-q
+        expose:
+            - 6379
+    psql-db:
+        image: postgres:9.6.21-alpine
+        container_name: psql-db
+        environment:
+            POSTGRES_USER: data-manager
+            POSTGRES_PASSWORD: 12345
+        expose:
+            - 5432
+        volumes:
+            - ms_temp:/var/lib/postgresql/data
+volumes:
+    ms_temp:
