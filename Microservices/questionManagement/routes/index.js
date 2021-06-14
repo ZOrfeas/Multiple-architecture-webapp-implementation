@@ -5,15 +5,15 @@ const { authenticate } = require('../authenticate');
 const { Question, Keyword, keywordsExist, sequelize, Op } = require('../database/utils');
 const { publish, EntityEnum, ActionEnum } = require('../redis/publishers');
 
-router.post('/', /**authenticate,*/ async (req, res, next) => {
+router.post('/', authenticate, async (req, res, next) => {
   // #swagger.tags = ['Question']
   // #swagger.summary = 'Creates a new question'
   try {
     const dto = {
       title: req.body.title,
       questContent: req.body.questContent,
-      // user_id: req.user.id // from authentication
-      user_id: req.body.user.id,
+      user_id: req.user.id // from authentication
+      // user_id: req.body.user.id,
     };
     const keywords = req.body.keywords !== [] ?
                      req.body.keywords.map((idObj) => idObj.id):

@@ -6,7 +6,7 @@ const { Keyword, sequelize } = require('../database/utils');
 const { publish, EntityEnum, ActionEnum } = require('../redis/publishers');
 
 /* GET home page. */
-router.post('/', /** authenticate, */ async (req, res, next) => {
+router.post('/', authenticate, async (req, res, next) => {
   // #swagger.tags = ['Keyword']
   // #swagger.summary = 'Creates a new keyword'
   try {
@@ -24,6 +24,14 @@ router.post('/', /** authenticate, */ async (req, res, next) => {
     }
   }
 });
+
+router.get('/count', async (req, res, next) => {
+  // #swagger.tags = ['Keyword']
+  // #swagger.summary = 'Counts the number of existing keywords'
+  const count = await Keyword.count();
+  res.status(200).send(count.toString());
+
+})
 
 router.get('/by/popularity', async (req, res, next) => {
   // #swagger.tags = ['Keyword']

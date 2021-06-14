@@ -5,15 +5,15 @@ const { Answer, sequelize } = require('../database/utils');
 const router = express.Router();
 
 /* GET home page. */
-router.post('/', /**authenticate,*/ async (req, res, next) => {
+router.post('/', authenticate, async (req, res, next) => {
   // #swagger.tags = ['Answer']
   // #swagger.summary = 'Creates a new question'
   try {
     const dto = {
       question_id: req.body.question.id,
       ansContent: req.body.ansContent,
-      // user_id: req.user.id // from authentication
-      user_id: req.body.user.id,
+      user_id: req.user.id // from authentication
+      // user_id: req.body.user.id,
     };
     const newAnswer = await Answer.create(dto);
     res.status(201).json(newAnswer);
@@ -29,9 +29,9 @@ router.get('/count/by/year', async (req, res, next) => {
     const year = +req.query.year;
     if (!year || isNaN(year)) throw new BadRequest('Invalid year query param');
     const fromDate = year.toString() + '-01-01';
-    const toDate = year.toString() + '-01-01';
+    const toDate = (year + 1).toString() + '-01-01';
     const queryString = `SELECT COUNT(*) as count, date_trunc('day', "createdAt") as day
-      FROM "answers" WHERE "createdAt">='${fromDate}' AND "createdAt"<'${toDate}
+      FROM "answers" WHERE "createdAt">='${fromDate}' AND "createdAt"<'${toDate}'
       GROUP BY day`;
     const retVal = await sequelize.query(queryString);
     const processed = {};

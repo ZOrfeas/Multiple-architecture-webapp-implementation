@@ -1,0 +1,94 @@
+version: "3.9"
+services:
+##################################################
+    psql-db:
+        image: postgres:9.6.21-alpine
+        container_name: psql-db
+        environment:
+            POSTGRES_USER: data-manager
+            POSTGRES_PASSWORD: 12345
+        expose:
+            - 5432
+        volumes:
+            - ms_complete:/var/lib/postgresql/data
+    msg-q:
+        image: redis:6.2.3-alpine3.13
+        container_name: msg-q
+        expose:
+            - 6379
+##################################################
+    authenticator:
+        build: ./authenticator/.
+        image: zorfeas/ms-authenticator:latest
+        container_name: authenticator
+        depends_on: 
+            - psql-db
+        environment:
+            PGHOST: psql-db
+            PGPORT: 5432
+            PGUSER: data-manager
+            PGPASSWORD: 12345
+            PGDATABASE: ms-auth
+            REDIS_HOSTNAME: msg-q
+            JWT_SECRET: 49ajfdngak43ksmaam3482ui5lmfa
+            JWT_EXPIRES_IN: 1h
+            SALT_ROUNDS: 10
+        ports:
+            - 3000:3000
+####
+    question-manager:
+        build: ./questionManagement/.
+        image: zorfeas/ms-question-manager:latest
+        container_name: question-manager
+        depends_on:
+            - psql-db
+        environment: 
+            PGHOST: psql-db
+            PGPORT: 5432
+            PGUSER: data-manager
+            PGPASSWORD: 12345
+            PGDATABASE: ms-questions
+            REDIS_HOSTNAME: msg-q
+            AUTH_HOSTNAME: authenticator
+            AUTH_PORT: 3000
+        ports:
+            - 3001:3000
+####
+    answer-manager:
+        build: ./answerManagement/.
+        image: zorfeas/ms-answer-manager:latest
+        container_name: answer-manager
+        depends_on:
+            - psql-db
+        environment: 
+            PGHOST: psql-db
+            PGPORT: 5432
+            PGUSER: data-manager
+            PGPASSWORD: 12345
+            PGDATABASE: ms-answers
+            REDIS_HOSTNAME: msg-q
+            AUTH_HOSTNAME: authenticator
+            AUTH_PORT: 3000
+        ports:
+            - 3002:3000
+####
+    keyword-manager:
+        build: ./keywordManagement/.
+        image: zorfeas/ms-keyword-manager:latest
+        container_name: keyword-manager
+        depends_on:
+            - psql-db
+        environment: 
+            PGHOST: psql-db
+            PGPORT: 5432
+            PGUSER: data-manager
+            PGPASSWORD: 12345
+            PGDATABASE: ms-keywords
+            REDIS_HOSTNAME: msg-q
+            AUTH_HOSTNAME: authenticator
+            AUTH_PORT: 3000
+        ports:
+            - 3003:3000
+##################################################
+volumes:
+    ms_complete:
