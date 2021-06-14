@@ -41,19 +41,16 @@ async function updateKeyword(dto) {
   console.log(result);
   return;
 }
-async function deleteUser(dto) {
+async function makeUsersNull(dto) {
   if (!('id' in dto)) {
     console.log('Invalid delete message, should have an \'id\'');
     return;
   }
-  const result = await sequelize.transaction(async (t) => {
-    const res = await Question.update(
-      { user_id: null },
-      { where: { user_id: dto.id } },
-    );
-    return `Deleted user_id from ${res[0]} questions`;
-  });
-  console.log(result);
+  const result = await Question.update(
+    { user_id: null },
+    { where: { user_id: dto.id } },
+  );
+  console.log(`Deleted user_id from ${result[0]} questions`);
   return;
 }
 const listenerConfig = {
@@ -63,7 +60,7 @@ const listenerConfig = {
     [ActionEnum.update]: updateKeyword,
   },
   [EntityEnum.user]: {
-    [ActionEnum.delete]: deleteUser,
+    [ActionEnum.delete]: makeUsersNull,
   },
 };
 
