@@ -47,7 +47,7 @@ Keyword.belongsToMany(Question, { through: 'question_keywords_keyword', timestam
 /** Can optionally perform check in an active transaction */
 async function keywordsExist(keywords, t) {
   let res;
-  const countOptions = { where: { id: { [Op.or]: keywords }}};
+  const countOptions = { where: { id: { [Op.in]: keywords }}};
   if (t) {
     res = await Keyword.count(countOptions, {transaction: t});
   } else {

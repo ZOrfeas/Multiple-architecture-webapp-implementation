@@ -127,7 +127,7 @@ router.get('/by/keywords', async (req, res, next) => {
         const questionIdObjs = await sequelize.query(queryString, { transaction: t });
         const questionIds = questionIdObjs[0].map((idObj) => idObj.questionId);
         return Question.findAll({
-          where: {id: { [Op.or]: questionIds }},
+          where: {id: { [Op.in]: questionIds }},
           include: { model: Keyword, through: { attributes: [] }},
           transaction: t
         });
