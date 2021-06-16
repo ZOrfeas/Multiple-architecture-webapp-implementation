@@ -1,5 +1,5 @@
 import './Nav.css'
-import { useAuth } from '../AuthContext'
+import { useAuth } from '../Auth/AuthContext'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import Button from 'react-bootstrap/Button'

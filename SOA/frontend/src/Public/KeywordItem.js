@@ -1,4 +1,4 @@
-import { useAuth } from '../AuthContext'
+import { useAuth } from '../Auth/AuthContext'
 import { Link } from 'react-router-dom'
 import Card from 'react-bootstrap/Card'
 import Badge from 'react-bootstrap/Badge'
