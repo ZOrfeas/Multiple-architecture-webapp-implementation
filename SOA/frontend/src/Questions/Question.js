@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
-import { useAuth } from '../AuthContext'
+import { useAuth } from '../Auth/AuthContext'
 import Card from 'react-bootstrap/Card'
 import Badge from 'react-bootstrap/Badge'
 import ListGroup from 'react-bootstrap/ListGroup'

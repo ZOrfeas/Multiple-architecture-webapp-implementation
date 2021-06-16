@@ -13,6 +13,12 @@ class Auth {
     localStorage.removeItem('token')
   }
 
+  logoutAllTabs(e) {
+    if (e.key === 'token' && e.oldValue && !e.newValue) {
+      window.location.reload()
+    }
+  }
+
   getUser() {
     return JSON.parse(localStorage.getItem('user'))
   }

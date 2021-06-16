@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useAuth } from '../AuthContext'
+import { useAuth } from '../Auth/AuthContext'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Badge from 'react-bootstrap/Badge'

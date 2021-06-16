@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react'
-import auth from './Auth/Auth'
+import React, { useState, useContext } from 'react'
+import auth from './Auth'
 
 const AuthContext = React.createContext()
 
@@ -11,15 +11,13 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(auth.getUser())
   const [token, setToken] = useState(auth.getToken())
 
-  // useEffect(() => {})
-
-  function login({ user, token }) {
+  const login = ({ user, token }) => {
     auth.login({ user, token })
     setUser(user)
     setToken(token)
   }
 
-  function logout() {
+  const logout = () => {
     auth.logout()
   }
 
@@ -29,7 +27,7 @@ export function AuthProvider({ children }) {
           user,
           token,
           login,
-          logout,
+          logout
         }
       }>
         {children}

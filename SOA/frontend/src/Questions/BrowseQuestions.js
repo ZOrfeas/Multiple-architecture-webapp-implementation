@@ -58,7 +58,7 @@ function BrowseQuestions() {
               </Col>
             </Row>
             <div className='px-0'>
-              {totalQuestions} question{totalQuestions != 1 && 's'}
+              {totalQuestions} question{totalQuestions !== 1 && 's'}
             </div>
           </div>
         </Card.Header>
