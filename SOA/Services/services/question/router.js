@@ -30,7 +30,6 @@ router.get('/getAllKeywords', (req, res, next) => {
     .then(dlres => {
       const retObj = dlres.data;
       retObj.sort((a, b) => {
-        console.log(a.name)
         return ('' + a.name).localeCompare(b.name);
       })
       res.status(200).json(retObj);
