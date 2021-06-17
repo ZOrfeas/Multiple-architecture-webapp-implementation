@@ -63,7 +63,7 @@ spec:
             - name: PGUSER
               value: data-manager
             - name: REDIS_HOSTNAME
-              value: msg-q
+              value: ms-msg-q
           image: zorfeas/ms-keyword-manager:latest
           name: keyword-manager
           ports:

@@ -7,8 +7,8 @@ metadata:
     kompose.version: 1.22.0 (955b78124)
   creationTimestamp: null
   labels:
-    io.kompose.service: msg-q
-  name: msg-q
+    io.kompose.service: ms-msg-q
+  name: ms-msg-q
 spec:
   type: NodePort
   ports:
@@ -17,7 +17,7 @@ spec:
       targetPort: 6379
       nodePort: 31001
   selector:
-    io.kompose.service: msg-q
+    io.kompose.service: ms-msg-q
 status:
   loadBalancer: {}
 ---
@@ -29,13 +29,13 @@ metadata:
     kompose.version: 1.22.0 (955b78124)
   creationTimestamp: null
   labels:
-    io.kompose.service: msg-q
-  name: msg-q
+    io.kompose.service: ms-msg-q
+  name: ms-msg-q
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: msg-q
+      io.kompose.service: ms-msg-q
   strategy: {}
   template:
     metadata:
@@ -44,11 +44,11 @@ spec:
         kompose.version: 1.22.0 (955b78124)
       creationTimestamp: null
       labels:
-        io.kompose.service: msg-q
+        io.kompose.service: ms-msg-q
     spec:
       containers:
         - image: redis:6.2.3-alpine3.13
-          name: msg-q
+          name: ms-msg-q
           ports:
             - containerPort: 6379
           resources: {}
