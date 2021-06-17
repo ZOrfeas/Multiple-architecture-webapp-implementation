@@ -2,6 +2,7 @@ const express = require('express');
 const { BadRequest } = require('http-errors');
 const { authenticate } = require('../authenticate');
 const { Answer, sequelize } = require('../database/utils');
+const { publish, EntityEnum, ActionEnum } = require('../redis/publishers');
 const router = express.Router();
 
 /* GET home page. */
@@ -17,6 +18,7 @@ router.post('/', authenticate, async (req, res, next) => {
     };
     const newAnswer = await Answer.create(dto);
     res.status(201).json(newAnswer);
+    publish(EntityEnum.answer, ActionEnum.create, newAnswer);
   } catch (err) {
     next(err);
   }
