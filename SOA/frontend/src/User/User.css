@@ -1,0 +1,21 @@
+.user-content .card-header {
+    background-color: #fff;
+}
+
+.profile-icon {
+    font-size: 120px;
+}
+
+.icon {
+}
+
+.user-stats {
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+.stats-icon {
+    font-size: 21px;
+    /*color: rgba(0,0,0,.5);*/
+    color: #0366d6;
+}

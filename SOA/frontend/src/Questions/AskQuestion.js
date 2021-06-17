@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { useAuth } from '../Auth/AuthContext'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
+import InputGroup from 'react-bootstrap/InputGroup'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 
@@ -61,7 +62,7 @@ function AskQuestion() {
             // if unauthorized, prompt user to log in again
             if (status === 401) {
               logout()
-              history.push('/login')
+              window.location.reload()
             }
           })
     }
@@ -127,11 +128,16 @@ function AskQuestion() {
               ))}
             </div>
 
-            <Form.Group controlId='formGroupKeywords'>
-              <Form.Label className='mb-0'>Select keywords</Form.Label>
-              <Form.Text className='text-muted mt-0 mb-1'>
-                Add up to 5 keywords to describe the main points of your question
-              </Form.Text>
+            <label className='mb-0'>Select keywords</label>
+            <p className='small text-muted mt-0 mb-1'>
+              Add up to 5 keywords to describe the main points of your question
+            </p>
+            <InputGroup className='mb-3' controlId='formGroupKeywords'>
+              <InputGroup.Prepend>
+                <InputGroup.Text>
+                  <span className='material-icons-sharp tag-icon'>tag</span>
+                </InputGroup.Text>
+              </InputGroup.Prepend>
               <Form.Control
                   as='select'
                   onChange={handleChange}
@@ -139,13 +145,13 @@ function AskQuestion() {
                   custom
               >
                 <option></option>
-                {keywordsAll.map(keyword1 => {
-                  return keywordsSelected.every(keyword2 => keyword1.id !== keyword2.id)
+                {keywordsAll.map(keyword1 => (
+                  keywordsSelected.every(keyword2 => keyword1.id !== keyword2.id)
                       ? <option key={keyword1.id} id={keyword1.id}>{keyword1.name}</option>
                       : null
-                })}
+                ))}
               </Form.Control>
-            </Form.Group>
+            </InputGroup>
             <div className='text-right'>
               <Button variant='success' type='submit'>Ask your question</Button>
             </div>

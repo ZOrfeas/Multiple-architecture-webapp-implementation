@@ -13,7 +13,7 @@ function CalendarComponent({ data, year, colors }) {
           data={data}
           from={`${year}-01-01`}
           to={`${year}-12-31`}
-          width={1200}
+          width={1260}
           height={300}
           margin={margin}
           colors={colors}

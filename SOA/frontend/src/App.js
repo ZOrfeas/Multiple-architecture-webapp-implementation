@@ -8,6 +8,7 @@ import Public from './Public/Public'
 import Signup from './Auth/Signup'
 import Login from './Auth/Login'
 import QuestionsRoute from './Questions/QuestionsRoute'
+import User from './User/User'
 
 function App() {
   // add event listener to log out from all tabs
@@ -30,6 +31,12 @@ function App() {
                   redirect='/login'
                   state={{ alert: true }}
                   component={QuestionsRoute}
+              />
+              <ProtectedRoute
+                  path='/user'
+                  redirect='/login'
+                  state={{ alert: true }}
+                  component={User}
               />
               <Route path='/' component={Public} />
             </Switch>
