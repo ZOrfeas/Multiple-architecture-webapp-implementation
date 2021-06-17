@@ -22,7 +22,7 @@ function NavComponent() {
           {user ?
               <Nav>
                 <NavDropdown title={user.displayName} id='collasible-nav-dropdown'>
-                  <NavDropdown.Item href='#'>
+                  <NavDropdown.Item href='/user'>
                     <i className='material-icons-sharp mr-3'>account_circle</i>Account
                   </NavDropdown.Item>
                   <NavDropdown.Divider />

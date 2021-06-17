@@ -13,7 +13,7 @@ const url = process.env.REACT_APP_BROWSE_URL
 function QAPerDay() {
   const [year, setYear] = useState(new Date().getFullYear())
   const [questionData, setQuestionData] = useState([])
-  const [totalQuestions, setTotalQestions] = useState(0)
+  const [totalQuestions, setTotalQuestions] = useState(0)
   const [answerData, setAnswerData] = useState([])
   const [totalAnswers, setTotalAnswers] = useState(0)
 
@@ -21,7 +21,7 @@ function QAPerDay() {
   useEffect(() => {
     try {
       axios.get(`${url}/questionCountByYear?year=${year}`)
-          .then(response => formatData(response.data, setQuestionData, setTotalQestions))
+          .then(response => formatData(response.data, setQuestionData, setTotalQuestions))
       axios.get(`${url}/answerCountByYear?year=${year}`)
           .then(response => formatData(response.data, setAnswerData, setTotalAnswers))
     } catch(error) {
@@ -68,7 +68,7 @@ function QAPerDay() {
             <InputGroup as={Col} xs={6} md={3} lg={2} className='ml-auto px-0'>
               <InputGroup.Prepend>
                 <InputGroup.Text>
-                  <i className='material-icons-sharp date-icon'>date_range</i>
+                  <span className='material-icons-sharp date-icon'>date_range</span>
                 </InputGroup.Text>
               </InputGroup.Prepend>
               <Form.Control
@@ -82,10 +82,8 @@ function QAPerDay() {
           </Card.Header>
           <Card.Body>
             <div>
-              <p className='mb-1'>
-                {totalQuestions} question{totalQuestions !== 1 && 's'} in {year === new Date().getFullYear() ? ' the last year' : year}
-              </p>
-              <Card className='calendar align-items-center mb-3'>
+              <h5>Questions ({totalQuestions})</h5>
+              <Card className='calendar mb-3'>
                 <CalendarComponent
                     data={questionData}
                     year={year}
@@ -94,10 +92,8 @@ function QAPerDay() {
               </Card>
             </div>
             <div>
-              <p className='mb-1'>
-                {totalAnswers} answer{totalAnswers !== 1 && 's'} in {year === new Date().getFullYear() ? ' the last year' : year}
-              </p>
-              <Card className='calendar align-items-center mb-3'>
+              <h5>Answers ({totalAnswers})</h5>
+              <Card className='calendar mb-3'>
                 <CalendarComponent
                     data={answerData}
                     year={year}

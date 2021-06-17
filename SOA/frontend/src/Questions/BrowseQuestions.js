@@ -37,7 +37,7 @@ function BrowseQuestions() {
   }, [keywordId, currentPage])
 
   return (
-      <div  className='w-100' style={{ maxWidth: '950px' }}>
+      <div className='w-100' style={{ maxWidth: '950px' }}>
         <Card.Header className='py-4'>
           <div className='px-4'>
             <div className='text-center px-0'>
