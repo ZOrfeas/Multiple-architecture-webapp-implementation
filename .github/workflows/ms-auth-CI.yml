@@ -75,7 +75,7 @@ jobs:
             ${{ secrets.DOCKER_HUB_USERNAME }}/ms-authenticator:${{ env.IMAGE_TAG }}
             ${{ secrets.DOCKER_HUB_USERNAME }}/ms-authenticator:latest
           cache-from: type=local,src=/tmp/ms/authenticator/.buildx-cache
-          cache-to: type=local,dest/tmp/ms/authenticator/.buildx-cache-new
+          cache-to: type=local,dest=/tmp/ms/authenticator/.buildx-cache-new
 
       #- name: Pull & restart containers
       #  if: github.event_name != 'pull_request'

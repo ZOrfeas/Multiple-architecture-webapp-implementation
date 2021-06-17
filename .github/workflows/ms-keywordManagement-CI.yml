@@ -76,7 +76,7 @@ jobs:
             ${{ secrets.DOCKER_HUB_USERNAME }}/ms-keyword-manager:${{ env.IMAGE_TAG }}
             ${{ secrets.DOCKER_HUB_USERNAME }}/ms-keyword-manager:latest
           cache-from: type=local,src=/tmp/ms/keywordManagement/.buildx-cache
-          cache-to: type=local,dest/tmp/ms/keywordManagement/.buildx-cache-new
+          cache-to: type=local,dest=/tmp/ms/keywordManagement/.buildx-cache-new
 
       #- name: Pull & restart containers
       #  if: github.event_name != 'pull_request'
