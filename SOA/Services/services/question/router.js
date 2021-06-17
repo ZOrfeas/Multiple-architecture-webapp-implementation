@@ -27,7 +27,14 @@ router.get('/getAllKeywords', (req, res, next) => {
   // #swagger.tags = ['Question']
   // #swagger.summary = 'Gets all keywords'
   questionServices.getAllKeywords()
-    .then(dlres => res.status(200).json(dlres.data))
+    .then(dlres => {
+      const retObj = dlres.data;
+      retObj.sort((a, b) => {
+        console.log(a.name)
+        return ('' + a.name).localeCompare(b.name);
+      })
+      res.status(200).json(retObj);
+    })
     .catch(next);
 })
 
