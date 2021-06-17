@@ -1,0 +1,88 @@
+version: "3.0"
+services:
+##########################################################
+    nest-api:
+        image: zorfeas/soa-datalayer:latest
+        container_name: nest-api
+        environment:
+            DATABASE_HOST: psql-db
+        depends_on:
+            - psql-db
+        ports:
+            - 3000:3000
+####
+    psql-db:
+        image: postgres:9.6.21-alpine
+        container_name: psql-db
+        environment:
+            POSTGRES_USER: data-manager
+            POSTGRES_PASSWORD: 12345
+            POSTGRES_DB: dl-persistence
+        ports:
+            - 15432:5432
+        volumes:
+            - saas_soa_dl:/var/lib/postgresql/data
+##########################################################
+    web:
+        image: zorfeas/soa-web:latest
+        container_name: web
+        environment:
+            REACT_APP_BROWSE_URL: http://saas-15.ddns.net:3003/ama-services/browse
+            REACT_APP_QUESTION_URL: http://saas-15.ddns.net:3003/ama-services/question
+            REACT_APP_ANSWER_URL: http://saas-15.ddns.net:3003/ama-services/answer
+            REACT_APP_ACCOUNT_URL: http://saas-15.ddns.net:3003/ama-services/account
+            REACT_APP_AUTH_URL: http://saas-15.ddns.net:3003/authenticator
+        ports:
+            - 8080:5000
+##########################################################
+    service-bus:
+        image: zorfeas/soa-servicebus:latest
+        container_name: service-bus
+        environment:
+            REDIS_HOSTNAME: msg-q
+        depends_on:
+            - msg-q
+        ports:
+            - 3003:3000
+####    
+    msg-q:
+        image: redis:6.2.3-alpine3.13
+        container_name: msg-q
+        expose:
+            - 6379
+##########################################################
+    authenticator:
+        image: zorfeas/soa-authenticator:latest
+        container_name: authenticator
+        depends_on:
+            - nest-api
+        environment:
+            DL_HOSTNAME: nest-api
+            DL_PORT: 3000 
+            REDIS_HOSTNAME: msg-q
+            SERVICE_DOC_URL: http://authenticator:3000/spec-json
+            JWT_SECRET: 49ajfdngak43ksmaam3482ui5lmfa
+            JWT_EXPIRES_IN: 1h
+            SALT_ROUNDS: 10
+        ports:
+            - 3001:3000
+##########################################################
+    services:
+        image: zorfeas/soa-services:latest
+        container_name: services
+        depends_on:
+            - nest-api
+            - authenticator
+        environment:
+            DL_HOSTNAME: nest-api
+            DL_PORT: 3000
+            REDIS_HOSTNAME: msg-q
+            SERVICE_DOC_URL: http://services:3000/spec-json
+            AUTH_HOSTNAME: authenticator
+            AUTH_PORT: 3000
+        ports:
+            - 3002:3000
+##########################################################
+volumes:
+    saas_soa_dl:
+            

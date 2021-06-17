@@ -49,6 +49,8 @@ spec:
     spec:
       containers:
         - env:
+            - name: POSTGRES_DB
+              value: dl-persistence
             - name: POSTGRES_PASSWORD
               value: "12345"
             - name: POSTGRES_USER
