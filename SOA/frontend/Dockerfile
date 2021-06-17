@@ -4,7 +4,7 @@ WORKDIR /user/src/app
 
 #COPY package*.json ./
 
-COPY build build
+COPY build ./build
 RUN npm install serve
 
 #RUN npm install
