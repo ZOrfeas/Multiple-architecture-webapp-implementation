@@ -1,6 +1,6 @@
 <div align="center">
 
-# Microservices architecture (SOA)
+# Microservices architecture
 </div>
 
 Run `docker compose up` in this directory to create and setup a working version of the application.
