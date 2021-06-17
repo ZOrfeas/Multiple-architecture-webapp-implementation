@@ -13,6 +13,14 @@ router.get('/info', authenticate, (req, res, next) => {
       delete retObj.password;
       retObj.ansCount = retObj.answers.length;
       retObj.questCount = retObj.questions.length;
+      retObj.answers = retObj.answers.sort((a, b) => {
+        return new Date(b.answeredOn).getTime()
+             - new Date(a.answeredOn).getTime();
+      });
+      retObj.questions = retObj.questions.sort((a, b) => {
+        return new Date(b.askedOn).getTime()
+             - new Date(a.askedOn).getTime();
+      });
       res.status(200).json(retObj);
     })
     .catch(next);
