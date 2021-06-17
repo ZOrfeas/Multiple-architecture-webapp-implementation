@@ -1,0 +1,94 @@
+# Workflow handling CI/CD of the answer-manager microservice
+name: (Answer Manager ms) Build & Push image
+
+on:
+  push: # runs on any push to the main branch
+    branches: [ main ]
+    paths:
+      - 'Microservices/answerManagement/**'
+      - '!Microservices/answerManagement/.idea/**'
+      - '!Microservices/answerManagement/README.md'
+  pull_request: # runs on any pull request with changes on the same files
+    branches: [ main ]
+    paths:
+      - 'Microservices/answerManagement/**'
+      - '!Microservices/answerManagement/.idea/**'
+      - '!Microservices/answerManagement/README.md'
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: Microservices/answerManagement
+
+jobs:
+  build_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch main or PR-merge-branch on runner
+        uses: actions/checkout@v2.3.4
+      
+      - name: Setup node environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: '15'
+      
+      #- name: Install dependencies
+      #  run: |
+      #    rm package-lock.json
+      #    npm install
+      
+      - name: Login Docker
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      
+      - name: Setup Caching for Docker
+        if: github.event_name != 'pull_request'
+        uses: actions/cache@v2
+        with:
+          path: /tmp/ms/answerManagement/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Setup Docker Buildx
+        if: github.event_name != 'pull_request'
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Setup image tags
+        if: github.event_name != 'pull_request'
+        run : |
+          echo "IMAGE_TAG=$(curl -m 20 'http://snf-880282.vm.okeanos.grnet.gr/docker/ms-answerManagement-latest-tag.txt')" >> $GITHUB_ENV
+      
+      - name: Build and push image
+        if: github.event_name != 'pull_request'
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: ${{ github.workspace }}/Microservices/answerManagement
+          file: ${{ github.workspace }}/Microservices/answerManagement/Dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/ms-answer-manager:${{ env.IMAGE_TAG }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/ms-answer-manager:latest
+          cache-from: type=local,src=/tmp/ms/answerManagement/.buildx-cache
+          cache-to: type=local,dest/tmp/ms/answerManagement/.buildx-cache-new
+
+      #- name: Pull & restart containers
+      #  if: github.event_name != 'pull_request'
+      #  uses: appleboy/ssh-action@master
+      #  with:
+      #    host: ${{ secrets.SERVER_HOSTNAME }}
+      #    username: temp
+      #    key: ${{ secrets.SERVER_PRIVATE_KEY }}
+      #    script: cd ~/saasClass && ./update.sh authenticator
+      
+      - name: Move cache
+        if: github.event_name != 'pull_request'
+        run: |
+          rm -rf /tmp/ms/answerManagement/.buildx-cache
+          mv /tmp/ms/answerManagement/.buildx-cache-new /tmp/ms/answerManagement/.buildx-cache
