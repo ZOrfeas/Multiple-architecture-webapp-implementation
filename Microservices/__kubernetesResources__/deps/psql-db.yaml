@@ -10,10 +10,12 @@ metadata:
     io.kompose.service: psql-db
   name: psql-db
 spec:
+  type: NodePort
   ports:
     - name: "5432"
       port: 5432
       targetPort: 5432
+      nodePort: 31000
   selector:
     io.kompose.service: psql-db
 status:

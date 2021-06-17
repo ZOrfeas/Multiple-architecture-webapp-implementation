@@ -10,10 +10,12 @@ metadata:
     io.kompose.service: msg-q
   name: msg-q
 spec:
+  type: NodePort
   ports:
     - name: "6379"
       port: 6379
       targetPort: 6379
+      nodePort: 31001
   selector:
     io.kompose.service: msg-q
 status:
