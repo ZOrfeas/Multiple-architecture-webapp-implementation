@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const axios = require('axios');
 const { User } = require('../database/utils');
 const { EntityEnum, ActionEnum, publish } = require('../redis/publishers');
+const { BadRequest } = require('http-errors');
 
 axios.defaults.baseURL = "http://" +
                           process.env.DL_HOSTNAME + ":" +
@@ -20,6 +21,8 @@ router.post('/signup', async (req, res, next) => {
   // #swagger.summary = 'Signs a new user up'
   try {
     // hash password
+    if (!req.body.username || !req.body.displayName || !req.body.password)
+      throw new BadRequest("Empty user detail field");
     const hash = await bcrypt.hash(req.body.password, parseInt(process.env.SALT_ROUNDS));
 
     const userDetails = { // new user
