@@ -1,5 +1,5 @@
-# Workflow handling CI/CD of the MS Data-Layer Component
-name: (Auth) Build & Push image
+# Workflow handling CI/CD of the authenticator microservice
+name: (Auth ms) Build & Push image
 
 on:
   push: # runs on any push to the main branch
