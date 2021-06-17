@@ -9,14 +9,23 @@ const config = {
     password: process.env.PGPASSWORD,
     port: process.env.PGPORT,
 };
-const nextReq = '../swagger.js';
-pgtools.createdb(config, process.env.PGDATABASE)
-.then(() => {
-    require(nextReq);
-}).catch((err) => {
+const nextReq = '../swagger';
+const connErrMessage = "Postgres error. Cause: Connection terminated unexpectedly";
+const retryTime = 5 * 1000;
+
+async function attemptDbCreation() {
+  try {
+    await pgtools.createdb(config, process.env.PGDATABASE);
+  } catch (err) {
     if (err.name === 'duplicate_database') {
-        require(nextReq);
+      require(nextReq);
+    } else if (err.message === connErrMessage) {
+      console.log("Connection failed, retrying in", retryTime.toString());
+      setTimeout(attemptDbCreation, retryTime);
     } else {
-        console.log(err);
+      console.log(err);
     }
-});
+  }
+}
+
+attemptDbCreation();
