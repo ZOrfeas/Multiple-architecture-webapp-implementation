@@ -31,11 +31,10 @@ jobs:
       - name: Setup node environment
         uses: actions/setup-node@v2
         with:
-            node-version: '14'
+            node-version: '15'
       
       - name: Install dependencies
         run: |
-          npm --version
           npm install
       
       - name: Build for production
