@@ -1,0 +1,4 @@
+host=some_hostname
+port=some_portnr
+user=some_username
+password=some_pass
