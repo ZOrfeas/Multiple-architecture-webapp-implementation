@@ -24,12 +24,13 @@ router.post('/signup', async (req, res, next) => {
 
     const userDetails = { // new user
       email: req.body.username,
-      password_hash: hash
+      password_hash: hash,
+      displayName: req.body.displayName,
     };
-    const displayName = req.body.displayName; //will throw if does not exist
+    // const displayName =  //will throw if does not exist
     const user = await User.create(userDetails);
 
-    user.displayName = displayName;
+    // user.displayName = displayName;
     publish(EntityEnum.user, ActionEnum.create, user);
 
     const token = jwt.sign(
@@ -38,7 +39,11 @@ router.post('/signup', async (req, res, next) => {
         { expiresIn: process.env.JWT_EXPIRES_IN }
     );
 
-    res.status(200).json({ email: user.email, id: user.id , token });
+    res.status(200).json({ user: {
+      id: user.id,
+      displayName: user.displayName,
+      email: user.email,
+    } , token });
   } catch(error) {
     const message = error.errors[0]?.message;
     if (message === 'email must be unique') {
@@ -58,7 +63,7 @@ router.post('/signup', async (req, res, next) => {
 router.post('/signin', passport.authenticate('local', { session: false }), (req, res) => {
   // #swagger.tags = ['Sign in']
   // #swagger.summary = 'Signs an existing user in'
-  const { id, email } = req.user;
+  const { id, email, displayName } = req.user;
 
   const token = jwt.sign(
       { id: id, email: email },
@@ -66,7 +71,7 @@ router.post('/signin', passport.authenticate('local', { session: false }), (req,
       { expiresIn: process.env.JWT_EXPIRES_IN }
   );
 
-  res.status(200).json({ email: email, id: id, token });
+  res.status(200).json({ user: { displayName, email }, token });
 });
 
 /**

@@ -26,7 +26,11 @@ passport.use(new LocalStrategy(async (username, password, done) => {
       return done(null, false);
     }
 
-    return done(null, { id: user.id, email: user.email });
+    return done(null, { 
+      id: user.id,
+      email: user.email,
+      displayName: user.displayName,
+    });
   } catch(error) {
     done(error);
   }
