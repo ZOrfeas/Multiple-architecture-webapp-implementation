@@ -112,7 +112,7 @@ export class QuestionService {
         return idObj.questionId;
       });
       return manager.findByIds(Question, questionIds, {
-        relations: ['keywords'],
+        relations: ['keywords', 'user'],
       });
     });
   }
