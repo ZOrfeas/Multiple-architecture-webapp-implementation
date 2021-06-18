@@ -1,11 +1,10 @@
 const express = require('express');
+const { BadRequest } = require('http-errors');
 const router = express.Router();
 const { authenticate } = require('../authenticate');
 const accountServices = require('./services');
 
-router.get('/info', authenticate, (req, res, next) => {
-  // #swagger.tags = ['Account']
-  // #swagger.summary = 'Return all account info of a user'
+function getAccount(req, res, next) {
   const id = req.user.id;
   accountServices.getAccountInfo(id)
     .then(dlres => {
@@ -24,6 +23,19 @@ router.get('/info', authenticate, (req, res, next) => {
       res.status(200).json(retObj);
     })
     .catch(next);
-});
+}
+
+function fillId(req, res, next) {
+  const id = +req.params.id;
+  if (isNaN(id)) {
+    next(new BadRequest('Invalid user id provided'));
+  } else {
+    req.user = { id: id };
+    next();
+  }
+}
+
+router.get('/info', authenticate, getAccount);
+router.get('/:id', fillId, getAccount);
 
 module.exports = router;
