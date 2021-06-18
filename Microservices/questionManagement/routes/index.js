@@ -101,7 +101,7 @@ router.get('/count/by/keywords', async (req, res, next) => {
 
 router.get('/by/keywords', async (req, res, next) => {
   // #swagger.tags = ['Question']
-  // #swagger.summary = 'Fetches all questions that have the specified keywords'
+  // #swagger.summary = 'Fetches a page of questions that have the specified keywords'
   try {
     const ids = req.query.id; // could use a regexp to check here
     const pagenr = req.query.pagenr;
