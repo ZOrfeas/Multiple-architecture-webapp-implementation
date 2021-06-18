@@ -10,7 +10,14 @@ router.get('/questionsByKeywords', (req, res, next) => {
   const pagenr = req.query.pagenr;
   // console.log(idList, pagesize, pagenr);
   browseServices.questionsByKeywords(idList, pagesize, pagenr)
-    .then(dlres => res.status(200).json(dlres.data))
+    .then(dlres => {
+      const retList = [];
+      dlres.data.forEach((question) => {
+        !question.user || delete question.user.password;
+        retList.push(question);
+      })
+      res.status(200).json(retList)
+    })
     .catch(next);
 });
 
