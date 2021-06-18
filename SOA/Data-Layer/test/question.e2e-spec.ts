@@ -142,6 +142,12 @@ describe('QuestionModule (e2e)', () => {
             name: Dummies.keywordSimple.name,
           },
         ],
+        user: {
+          id: 1,
+          displayName: Dummies.user.displayName,
+          email: Dummies.user.email,
+          password: Dummies.user.password,
+        }
       },
     ]);
     expect(isNaN(Date.parse(result.body[0].askedOn))).toEqual(false);
