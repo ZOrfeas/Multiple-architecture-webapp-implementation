@@ -1,7 +1,7 @@
 const express = require('express');
 const { BadRequest } = require('http-errors');
 const { authenticate } = require('../authenticate');
-const { Answer, sequelize } = require('../database/utils');
+const { Answer, sequelize, Op } = require('../database/utils');
 const { publish, EntityEnum, ActionEnum } = require('../redis/publishers');
 const router = express.Router();
 
@@ -48,6 +48,28 @@ router.get('/count/by/year', async (req, res, next) => {
       processed[key] = count;
     });
     res.status(200).send(processed);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get('/count/by/questions', async (req, res, next) => {
+  // #swagger.tags = ['Answer']
+  // #swagger.summary = 'Returns the answer count for questions provided'
+  try {
+    const qIdString = req.query.id;
+    const ids = qIdString.split(',').map((idString)=>{
+      const id = +idString;
+      if (isNaN(id))
+        throw new BadRequest('Invalid question id format');
+      return id;
+    });
+    const queryIds = '(' + ids.toString() + ')';
+    const queryString = `SELECT "question_id", count(*) FROM "answers" WHERE "question_id" IN ${queryIds} GROUP BY "question_id"`;
+    const rawRetVal = (await sequelize.query(queryString))[0];
+    const retVal = {};
+    rawRetVal.forEach((row) => retVal[row.question_id] = row.count);
+    res.status(200).json(retVal);
   } catch (err) {
     next(err);
   }
