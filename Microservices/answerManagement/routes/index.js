@@ -90,6 +90,22 @@ router.get('/by/question', async (req, res, next) => {
   }
 });
 
+router.get('/count/by/user', async (req, res, next) => {
+  // #swagger.tags = ['Answer']
+  // #swagger.summary = 'Returns the answer count for user specified'
+  try {
+    const id = +req.query.id;
+    if (isNaN(id))
+      throw new BadRequest('Invalid user id provided');
+    const retVal = await Answer.count({
+      where: { user_id: id },
+    });
+    res.status(200).send(retVal.toString());
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get('/by/user', async (req, res, next) => {
   // #swagger.tags = ['Answer']
   // #swagger.summary = 'Get all answers of a question'
