@@ -111,9 +111,18 @@ export class QuestionService {
       const questionIds = questionIdObjs.map((idObj) => {
         return idObj.questionId;
       });
-      return manager.findByIds(Question, questionIds, {
+      const res: QuestionWithAnsCount[] = [];
+      const questions = await manager.findByIds(Question, questionIds, {
         relations: ['keywords', 'user'],
       });
+      for (let i = 0; i < questions.length; i++) {
+        const question = questions[i];
+        const [, ansCount] = await manager.findAndCount(Answer, {
+          where: { question: question.id },
+        });
+        res.push(new QuestionWithAnsCount(question, ansCount));
+      }
+      return res;
     });
   }
 

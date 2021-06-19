@@ -128,29 +128,32 @@ describe('QuestionModule (e2e)', () => {
       .expect(200);
     expect(result.body).toEqual([
       {
-        id: 1,
-        title: Dummies.question.title,
-        questContent: Dummies.question.questContent,
-        askedOn: expect.any(String),
-        keywords: [
-          {
-            id: 1,
-            name: Dummies.keywordOfUser1.name,
-          },
-          {
-            id: 2,
-            name: Dummies.keywordSimple.name,
-          },
-        ],
-        user: {
+        question: {
           id: 1,
-          displayName: Dummies.user.displayName,
-          email: Dummies.user.email,
-          password: Dummies.user.password,
-        }
+          title: Dummies.question.title,
+          questContent: Dummies.question.questContent,
+          askedOn: expect.any(String),
+          keywords: [
+            {
+              id: 1,
+              name: Dummies.keywordOfUser1.name,
+            },
+            {
+              id: 2,
+              name: Dummies.keywordSimple.name,
+            },
+          ],
+          user: {
+            id: 1,
+            displayName: Dummies.user.displayName,
+            email: Dummies.user.email,
+            password: Dummies.user.password,
+          },
+        },
+        ansCount: 0,
       },
     ]);
-    expect(isNaN(Date.parse(result.body[0].askedOn))).toEqual(false);
+    expect(isNaN(Date.parse(result.body[0].question.askedOn))).toEqual(false);
   });
 
   it('/question/{:id} (PATCH) | should return updated question', async () => {

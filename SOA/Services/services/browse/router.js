@@ -12,11 +12,14 @@ router.get('/questionsByKeywords', (req, res, next) => {
   browseServices.questionsByKeywords(idList, pagesize, pagenr)
     .then(dlres => {
       const retList = [];
-      dlres.data.forEach((question) => {
-        !question.user || delete question.user.password;
-        retList.push(question);
-      })
-      res.status(200).json(retList)
+      dlres.data.forEach((element) => {
+        const retObj = element.question;
+        retObj.ansCount = element.ansCount;
+        // delete password if question.user exists
+        !retObj.user || delete retObj.user.password;
+        retList.push(retObj);
+      });
+      res.status(200).json(retList);
     })
     .catch(next);
 });
@@ -77,9 +80,7 @@ router.get('/questions', (req, res, next) => {
         !retObj.user || delete retObj.user.password;
         retList.push(retObj);
       });
-      res
-        .status(200)
-        .json(retList)
+      res.status(200).json(retList);
     })
     .catch(next);
 })
