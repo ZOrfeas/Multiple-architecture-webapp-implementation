@@ -203,4 +203,13 @@ export class QuestionService {
       GROUP BY day`;
     return this.manager.query(queryString);
   }
+
+  async byAnswers(ids: number[]): Promise<any> {
+    const queryIds = '(' + ids.toString() + ')';
+    const queryString = `SELECT "q"."title", "q"."id" "question_id", "a"."answeredOn", "a"."id" as "answer_id"
+      FROM "question" "q"
+      JOIN "answer" "a" ON "a"."question_id" = "q"."id"
+      WHERE "a"."id" IN ${queryIds} ORDER BY "a"."answeredOn" DESC`;
+    return await this.manager.query(queryString);
+  }
 }

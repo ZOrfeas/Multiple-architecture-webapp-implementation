@@ -119,4 +119,15 @@ export class QuestionController {
   ) {
     return this.questionService.countByYear(year);
   }
+
+  @Get('by/answers')
+  @ApiOperation({
+    summary: 'Returns some question info on given questions'
+  })
+  byAnswers(
+    @Query('id', new ParseArrayPipe({ items: Number, separator: ',' }))
+    ids: number[],
+  ) {
+    return this.questionService.byAnswers(ids);
+  }
 }
