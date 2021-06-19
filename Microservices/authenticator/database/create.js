@@ -28,10 +28,10 @@ async function attemptConnection() {
 }
 
 async function setupDb(maxAttempts = 10) {
-  let attempt = 0;
+  let attempt = 1;
   let connection;
-  while (!(print(`Try ${attempt}: `), connection = await attemptConnection()) 
-       && (attempt++ < maxAttempts)) {
+  while (!(print(`Attempt ${attempt}: `), connection = await attemptConnection()) 
+       && (attempt++ <= maxAttempts)) {
     print("Failed to connect, ");
     console.log('Retrying in', (retryTime/1000).toString() + 's');
     await sleep(retryTime);
