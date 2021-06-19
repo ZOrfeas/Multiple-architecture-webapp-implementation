@@ -52,6 +52,7 @@ async function setupDb(maxAttempts = 10) {
     }
   }
   process.env.PGDATABASE = savedDbName;
+  await connection.end();
   require(nextReq);
 }
 
