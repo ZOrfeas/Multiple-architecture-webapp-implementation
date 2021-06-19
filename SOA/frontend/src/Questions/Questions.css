@@ -52,15 +52,16 @@
 .date-user {
     font-size: .75rem;
 }
+
 .hand-icon,
-.qa-icon,
+.answer-icon,
 .idea-icon {
     font-size: 21px;
     color: #0366d6;
 }
 
 .tag-icon {
-    color: #0366d6;
+    color: rgba(0,0,0,0.6);
 }
 
 .keyword-count {

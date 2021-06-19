@@ -1,4 +1,19 @@
-nav {
-    padding-left: 7.5rem !important;
-    padding-right: 7.5rem !important;
+.nav {
+    padding-left: 5% !important;
+    padding-right: 5% !important;
+}
+
+.login-btn {
+    /*background-color: #2d88ff33 !important;
+    color: #2d88ff !important;
+    border-color: #2d88ff33 !important;*/
+    background-color: #000fdd55 !important;
+    color: #ffffffbb !important;
+    border-color: #000fdd !important;
+}
+
+.signup-btn {
+    background-color: #000fffbb !important;
+    color: #fff !important;
+    border-color: #000fde !important;
 }

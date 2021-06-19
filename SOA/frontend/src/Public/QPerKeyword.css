@@ -7,10 +7,25 @@
     background-color: #bfe5d9;*/
     color: #439a80 !important;
     background-color: #d3e5d9;
+    /*color: #4da400 !important;*/
+    /*background-color: #e6f6cf;*/
     font-weight: 500 !important;
     cursor: pointer;
 }
 
+.keyword-badge:hover {
+    background-color: #c5e1ce;
+}
+
 .keyword-badge a {
     color: #439a80 !important;
+}
+
+.question-count {
+    color: #0366d6;
+}
+
+.question-icon {
+    font-size: 21px;
+    color: #0366d6;
 }

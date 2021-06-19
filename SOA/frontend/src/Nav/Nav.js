@@ -15,10 +15,12 @@ function NavComponent() {
   }
 
   return (
-      <Navbar className='fixed-top' bg='dark' variant='dark'>
+      <Navbar className='fixed-top nav' bg='dark' variant='dark' expand='md'>
         <Navbar.Brand href='/'><span className='ama-logo'>AskMeAnything</span></Navbar.Brand>
-        <Nav className='mr-auto'>
-        </Nav>
+        <Navbar.Toggle aria-controls='navbarScroll' />
+        <Navbar.Collapse id='navbarScroll'>
+          <Nav className='mr-auto' navbarScroll>
+          </Nav>
           {user ?
               <Nav>
                 <NavDropdown title={user.displayName} id='collasible-nav-dropdown'>
@@ -33,10 +35,13 @@ function NavComponent() {
               </Nav>
               :
               <Nav>
-                <Button className='mr-2' variant='outline-primary' href='/login'>Log In</Button>
-                <Button variant='primary' href='/signup'>Sign Up</Button>
+                <div className='d-flex'>
+                  <Button className='login-btn mr-2' href='/login'>Log In</Button>
+                  <Button className='signup-btn' href='/signup'>Sign Up</Button>
+                </div>
               </Nav>
           }
+        </Navbar.Collapse>
       </Navbar>
   )
 }

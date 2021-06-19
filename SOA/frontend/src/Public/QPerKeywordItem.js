@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card'
 import Badge from 'react-bootstrap/Badge'
 import React from "react";
 
-function KeywordItem({ id, name, count }) {
+function QPerKeywordItem({ id, name, count }) {
   const { user } = useAuth()
   const formatName = name.split(' ').join('-')
 
@@ -18,10 +18,14 @@ function KeywordItem({ id, name, count }) {
           </Badge>
         </Card.Body>
         <Card.Footer className='text-center text-muted'>
-          <small>{count} question{count != 1 && 's'}</small>
+          {count > 0 &&
+          <div className='question-count'>
+            <span className='material-icons-outlined mr-1 question-icon'>live_help</span>
+            <span className='small'>{count}</span>
+          </div>}
         </Card.Footer>
       </Card>
   )
 }
 
-export default KeywordItem
+export default QPerKeywordItem

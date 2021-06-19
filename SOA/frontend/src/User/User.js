@@ -3,11 +3,14 @@ import React, { useState, useEffect } from 'react'
 import { useAuth } from '../Auth/AuthContext'
 import NavComponent from '../Nav/Nav'
 import Footer from '../Footer/Footer'
+import UserDetails from './UserDetails'
+import UserQA from './UserQA'
 import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Nav from 'react-bootstrap/Nav'
+import Tabs from 'react-bootstrap/Tabs'
+import Tab from 'react-bootstrap/Tab'
 
 const axios = require('axios')
 const url = process.env.REACT_APP_ACCOUNT_URL
@@ -50,10 +53,6 @@ function User() {
     return `Last activity on ${formatDate(date)}`
   }
 
-  const handleSelect = e => {
-    console.log(e)
-  }
-
   return (
       <div>
         <NavComponent />
@@ -63,7 +62,7 @@ function User() {
               <div className='w-100' style={{ maxWidth: '950px' }}>
                 <Card.Header className='border-bottom-0'>
                   <Row className='mx-0'>
-                    <Col xs={4} md={2} className='d-flex align-items-center justify-content-center icon'>
+                    <Col xs={4} md={2} className='d-flex align-items-center justify-content-center'>
                       <span className='material-icons-sharp profile-icon'>person</span>
                     </Col>
 
@@ -89,19 +88,29 @@ function User() {
                 </Card.Header>
 
                 <Card.Body>
-                  <Nav variant='tabs' defaultActiveKey='d' onSelect={handleSelect}>
-                    <Nav.Item>
-                      <Nav.Link eventKey='d'>Details</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey='q'>Questions</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey='a'>Answers</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                    </Nav.Item>
-                  </Nav>
+                  <Tabs className='user-tabs mb-3 px-0' defaultActiveKey='1'>
+                    <Tab eventKey='1' title='Details'>
+                      <UserDetails
+                          name={accountInfo.displayName}
+                          email={accountInfo.email}
+                      />
+                    </Tab>
+                    <Tab eventKey='2' title='Questions'>
+                      {Object.keys(accountInfo).length !== 0 &&
+                      <UserQA
+                          userId={accountInfo.id}
+                          q
+                          data={accountInfo.questions}
+                      />}
+                    </Tab>
+                    <Tab eventKey='3' title='Answers'>
+                      {Object.keys(accountInfo).length !== 0 &&
+                      <UserQA
+                          userId={accountInfo.id}
+                          data={accountInfo.answers}
+                      />}
+                    </Tab>
+                  </Tabs>
                 </Card.Body>
               </div>
             </Card>

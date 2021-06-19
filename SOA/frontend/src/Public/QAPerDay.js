@@ -1,11 +1,10 @@
 import './QAPerDay.css'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import CalendarComponent from './CalendarComponent'
 import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
-import Col from 'react-bootstrap/Col'
 
 const axios = require('axios')
 const url = process.env.REACT_APP_BROWSE_URL
@@ -21,28 +20,35 @@ function QAPerDay() {
   useEffect(() => {
     try {
       axios.get(`${url}/questionCountByYear?year=${year}`)
-          .then(response => formatData(response.data, setQuestionData, setTotalQuestions))
+          .then(response => {
+            const { data, total } = formatData(response.data)
+            setQuestionData(data)
+            setTotalQuestions(total)
+          })
       axios.get(`${url}/answerCountByYear?year=${year}`)
-          .then(response => formatData(response.data, setAnswerData, setTotalAnswers))
+          .then(response => {
+            const { data, total } = formatData(response.data)
+            setAnswerData(data)
+            setTotalAnswers(total)
+          })
     } catch(error) {
       console.log(error)
     }
   }, [year])
 
-  const formatData = (obj, f1, f2) => {
+  const formatData = obj => {
     const data = []
-    let sum = 0
+    let total = 0
     for (const [key, value] of Object.entries(obj)) {
       data.push({ day: key, value: parseInt(value) })
-      sum += parseInt(value)
+      total += parseInt(value)
     }
-    f1(data)
-    f2(sum)
+    return { data, total }
   }
 
-  const getYears = () => {
+  const getYears = start => {
     const years = []
-    for (let i = new Date().getFullYear(); i >= 2015; --i) {
+    for (let i = new Date().getFullYear(); i >= start; --i) {
       years.push(<option key={i}>{i}</option>)
     }
     return years
@@ -65,7 +71,11 @@ function QAPerDay() {
       <Container className='calendar-content py-5'>
         <Card>
           <Card.Header className='py-4'>
-            <InputGroup as={Col} xs={6} md={3} lg={2} className='ml-auto px-0'>
+            <h5 className='mb-0'>Calendar</h5>
+          </Card.Header>
+
+          <Card.Body>
+            <InputGroup className='ml-auto mb-3 px-0' style={{ width: '180px' }}>
               <InputGroup.Prepend>
                 <InputGroup.Text>
                   <span className='material-icons-sharp date-icon'>date_range</span>
@@ -76,25 +86,29 @@ function QAPerDay() {
                   onChange={e => setYear(parseInt(e.target.value))}
                   custom
               >
-                {getYears()}
+                {getYears(2015)}
               </Form.Control>
             </InputGroup>
-          </Card.Header>
-          <Card.Body>
+
             <div>
-              <h5>Questions ({totalQuestions})</h5>
+              <h5>Questions <span className='small'>({totalQuestions})</span></h5>
               <Card className='calendar mb-3'>
                 <CalendarComponent
+                    width={1260}
+                    height={300}
                     data={questionData}
                     year={year}
                     colors={colorsQ}
                 />
               </Card>
             </div>
+
             <div>
-              <h5>Answers ({totalAnswers})</h5>
+              <h5>Answers <span className='small'>({totalAnswers})</span></h5>
               <Card className='calendar mb-3'>
                 <CalendarComponent
+                    width={1260}
+                    height={300}
                     data={answerData}
                     year={year}
                     colors={colorsA}

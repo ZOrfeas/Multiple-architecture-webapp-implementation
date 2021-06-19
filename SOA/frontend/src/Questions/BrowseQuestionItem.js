@@ -24,7 +24,7 @@ function BrowseQuestionItem({ id, title, summary, keywords, setId, setPage, aske
                         pathname: `/questions/keyword/${formatName(keyword.name)}`,
                         state: { id: keyword.id, name: keyword.name }
                       }}
-                      onClick={e => {
+                      onClick={() => {
                         setId(keyword.id)
                         setPage(1)
                       }}
@@ -39,7 +39,7 @@ function BrowseQuestionItem({ id, title, summary, keywords, setId, setPage, aske
         <div className='stats d-none d-md-block flex-shrink-0 text-right ml-3 p-2'>
           {answerCount > 0 &&
           <div className='answer-count'>
-            <span className='material-icons-outlined mr-1 qa-icon'>question_answer</span>
+            <span className='material-icons-outlined mr-1 answer-icon'>question_answer</span>
             <span className='small'>{answerCount}</span>
           </div>}
         </div>
