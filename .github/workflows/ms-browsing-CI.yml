@@ -1,5 +1,5 @@
 # Workflow handling CI/CD of the browsing microservice
-name: (browsing ms) Build & Push image
+name: (Browsing ms) Build & Push image
 
 on:
   push: # runs on any push to the main branch
