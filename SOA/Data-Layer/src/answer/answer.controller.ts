@@ -57,7 +57,9 @@ export class AnswerController {
   countByYear(
     @Query('year', ParseIntPipe)
     year: number,
+    @Query('id')
+    id: string,
   ) {
-    return this.answerService.countByYear(year);
+    return this.answerService.countByYear(year, +id);
   }
 }

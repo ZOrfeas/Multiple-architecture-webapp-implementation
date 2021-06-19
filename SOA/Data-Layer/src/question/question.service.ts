@@ -195,12 +195,15 @@ export class QuestionService {
     });
   }
 
-  countByYear(year: number): Promise<any> {
+  countByYear(year: number, id: number): Promise<any> {
     const fromDate = year.toString() + '-01-01';
     const toDate = (year + 1).toString() + '-01-01';
-    const queryString = `SELECT COUNT(*) as count, date_trunc('day', "askedOn") as day
-      FROM "question" WHERE "askedOn">='${fromDate}' AND "askedOn"<'${toDate}'
-      GROUP BY day`;
+    const queryString =
+      `SELECT COUNT(*) as count, date_trunc('day', "askedOn") as day ` +
+      `FROM "question" WHERE "askedOn">='${fromDate}' ` +
+      `AND "askedOn"<'${toDate}' ` +
+      (isNaN(id) ? '' : `AND "user_id" = ${id} `) +
+      `GROUP BY day`;
     return this.manager.query(queryString);
   }
 

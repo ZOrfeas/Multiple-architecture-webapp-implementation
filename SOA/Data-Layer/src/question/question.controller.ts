@@ -116,13 +116,15 @@ export class QuestionController {
   countByYear(
     @Query('year', ParseIntPipe)
     year: number,
+    @Query('id')
+    id: string,
   ) {
-    return this.questionService.countByYear(year);
+    return this.questionService.countByYear(year, +id);
   }
 
   @Get('by/answers')
   @ApiOperation({
-    summary: 'Returns some question info on given questions'
+    summary: 'Returns some question info on given questions',
   })
   byAnswers(
     @Query('id', new ParseArrayPipe({ items: Number, separator: ',' }))
