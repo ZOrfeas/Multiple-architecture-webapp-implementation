@@ -164,6 +164,13 @@ class Question {
       { params: paramWrapper }
     );
   }
+  getByAnswers(idList) {
+    const paramWrapper = { id: idList.toString() };
+    return axios.get(
+      this.src + '/by/answers',
+      { params: paramWrapper },
+    );
+  }
 }
 /**
  * Wrapper of data layer calls refering to Keyword
