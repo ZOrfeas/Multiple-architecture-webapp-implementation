@@ -4,7 +4,7 @@ const passport = require('passport');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
-const { User } = require('../database/utils');
+const { User, sequelize } = require('../database/utils');
 const { EntityEnum, ActionEnum, publish } = require('../redis/publishers');
 const { BadRequest } = require('http-errors');
 
@@ -86,5 +86,29 @@ router.get('/protected', passport.authenticate('jwt', { session: false }), (req,
   // #swagger.summary = 'Authenticates a user by token'
   res.status(200).json(req.user);
 });
+
+router.get('/userDetails', async (req, res, next) => {
+  // #swagger.tags = ['Details']
+  // #swagger.summary = 'Get user details by ids'
+  try {
+    const qIdString = req.query.id;
+    const ids = qIdString.split(',').map((idString) => {
+      const id = +idString;
+      if (isNaN(id)) throw new BadRequest('Invalid user id path param provided');
+      return id;
+    });
+    const queryIds = '(' + ids.toString() + ')';
+    const queryString = `SELECT "id", "email", "displayName" FROM "users" WHERE "id" IN ${queryIds}`;
+    const rawRetVal = (await sequelize.query(queryString))[0];
+    const retVal = {};
+    rawRetVal.forEach((row) => {
+      retVal[row.id] = row;
+    });
+    res.status(200).json(retVal);
+  } catch (err) {
+    next(err);
+  }
+
+})
 
 module.exports = router;

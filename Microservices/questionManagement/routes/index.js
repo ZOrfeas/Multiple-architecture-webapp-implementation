@@ -1,3 +1,4 @@
+const e = require('express');
 const express = require('express');
 const { BadRequest, NotFound } = require('http-errors');
 const router = express.Router();
@@ -146,7 +147,7 @@ router.get('/count/by/year', async (req, res, next) => {
   // #swagger.summary = 'Get question count per day by year'
   try {
     const year = +req.query.year;
-    if (!year || isNaN(year)) throw new BadRequest('Invalid year query param');
+    if (isNaN(year)) throw new BadRequest('Invalid year query param');
     const fromDate = year.toString() + '-01-01';
     const toDate = (year + 1).toString() + '-01-01';
     const queryString = `SELECT COUNT(*) as count, date_trunc('day', "createdAt") as day
@@ -170,18 +171,48 @@ router.get('/count/by/year', async (req, res, next) => {
   }
 });
 
+router.get('/by/user', async (req, res, next) => {
+  // #swagger.tags = ['Question']
+  // #swagger.summary = 'Get all questions submitted by a user'
+  try {
+    const id = +req.query.id;
+    if (isNaN(id)) throw new BadRequest('Invalid user id query param');
+    const questions = await Question.findAll({
+      where: { user_id: id },
+      order: [['createdAt', 'DESC']],
+    });
+    res.status(200).json(questions);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get('/:id', async (req, res, next) => {
   // #swagger.tags = ['Question']
   // #swagger.summary = 'Fetches all available info about a question'
   try {
-    const id = req.params.id;
-    const question = await Question.findByPk(id, { include: {
-      model: Keyword, through: { attributes: [] }
-    }});
-    if (!question) {
-      throw new NotFound(`Question with id ${id} not found`);
+    const ids = req.params.id;
+    const questionIds = ids.split(',').map((str) => {
+      const nr = +str;
+      if (isNaN(nr)) throw new BadRequest('Invalid keyword id query param');
+      return nr;
+    });
+    if (questionIds.length === 1) {
+      const question = await Question.findByPk(questionIds[0], { include: {
+        model: Keyword, through: { attributes: [] }
+      }});
+      if (!question) {
+        throw new NotFound(`Question with id ${id} not found`);
+      }
+      res.status(200).json(question);  
+    } else {
+      const questions = await Question.findAll({
+        where: { id: { [Op.in]: questionIds } }
+      });
+      const retVal = {}
+      questions.forEach(question => retVal[question.id] = question);
+      res.status(200).json(retVal);
     }
-    res.status(200).json(question);  
   } catch(err) {
     next(err);
   }

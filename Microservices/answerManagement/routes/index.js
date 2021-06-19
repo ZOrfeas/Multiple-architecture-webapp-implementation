@@ -29,7 +29,7 @@ router.get('/count/by/year', async (req, res, next) => {
   // #swagger.summary = 'Get answer count per day by year'
   try {
     const year = +req.query.year;
-    if (!year || isNaN(year)) throw new BadRequest('Invalid year query param');
+    if (isNaN(year)) throw new BadRequest('Invalid year query param');
     const fromDate = year.toString() + '-01-01';
     const toDate = (year + 1).toString() + '-01-01';
     const queryString = `SELECT COUNT(*) as count, date_trunc('day', "createdAt") as day
