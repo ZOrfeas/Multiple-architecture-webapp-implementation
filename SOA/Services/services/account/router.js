@@ -42,6 +42,56 @@ function fillId(req, res, next) {
   }
 }
 
+router.get('/questionCountByYear', (req, res, next) => {
+  // #swagger.tags = ['Account']
+  // #swagger.summary = 'Get calendar view info for a user'
+  const id = +req.query.id;
+  const year = +req.query.year;
+  if (isNaN(id) || isNaN(year)) throw new BadRequest('Invalid user_id or year provided');
+  accountServices.getQuestionCountByYear(year, id)
+  .then(dlres => {
+    const retObj = {}
+    // console.log('hey');
+    dlres.data.forEach(({day, count}) => {
+        const date = new Date(day);
+        const mm = date.getMonth() + 1;
+        const dd = date.getDate();
+        const key = [date.getFullYear(),
+                      (mm>9 ? '' : '0') + mm,
+                      (dd>9 ? '' : '0') + dd
+                    ].join('-');
+        retObj[key] = count;
+      });
+      res.status(200).json(retObj);
+  })
+  .catch(next);
+});
+
+router.get('/answerCountByYear', (req, res, next) => {
+  // #swagger.tags = ['Account']
+  // #swagger.summary = 'Get calendar view info for a user'
+  const id = +req.query.id;
+  const year = +req.query.year;
+  if (isNaN(id) || isNaN(year)) throw new BadRequest('Invalid user_id or year provided');
+  accountServices.getAnswerCountByYear(year, id)
+  .then(dlres => {
+    const retObj = {}
+    // console.log('hey');
+    dlres.data.forEach(({day, count}) => {
+        const date = new Date(day);
+        const mm = date.getMonth() + 1;
+        const dd = date.getDate();
+        const key = [date.getFullYear(),
+                      (mm>9 ? '' : '0') + mm,
+                      (dd>9 ? '' : '0') + dd
+                    ].join('-');
+        retObj[key] = count;
+      });
+      res.status(200).json(retObj);
+  })
+  .catch(next);
+});
+
 router.get('/info', authenticate, getAccount);
 router.get('/:id', fillId, getAccount);
 

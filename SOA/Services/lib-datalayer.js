@@ -80,8 +80,9 @@ class Answer {
   getCount() {
     return axios.get(this.src + '/count')
   }
-  getCountByYear(year) {
+  getCountByYear(year, id) {
     const paramWrapper = { year: year };
+    if (id) paramWrapper.id = id;
     return axios.get(
       this.src + '/count/by/year',
       { params: paramWrapper }
@@ -157,8 +158,9 @@ class Question {
     const paramWrapper = { id: id };
     return axios.get(this.src + '/info', { params: paramWrapper });
   }
-  getCountByYear(year) {
+  getCountByYear(year, id) {
     const paramWrapper = { year: year };
+    if (id) paramWrapper.id = id;
     return axios.get(
       this.src + '/count/by/year',
       { params: paramWrapper }
