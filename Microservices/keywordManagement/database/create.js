@@ -1,31 +1,58 @@
-const pgtools = require('pgtools');
+const { Client } = require('pg');
 require('dotenv').config();
 
-process.env.PGDATABASE = process.env.PGDATABASE || 'ms-keywords';
+function print(msg) {
+  process.stdout.write(msg);
+}
 
-const config = {
-  user: process.env.PGUSER,
-  host: process.env.PGHOST,
-  password: process.env.PGPASSWORD,
-  port: process.env.PGPORT,
-};
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const savedDbName = process.env.PGDATABASE || 'ms-keywords';
+process.env.PGDATABASE = 'postgres';
+
 const nextReq = '../swagger';
-const connErrMessage = "Postgres error. Cause: Connection terminated unexpectedly";
 const retryTime = 5 * 1000;
 
-async function attemptDbCreation() {
+async function attemptConnection() {
+  const creator = new Client();
+  print('Connecting...');
   try {
-    await pgtools.createdb(config, process.env.PGDATABASE);
+    await creator.connect()
+    console.log('Connected');
+    return creator;
   } catch (err) {
-    if (err.name === 'duplicate_database') {
-      require(nextReq);
-    } else if (err.message === connErrMessage) {
-      console.log("Connection failed, retrying in", retryTime.toString());
-      setTimeout(attemptDbCreation, retryTime);
-    } else {
-      console.log(err);
-    }
+    return;
   }
 }
 
-attemptDbCreation();
+async function setupDb(maxAttempts = 10) {
+  let attempt = 0;
+  let connection;
+  while (!(print(`Try ${attempt}: `), connection = await attemptConnection()) 
+       && (attempt++ < maxAttempts)) {
+    print("Failed to connect, ");
+    console.log('Retrying in', (retryTime/1000).toString() + 's');
+    await sleep(retryTime);
+  }
+  if (!connection) {
+    console.log("Failed to many times. Exiting...");
+    process.exit(1);
+  }
+  try {
+    const res = await connection.query(`CREATE DATABASE "${savedDbName}"`);
+    console.log("Created the database");
+  } catch (err) {
+    if (err.message === `database "${savedDbName}" already exists`) {
+      console.log("Database already exists");
+    } else {
+      console.log(err);
+      process.exit(1);
+    }
+  }
+  process.env.PGDATABASE = savedDbName;
+  require(nextReq);
+}
+
+setupDb();

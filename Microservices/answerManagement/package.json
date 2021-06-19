@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start:only": "node ./bin/www",
-    "start:nodb": "node ./swagger.js",
+    "start-only": "node ./bin/www",
+    "start-nodb": "node ./swagger.js",
     "start": "node ./database/create.js"
   },
   "dependencies": {
@@ -18,7 +18,6 @@
     "morgan": "~1.9.1",
     "pg": "^8.6.0",
     "pg-hstore": "^2.3.4",
-    "pgtools": "^0.3.2",
     "redis": "^3.1.2",
     "sequelize": "^6.6.2",
     "swagger-autogen": "^2.9.3",
