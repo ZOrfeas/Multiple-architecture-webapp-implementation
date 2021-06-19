@@ -1,4 +1,4 @@
-### Authenticator microservice ###
+### Authenticator service ### 
 apiVersion: v1
 kind: Service
 metadata:
@@ -7,17 +7,15 @@ metadata:
     kompose.version: 1.22.0 (955b78124)
   creationTimestamp: null
   labels:
-    io.kompose.service: authenticator
-  name: authenticator
+    io.kompose.service: soa-authenticator
+  name: soa-authenticator
 spec:
-  type: NodePort
   ports:
-    - name: "3000"
-      port: 3000
+    - name: "3001"
+      port: 3001
       targetPort: 3000
-      nodePort: 30000
   selector:
-    io.kompose.service: authenticator
+    io.kompose.service: soa-authenticator
 status:
   loadBalancer: {}
 ---
@@ -29,13 +27,13 @@ metadata:
     kompose.version: 1.22.0 (955b78124)
   creationTimestamp: null
   labels:
-    io.kompose.service: authenticator
-  name: authenticator
+    io.kompose.service: soa-authenticator
+  name: soa-authenticator
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: authenticator
+      io.kompose.service: soa-authenticator
   strategy: {}
   template:
     metadata:
@@ -44,30 +42,26 @@ spec:
         kompose.version: 1.22.0 (955b78124)
       creationTimestamp: null
       labels:
-        io.kompose.service: authenticator
+        io.kompose.service: soa-authenticator
     spec:
       containers:
         - env:
+            - name: DL_HOSTNAME
+              value: nest-api
+            - name: DL_PORT
+              value: "3000"
             - name: JWT_EXPIRES_IN
               value: 1h
             - name: JWT_SECRET
               value: 49ajfdngak43ksmaam3482ui5lmfa
-            - name: PGDATABASE
-              value: ms-auth
-            - name: PGHOST
-              value: psql-db
-            - name: PGPASSWORD
-              value: "12345"
-            - name: PGPORT
-              value: "5432"
-            - name: PGUSER
-              value: data-manager
             - name: REDIS_HOSTNAME
-              value: ms-msg-q
+              value: soa-msg-q
             - name: SALT_ROUNDS
               value: "10"
-          image: zorfeas/ms-authenticator:latest
-          name: authenticator
+            - name: SERVICE_DOC_URL
+              value: http://soa-authenticator:3000/spec-json
+          image: zorfeas/soa-authenticator:latest
+          name: soa-authenticator
           ports:
             - containerPort: 3000
           resources: {}

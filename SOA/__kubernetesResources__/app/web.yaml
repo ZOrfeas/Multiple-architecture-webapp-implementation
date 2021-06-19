@@ -53,7 +53,7 @@ spec:
             - name: REACT_APP_ANSWER_URL
               value: http://saas-15.ddns.net:3003/ama-services/answer
             - name: REACT_APP_AUTH_URL
-              value: http://saas-15.ddns.net:3003/authenticator
+              value: http://saas-15.ddns.net:3003/soa-authenticator
             - name: REACT_APP_BROWSE_URL
               value: http://saas-15.ddns.net:3003/ama-services/browse
             - name: REACT_APP_QUESTION_URL

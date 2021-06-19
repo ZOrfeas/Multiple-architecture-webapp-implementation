@@ -47,7 +47,7 @@ spec:
       containers:
         - env:
             - name: AUTH_HOSTNAME
-              value: authenticator
+              value: soa-authenticator
             - name: AUTH_PORT
               value: "3000"
             - name: DL_HOSTNAME
