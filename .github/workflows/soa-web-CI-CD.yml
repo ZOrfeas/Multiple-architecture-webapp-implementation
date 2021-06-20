@@ -35,11 +35,12 @@ jobs:
       
       - name: Install dependencies
         run: |
-          rm package-lock.json
           npm install
       
       - name: Build for production
-        run: CI=false npm run build
+        run: |
+          mv .env.production .env
+          CI=false npm run build
 
       # builds the docker image and pushes to docker hub
       - name: Login Docker
