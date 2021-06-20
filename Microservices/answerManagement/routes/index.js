@@ -29,12 +29,14 @@ router.get('/count/by/year', async (req, res, next) => {
   // #swagger.summary = 'Get answer count per day by year'
   try {
     const year = +req.query.year;
+    const id = +req.query.id;
     if (isNaN(year)) throw new BadRequest('Invalid year query param');
     const fromDate = year.toString() + '-01-01';
     const toDate = (year + 1).toString() + '-01-01';
-    const queryString = `SELECT COUNT(*) as count, date_trunc('day', "createdAt") as day
-      FROM "answers" WHERE "createdAt">='${fromDate}' AND "createdAt"<'${toDate}'
-      GROUP BY day`;
+    const queryString = `SELECT COUNT(*) as count, date_trunc('day', "createdAt") as day ` +
+      `FROM "answers" WHERE "createdAt">='${fromDate}' AND "createdAt"<'${toDate}' ` +
+      (isNaN(id) ? '' : `AND "user_id" = ${id} `) +
+      `GROUP BY day`;
     const retVal = await sequelize.query(queryString);
     const processed = {};
     retVal[0].forEach(({count, day}) => {
