@@ -25,7 +25,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build:ci": "env-cmd -f .env.production react-scripts build"
+    "build:ci": "env-cmd -f .env.production react-scripts build",
+    "build:local": "env-cmd -f .env react-scripts build"
   },
   "eslintConfig": {
     "extends": [

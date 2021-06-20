@@ -4,8 +4,8 @@ WORKDIR /user/src/app
 
 #COPY package*.json ./
 
-COPY build build
 RUN npm install serve
+COPY build build
 
 #RUN npm install
 #RUN npm install chokidar
