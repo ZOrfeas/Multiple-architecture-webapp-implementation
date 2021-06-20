@@ -35,7 +35,6 @@ jobs:
       
       - name: Install dependencies
         run: |
-          rm package-lock.json
           npm install
       
       - name: Build for production
