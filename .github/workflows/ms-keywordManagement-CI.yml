@@ -85,7 +85,7 @@ jobs:
           host: ${{ secrets.SERVER_HOSTNAME }}
           username: temp
           key: ${{ secrets.SERVER_PRIVATE_KEY }}
-          script: cd ~ && update-kube.sh keyword-manager
+          script: cd ~ && ./update-kube.sh keyword-manager
       
       - name: Move cache
         if: github.event_name != 'pull_request'
