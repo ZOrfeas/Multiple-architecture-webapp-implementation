@@ -91,7 +91,7 @@ jobs:
           host: ${{ secrets.SERVER_HOSTNAME }}
           username: temp
           key: ${{ secrets.SERVER_PRIVATE_KEY }}
-          script: kubectl rollout restart deployment/nest-api
+          script: cd ~ && update-kube.sh nest-api
 
       # Seems necessary to not bloat the cache, source: https://github.com/docker/build-push-action/blob/master/docs/advanced/cache.md
       - name: Move cache

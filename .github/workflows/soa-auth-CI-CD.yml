@@ -85,7 +85,7 @@ jobs:
           host: ${{ secrets.SERVER_HOSTNAME }}
           username: temp
           key: ${{ secrets.SERVER_PRIVATE_KEY }}
-          script: kubectl rollout restart deployment/soa-authenticator
+          script: cd ~ && update-kube.sh soa-authenticator
       
       - name: Move cache
         if: github.event_name != 'pull_request'
