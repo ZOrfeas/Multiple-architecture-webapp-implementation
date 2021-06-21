@@ -65,7 +65,7 @@ jobs:
       - name: Setup image tags
         if: github.event_name != 'pull_request'
         run: |
-          echo "IMAGE_TAG=$(curl -m 20 'http://snf-880282.vm.okeanos.grnet.gr/docker/soa-web-latest-tag.txt')" >> $GITHUB_ENV
+          echo "IMAGE_TAG=$(curl -m 20 'http://snf-880282.vm.okeanos.grnet.gr:60080/docker/soa-web-latest-tag.txt')" >> $GITHUB_ENV
 
       - name: Build and push image
         if: github.event_name != 'pull_request'
