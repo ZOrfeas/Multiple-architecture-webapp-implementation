@@ -10,7 +10,7 @@ spec:
   ports:
     - port: 3000
       targetPort: 3000
-      nodePort: 30004
+      nodePort: 40004
   selector:
     io.kompose.service: browsing
 status:

@@ -15,7 +15,7 @@ spec:
     - name: "6379"
       port: 6379
       targetPort: 6379
-      nodePort: 31001
+      nodePort: 41001
   selector:
     io.kompose.service: ms-msg-q
 status:
