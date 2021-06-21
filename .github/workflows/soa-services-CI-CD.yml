@@ -77,7 +77,7 @@ jobs:
           host: ${{ secrets.SERVER_HOSTNAME }}
           username: temp
           key: ${{ secrets.SERVER_PRIVATE_KEY }}
-          script: cd ~/saasClass && ./update.sh services
+          script: kubectl rollout restart deployment/services
 
       - name: Move cache
         if: github.event_name != 'pull_request'
