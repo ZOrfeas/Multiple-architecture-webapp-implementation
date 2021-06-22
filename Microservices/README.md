@@ -22,6 +22,8 @@ Run `docker compose up` in this directory to create and setup a working version 
 [Documentation](http://saas-15.ddns.net:40003/spec/)
 
 ## Browsing
+Docs not complete (most probably), basically simply combines some other microservices for more complete info  
+and caches the results to ease load off the app.  
 [Documentation](http://saas-15.ddns.net:40004/spec/)
 
 
