@@ -25,6 +25,19 @@ router.post('/', authenticate, async (req, res, next) => {
   }
 });
 
+router.get('/all', async (req, res, next) => {
+  // #swagger.tags = ['Keyword']
+  // #swagger.summary = 'Gets all keywords'
+  try {
+    const allKeywords = await Keyword.findAll({
+      order: [['name', 'DESC']],
+    });
+    res.status(200).json(allKeywords);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get('/count', async (req, res, next) => {
   // #swagger.tags = ['Keyword']
   // #swagger.summary = 'Counts the number of existing keywords'
