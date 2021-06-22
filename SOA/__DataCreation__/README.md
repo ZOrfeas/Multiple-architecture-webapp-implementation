@@ -1,4 +1,4 @@
-## Random data generation and insertion script
+## Random data generation and insertion script for SOA Data-Layer schema
 
 ## Installation
 * `pip3 install Faker` for data generation
@@ -6,6 +6,7 @@
 * `pip3 install bcrypt` for password encryption 
 
 ## Run
+First fill in the proper info in your own `config.prm` following the `config.prm.template` provided  
 `index.py` is the program entrypoint, command line arguments:  
 * `UserCount`
 * `KeywordCount`

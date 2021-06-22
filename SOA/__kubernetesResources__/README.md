@@ -1,0 +1,1 @@
+# Kubernetes resources necessary for deploying the SOA implementation

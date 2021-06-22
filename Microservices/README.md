@@ -10,16 +10,20 @@ Run `docker compose up` in this directory to create and setup a working version 
 [Link]()
 
 ## Auth
-[Documentation]()
+[Documentation](http://saas-15.ddns.net:40000/spec/)
 
-## Services
-[Documentation]()
+## Question Manager
+[Documentation](http://saas-15.ddns.net:40001/spec/)
 
-## Bus
-[Documentation]()
+## Answer Manager
+[Documentation](http://saas-15.ddns.net:40002/spec/)
 
-## Data-Layer
-[Documentation]()
+## Keyword Manager
+[Documentation](http://saas-15.ddns.net:40003/spec/)
+
+## Browsing
+[Documentation](http://saas-15.ddns.net:40004/spec/)
+
 
 # Utilities
 ## \_\_DataCreation\_\_
