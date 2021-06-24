@@ -100,6 +100,7 @@ function User() {
                       <UserQA
                           userId={accountInfo.id}
                           q
+                          count={accountInfo.questCount}
                           data={accountInfo.questions}
                       />}
                     </Tab>
@@ -107,6 +108,7 @@ function User() {
                       {Object.keys(accountInfo).length !== 0 &&
                       <UserQA
                           userId={accountInfo.id}
+                          count={accountInfo.ansCount}
                           data={accountInfo.answers}
                       />}
                     </Tab>

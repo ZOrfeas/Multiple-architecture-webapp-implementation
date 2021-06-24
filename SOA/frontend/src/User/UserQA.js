@@ -9,7 +9,7 @@ import ListGroup from 'react-bootstrap/ListGroup'
 const axios = require('axios')
 const url = process.env.REACT_APP_ACCOUNT_URL
 
-function UserQA({ userId, q, data }) {
+function UserQA({ userId, q, count, data }) {
   const [year, setYear] = useState(new Date().getFullYear())
   const [calendarData, setCalendarData] = useState([])
   const [totalData, setTotalData] = useState(0)
@@ -97,7 +97,7 @@ function UserQA({ userId, q, data }) {
 
           <div className='mt-5'>
             <div className='border-bttm pb-3'>
-              {data.length}{q ? ' question' : ' answer'}{data.length !== 1 && 's'}
+              {count}{q ? ' question' : ' answer'}{count !== 1 && 's'}
             </div>
             <ListGroup variant='flush'>
               {data.map(item => (

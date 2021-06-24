@@ -42,8 +42,7 @@ function AskQuestion() {
   // post new question
   const handleSubmit = e => {
     e.preventDefault()
-    const form = e.currentTarget
-    if (!form.checkValidity()) {
+    if (title === '' || questionText === '' || keywordsSelected.length === 0) {
       e.stopPropagation()
       setValidated(true)
     }
@@ -75,9 +74,9 @@ function AskQuestion() {
   }
 
   return (
-      <div  className='w-100' style={{ maxWidth: '950px' }}>
+      <div className='w-100' style={{ maxWidth: '950px' }}>
         <Card.Body>
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form noValidate onSubmit={handleSubmit}>
             <Form.Group controlId='formGroupTitle'>
               <Form.Label className='font-weight-bold mb-0'>Title</Form.Label>
               <Form.Text className='text-muted mt-0 mb-1'>
@@ -87,7 +86,8 @@ function AskQuestion() {
                   type='text'
                   name='title'
                   onChange={e => setTitle(e.target.value)}
-                  required
+                  isInvalid={validated && title === ''}
+                  isValid={validated && title !== ''}
               />
               <Form.Control.Feedback type='invalid'>
                 Title cannot be empty
@@ -103,8 +103,9 @@ function AskQuestion() {
                   as='textarea'
                   name='question-text'
                   onChange={e => setQuestionText(e.target.value)}
+                  isInvalid={validated && questionText === ''}
+                  isValid={validated && questionText !== ''}
                   style={{ height: '175px' }}
-                  required
               />
               <Form.Control.Feedback type='invalid'>
                 Question cannot be empty
@@ -141,6 +142,8 @@ function AskQuestion() {
               <Form.Control
                   as='select'
                   onChange={handleChange}
+                  isInvalid={validated && keywordsSelected.length === 0}
+                  isValid={validated && keywordsSelected.length !== 0}
                   disabled={keywordsSelected.length === 5}
                   custom
               >
@@ -151,9 +154,12 @@ function AskQuestion() {
                       : null
                 ))}
               </Form.Control>
+              <Form.Control.Feedback type='invalid'>
+                At least 1 keyword must be added
+              </Form.Control.Feedback>
             </InputGroup>
             <div className='text-right'>
-              <Button variant='success' type='submit'>Ask your question</Button>
+              <Button className='qa-btn' type='submit'>Ask your question</Button>
             </div>
           </Form>
         </Card.Body>

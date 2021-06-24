@@ -9,7 +9,7 @@ function Footer() {
         <Row className='mb-4'>
           <Col><a href='#'>About</a></Col>
           <Col><a href='#'>Contact us</a></Col>
-          <Col><a href='#'>GitHub</a></Col>
+          <Col><a href='https://github.com/ZOrfeas/saas-15.git'>GitHub</a></Col>
         </Row>
         <Row>
           <small>
