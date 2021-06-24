@@ -13,16 +13,22 @@ function getAccount(req, res, next) {
       console.log(retObj);
       console.log('========');
       delete retObj.password;
+      retObj.questCount = retObj.questions.length;
+      retObj.ansCount = retObj.answers.length;
       if (retObj.questions !== []) {
-        retObj.questCount = retObj.questions.length;
         retObj.questions = retObj.questions.sort((a, b) => {
           return new Date(b.askedOn).getTime()
                - new Date(a.askedOn).getTime();
         });
       }
+      console.log('========');
+      console.log(retObj.answers);
+      console.log('========');
       if (retObj.answers !== []) {
-        retObj.ansCount = retObj.answers.length;
         const idList = retObj.answers.map(answer => answer.id);
+        console.log('========');
+        console.log(idList)
+        console.log('========');
         const rawAnsInfo = (await accountServices.getQuestionsOfAnswers(idList)).data;
         const processedAnsInfo = [];
         const addedQuestionIds = new Set()
