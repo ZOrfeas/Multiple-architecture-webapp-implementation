@@ -9,6 +9,9 @@ function getAccount(req, res, next) {
   accountServices.getAccountInfo(id)
     .then(async (dlres) => {
       const retObj = dlres.data;
+      console.log('========');
+      console.log(retObj);
+      console.log('========');
       delete retObj.password;
       retObj.ansCount = retObj.answers.length;
       retObj.questCount = retObj.questions.length;
