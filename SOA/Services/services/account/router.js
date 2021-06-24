@@ -9,9 +9,6 @@ function getAccount(req, res, next) {
   accountServices.getAccountInfo(id)
     .then(async (dlres) => {
       const retObj = dlres.data;
-      console.log('========');
-      console.log(retObj);
-      console.log('========');
       delete retObj.password;
       retObj.questCount = retObj.questions.length;
       retObj.ansCount = retObj.answers.length;
@@ -21,14 +18,8 @@ function getAccount(req, res, next) {
                - new Date(a.askedOn).getTime();
         });
       }
-      console.log('========');
-      console.log(retObj.answers);
-      console.log('========');
       if (retObj.answers.length !== 0) {
         const idList = retObj.answers.map(answer => answer.id);
-        console.log('========');
-        console.log(idList)
-        console.log('========');
         const rawAnsInfo = (await accountServices.getQuestionsOfAnswers(idList)).data;
         const processedAnsInfo = [];
         const addedQuestionIds = new Set()
