@@ -15,7 +15,7 @@ function getAccount(req, res, next) {
       delete retObj.password;
       retObj.questCount = retObj.questions.length;
       retObj.ansCount = retObj.answers.length;
-      if (retObj.questions !== []) {
+      if (retObj.questions.length !== 0) {
         retObj.questions = retObj.questions.sort((a, b) => {
           return new Date(b.askedOn).getTime()
                - new Date(a.askedOn).getTime();
@@ -24,7 +24,7 @@ function getAccount(req, res, next) {
       console.log('========');
       console.log(retObj.answers);
       console.log('========');
-      if (retObj.answers !== []) {
+      if (retObj.answers.length !== 0) {
         const idList = retObj.answers.map(answer => answer.id);
         console.log('========');
         console.log(idList)
