@@ -39,46 +39,46 @@ function BrowseQuestions() {
   return (
       <div className='w-100' style={{ maxWidth: '950px' }}>
         <Card.Header className='py-4'>
-          <div className='px-4'>
-            <div className='text-center px-0'>
-              <h5>
-                <span className='material-icons-outlined mr-2 hand-icon'>waving_hand</span>
-                Want to contribute to <span className='ama-logo'>AskMeAnything</span>?
-              </h5>
-              <p className='mb-4'>Ask a question or help others answer theirs.</p>
-            </div>
-            <Row className='align-items-center mx-0 mb-2'>
-              <Col className='px-0'>
-                <h5 className='font-weight-bold mb-0'>
-                  {keywordId ? `Questions with keyword '${location.state?.name}'` : 'All questions'}
-                </h5>
-              </Col>
-              <Col className='px-0 text-right'>
-                <Button variant='success' href='/questions/ask'>Ask a question</Button>
-              </Col>
-            </Row>
-            <div className='px-0'>
-              {totalQuestions} question{totalQuestions !== 1 && 's'}
-            </div>
+          <div className='text-center px-0'>
+            <h5>
+              <span className='material-icons-outlined mr-2 hand-icon'>waving_hand</span>
+              Want to contribute to <span className='ama-logo'>AskMeAnything</span>?
+            </h5>
+            <p className='mb-4'>Ask a question or help others answer theirs.</p>
           </div>
+
+          <h5 className='font-weight-bold mb-0'>
+            {keywordId ? `Questions with keyword '${location.state?.name}'` : 'All questions'}
+          </h5>
+
+          <Row className='align-items-end mx-0'>
+            <Col className='px-0'>
+              {totalQuestions} question{totalQuestions !== 1 && 's'}
+            </Col>
+            <Col className='px-0 text-right'>
+              <Button className='qa-btn' href='/questions/ask'>Ask a question</Button>
+            </Col>
+          </Row>
         </Card.Header>
 
         <Card.Body>
-          <ListGroup variant='flush'>
+          <ListGroup className='questions-browse-list'>
             {questions.map(question => (
-                <ListGroup.Item  key={question.id}>
-                  <BrowseQuestionItem
-                      id={question.id}
-                      title={question.title}
-                      summary={question.questContent}
-                      keywords={question.keywords}
-                      setId={setKeywordId}
-                      setPage={setCurrentPage}
-                      askedOn={question.askedOn}
-                      askedBy={question.user?.displayName}
-                      answerCount={question.ansCount}
-                  />
-                </ListGroup.Item>
+                <Card className='mb-2'>
+                  <ListGroup.Item className='border-0' key={question.id}>
+                    <BrowseQuestionItem
+                        id={question.id}
+                        title={question.title}
+                        summary={question.questContent}
+                        keywords={question.keywords}
+                        setId={setKeywordId}
+                        setPage={setCurrentPage}
+                        askedOn={question.askedOn}
+                        askedBy={question.user?.displayName}
+                        answerCount={question.ansCount}
+                    />
+                  </ListGroup.Item>
+                </Card>
             ))}
           </ListGroup>
           <PaginationComponent

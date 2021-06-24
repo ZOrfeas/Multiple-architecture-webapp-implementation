@@ -23,8 +23,6 @@
 .ama-logo {
     font-size: 1.25rem;
     color: #e90c22;
-    /*color: #e44051;*/
-    /*color: #de0a1f;*/
 }
 
 .question-item {
@@ -32,16 +30,11 @@
 }
 
 .stats {
-    width: 120px;
-    color: #0366d6;
-    /*color: #586069;*/
-    /*color: #0077cc;*/
+    color: #002eff;
 }
 
-@media (min-width: 768px) {
-    .d-md-block {
-        display: block !important;
-    }
+.stats.d-md-block {
+    width: 120px;
 }
 
 .question-title a {
@@ -57,7 +50,7 @@
 .answer-icon,
 .idea-icon {
     font-size: 21px;
-    color: #0366d6;
+    color: #002eff;
 }
 
 .tag-icon {
@@ -65,9 +58,24 @@
 }
 
 .keyword-count {
-    color: #0366d6;
+    color: #002eff;
 }
 
 .keyword-cancel {
     font-size: 1rem;
+}
+
+.qa-btn {
+    background-color: #e90c22 !important;
+    color: #fff !important;
+    border-color: #e90c22 !important;
+    box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 50%);
+}
+
+.qa-btn:hover {
+    background-color: #d70015 !important;
+}
+
+.questions-browse-list .card:last-child {
+    margin-bottom: 0 !important;
 }

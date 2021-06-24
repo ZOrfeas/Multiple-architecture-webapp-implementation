@@ -12,7 +12,6 @@ import Button from 'react-bootstrap/Button'
 
 const axios = require('axios')
 const url = process.env.REACT_APP_AUTH_URL
-// const url = 'http://localhost:3001'
 
 function Signup() {
   const [showMsg, setShowMsg] = useState(false)

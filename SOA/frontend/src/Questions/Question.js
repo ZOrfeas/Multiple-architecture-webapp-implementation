@@ -122,7 +122,7 @@ function Question() {
               </Form.Control.Feedback>
             </Form.Group>
             <div className='text-right'>
-              <Button variant='success' type='submit'>Add your answer</Button>
+              <Button className='qa-btn' type='submit'>Add your answer</Button>
             </div>
           </Form>
 
