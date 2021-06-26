@@ -25,7 +25,6 @@ function User() {
     axios.get(`${url}/info`, config)
         .then(response => {
           setAccountInfo(response.data)
-          console.log(response.data)
         })
         .catch(error => {
           const status = error.response?.status

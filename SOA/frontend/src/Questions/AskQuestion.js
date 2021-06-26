@@ -103,7 +103,7 @@ function AskQuestion() {
             <Form.Group controlId='formGroupTextarea'>
               <Form.Label className='font-weight-bold mb-0'>Your question</Form.Label>
               <Form.Text className='text-muted mt-0 mb-1'>
-                Be specific and provide information to help people with their answers
+                Be specific and provide information needed for your question to be answered
               </Form.Text>
               <Form.Control
                   as='textarea'

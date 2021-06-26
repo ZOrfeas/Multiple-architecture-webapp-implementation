@@ -1,6 +1,6 @@
 import './Public.css'
 import React from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import NavComponent from '../Nav/Nav'
 import Footer from '../Footer/Footer'
 import Home from './Home'
@@ -10,7 +10,7 @@ import Container from 'react-bootstrap/Container'
 
 function Public() {
   return (
-      <Router>
+      <div>
         <NavComponent />
         <Container fluid className='content-wrapper'>
           <Route exact path='/' component={Home} />
@@ -18,7 +18,7 @@ function Public() {
           <Route path='/calendar' component={QAPerDay} />
         </Container>
         <Footer />
-      </Router>
+      </div>
   )
 }
 

@@ -6,6 +6,7 @@ import Badge from 'react-bootstrap/Badge'
 
 function QPerKeywordItem({ id, name, count }) {
   const { user } = useAuth()
+
   const formatName = name.split(' ').join('-')
 
   return (
