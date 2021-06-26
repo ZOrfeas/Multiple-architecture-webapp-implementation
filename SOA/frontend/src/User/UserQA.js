@@ -103,7 +103,7 @@ function UserQA({ userId, q, count, data }) {
               {data.map(item => (
                   <ListGroup.Item className='d-flex align-items-center py-3' key={q ? item.id : item.question_id}>
                     <span className='question-title'><Link to={`/questions/${q ? item.id : item.question_id}`}>{item.title}</Link></span>
-                    <span className='date-user text-muted ml-auto px-0'>{formatDate(q ? item.askedOn : item.answeredOn)}</span>
+                    <span className='date-user text-muted text-right ml-auto px-0'>{formatDate(q ? item.askedOn : item.answeredOn)}</span>
                   </ListGroup.Item>
               ))}
             </ListGroup>

@@ -1,30 +1,28 @@
 .home-content {
     min-height: 100vh;
-    background: #f0f0d0;
 }
 
-.home-content .card {
-    border-color: #ffbcc3 !important;
-}
-
-.home-content .card-header {
-    background: #f1e5bc;
-}
-
-.home-content .btn {
-    color: #ff6f00;
-    background-color: #fff;
-    border-color: #ff6f00;
-    border: 2px solid;
-}
-
-.home-content .btn:hover {
-    color: #fff;
-    background-color: #ff6f00;
-    border-color: #ff6f00;
+.home-content .ama-logo {
+    font-size: 2rem;
 }
 
 .home-icon {
-    font-size: 72px;
-    color: #e90c22;
+    font-size: 60px;
+    color: #002eff;
+}
+
+.home-link {
+    font-size: 1.2rem;
+    color: #002eff;
+}
+
+.home-link:hover {
+    color: #002eff;
+    text-decoration: underline !important;
+}
+
+@media (max-width: 576px) {
+    .home-header {
+        padding-bottom: 3rem;
+    }
 }

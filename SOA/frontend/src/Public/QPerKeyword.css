@@ -1,14 +1,6 @@
-.keywords-content {
-    background: #f0f0d0;
-}
-
 .keyword-badge {
-    /*color: #008a61 !important;
-    background-color: #bfe5d9;*/
     color: #439a80 !important;
     background-color: #d3e5d9;
-    /*color: #4da400 !important;*/
-    /*background-color: #e6f6cf;*/
     font-weight: 500 !important;
     cursor: pointer;
 }

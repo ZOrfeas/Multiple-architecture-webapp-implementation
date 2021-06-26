@@ -64,8 +64,8 @@ function BrowseQuestions() {
         <Card.Body>
           <ListGroup className='questions-browse-list'>
             {questions.map(question => (
-                <Card className='mb-2'>
-                  <ListGroup.Item className='border-0' key={question.id}>
+                <Card className='mb-2' key={question.id}>
+                  <ListGroup.Item className='border-0'>
                     <BrowseQuestionItem
                         id={question.id}
                         title={question.title}

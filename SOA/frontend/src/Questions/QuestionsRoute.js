@@ -1,3 +1,4 @@
+import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import NavComponent from '../Nav/Nav'
 import Footer from '../Footer/Footer'

@@ -1,3 +1,4 @@
+import React from 'react'
 import { Calendar } from '@nivo/calendar'
 
 function CalendarComponent({ width, height, data, year, colors }) {

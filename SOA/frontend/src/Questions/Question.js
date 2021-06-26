@@ -51,7 +51,7 @@ function Question() {
             // if unauthorized, prompt user to log in again
             if (status === 401) {
               logout()
-              history.push('/login')
+              window.location.reload()
             }
           })
     }
@@ -82,20 +82,25 @@ function Question() {
           </p>
         </Card.Body>
 
-        <Card.Body className='answers'>
-          <p>
+        <Card.Body className='answers-header font-weight-bold'>
+          <p className='mb-0'>
             {question.answers?.length !== undefined && `${question.answers.length} answer`}
             {question.answers?.length !== undefined && question.answers.length != 1 && 's'}
           </p>
-          <ListGroup className="list-group-flush">
+        </Card.Body>
+
+        <Card.Body className='answers'>
+          <ListGroup className='answers-browse-list'>
             {question.answers &&
             question.answers.map(answer => (
-                <ListGroup.Item key={answer.id}>
-                  <p>{answer.ansContent}</p>
-                  <p className='date-user text-muted mb-0 px-0'>
-                    answered on {answer.answeredOn && formatDate(answer.answeredOn)} by {answer.displayName ? answer.displayName : '[deleted]'}
-                  </p>
-                </ListGroup.Item>
+                <Card className='mb-2' key={answer.id}>
+                  <ListGroup.Item className='border-0'>
+                    <p>{answer.ansContent}</p>
+                    <p className='date-user text-muted mb-0 px-0'>
+                      answered on {answer.answeredOn && formatDate(answer.answeredOn)} by {answer.displayName ? answer.displayName : '[deleted]'}
+                    </p>
+                  </ListGroup.Item>
+                </Card>
             ))}
           </ListGroup>
         </Card.Body>

@@ -28,7 +28,7 @@ function QPerKeyword() {
   }, [currentPage])
 
   return (
-      <Container className='keywords-content py-5'>
+      <Container className='q-per-keyword-content py-5'>
         <Card>
           <Card.Header className='py-4'>
             <h5 className='mb-0'>Keywords</h5>

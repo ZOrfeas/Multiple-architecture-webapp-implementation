@@ -68,7 +68,7 @@ function QAPerDay() {
   ]
 
   return (
-      <Container className='calendar-content py-5'>
+      <Container className='qa-per-day-content py-5'>
         <Card>
           <Card.Header className='py-4'>
             <h5 className='mb-0'>Calendar</h5>

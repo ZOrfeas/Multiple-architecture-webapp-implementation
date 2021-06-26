@@ -1,4 +1,5 @@
 import './Public.css'
+import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import NavComponent from '../Nav/Nav'
 import Footer from '../Footer/Footer'

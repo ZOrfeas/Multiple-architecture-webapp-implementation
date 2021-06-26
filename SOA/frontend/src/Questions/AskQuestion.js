@@ -75,6 +75,12 @@ function AskQuestion() {
 
   return (
       <div className='w-100' style={{ maxWidth: '950px' }}>
+        <Card.Header className='py-4'>
+          <h5 className='font-weight-bold mb-0'>
+            Ask a public question
+          </h5>
+        </Card.Header>
+
         <Card.Body>
           <Form noValidate onSubmit={handleSubmit}>
             <Form.Group controlId='formGroupTitle'>

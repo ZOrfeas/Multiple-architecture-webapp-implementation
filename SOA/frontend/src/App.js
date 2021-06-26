@@ -1,5 +1,5 @@
 import './App.css'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { AuthProvider } from './Auth/AuthContext'
 import auth from './Auth/Auth'
