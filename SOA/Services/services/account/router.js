@@ -10,15 +10,15 @@ function getAccount(req, res, next) {
     .then(async (dlres) => {
       const retObj = dlres.data;
       delete retObj.password;
-      if (retObj.questions !== []) {
-        retObj.questCount = retObj.questions.length;
+      retObj.questCount = retObj.questions.length;
+      retObj.ansCount = retObj.answers.length;
+      if (retObj.questions.length !== 0) {
         retObj.questions = retObj.questions.sort((a, b) => {
           return new Date(b.askedOn).getTime()
                - new Date(a.askedOn).getTime();
         });
       }
-      if (retObj.answers !== []) {
-        retObj.ansCount = retObj.answers.length;
+      if (retObj.answers.length !== 0) {
         const idList = retObj.answers.map(answer => answer.id);
         const rawAnsInfo = (await accountServices.getQuestionsOfAnswers(idList)).data;
         const processedAnsInfo = [];
