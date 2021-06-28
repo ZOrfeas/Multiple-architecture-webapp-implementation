@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const browseServices = require('./services');
+const { authenticate } = require('../authenticate');
 
-router.get('/questionsByKeywords', (req, res, next) => {
+router.get('/questionsByKeywords', authenticate, (req, res, next) => {
   // #swagger.tags = ['Browse']
   // #swagger.summary = 'Returns all questions containing the specified keywords'
   const idList = req.query.id
@@ -65,7 +66,7 @@ router.get('/count/users', (req, res, next) => {
     .catch(next);
 });
 
-router.get('/questions', (req, res, next) => {
+router.get('/questions', authenticate, (req, res, next) => {
   // #swagger.tags = ['Browse']
   // #swagger.summary = 'Get a page of questions, sorted by date'
   const pagesize = req.query.pagesize;
@@ -85,7 +86,7 @@ router.get('/questions', (req, res, next) => {
     .catch(next);
 })
 
-router.get('/question', (req, res, next) => {
+router.get('/question', authenticate, (req, res, next) => {
   // #swagger.tags = ['Browse']
   // #swagger.summary = 'Get all details of a question'
   const id = req.query.id;
