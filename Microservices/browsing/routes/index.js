@@ -60,7 +60,7 @@ async function fillQuestionPageInfo(questions) {
 }
 
 /* Attaches answer count and caches for near future */
-router.get('/questions/page', cache.route(), async (req, res, next) => {
+router.get('/questions/page', authenticate, cache.route(), async (req, res, next) => {
   // #swagger.tags = ['Browse']
   // #swagger.summary = 'Fetches a page of questions by most recent'
   try {
@@ -77,7 +77,7 @@ router.get('/questions/page', cache.route(), async (req, res, next) => {
     
 });
 
-router.get('/questions/byKeywords', cache.route(), async (req, res, next) => {
+router.get('/questions/byKeywords', authenticate,  cache.route(), async (req, res, next) => {
   // #swagger.tags = ['Browse']
   // #swagger.summary = 'Fetches a page of questions that have the specified keywords'
   try {
@@ -121,7 +121,7 @@ async function fillQuestionInfo(question) {
     })
 }
 
-router.get('/question/:id', cache.route(), async (req, res, next) => {
+router.get('/question/:id', authenticate, cache.route(), async (req, res, next) => {
   // #swagger.tags = ['Browse']
   // #swagger.summary = 'Fetches all info for a question'
   try {
@@ -160,7 +160,7 @@ async function fillAcountInfo(user) {
 
 }
 
-router.get('/account/info', authenticate, async (req, res, next) => {
+router.get('/account/info', authenticate, cache.route(),  async (req, res, next) => {
   // #swagger.tags = ['Browse']
   // #swagger.summary = 'Get account info of a user by their token'
   try {
