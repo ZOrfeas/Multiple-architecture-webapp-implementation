@@ -74,8 +74,20 @@ router.get('/questions/page', authenticate, cache.route(), async (req, res, next
   } catch (err) {
     next(err);
   }
-    
 });
+
+router.get('/publicQuestions', cache.route(), async (req, res, next) => {
+  // #swagger.tags = ['Browse']
+  // #swagger.summary = 'Gets 10 public questions, to be used by logged out users'
+  try {
+    const paramWrapper = { pagesize: 10, pagenr: 1 };
+    const questionPage = (await axios.get(QuestionPageUrl, { params: paramWrapper })).data;
+    await fillQuestionPageInfo(questionPage);
+    res.status(200).json(questionPage);
+  } catch (err) {
+    next(err);
+  }
+})
 
 router.get('/questions/byKeywords', authenticate,  cache.route(), async (req, res, next) => {
   // #swagger.tags = ['Browse']
