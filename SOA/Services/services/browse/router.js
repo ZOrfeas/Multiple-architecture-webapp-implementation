@@ -66,6 +66,24 @@ router.get('/count/users', (req, res, next) => {
     .catch(next);
 });
 
+router.get('/publicQuestions', (req, res, next) => {
+  // #swagger.tags = ['Browse']
+  // #swagger.summary = 'Get 10 public questions, to be used by logged out users'
+  browseServices.getPage(1, 10)
+    .then(dlres => {
+      const retList = [];
+      dlres.data.forEach((element) => {
+        const retObj = element.question;
+        retObj.ansCount = element.ansCount;
+        // delete password if question.user exists
+        !retObj.user || delete retObj.user.password;
+        retList.push(retObj);
+      });
+      res.status(200).json(retList);
+    })
+    .catch(next);
+})
+
 router.get('/questions', authenticate, (req, res, next) => {
   // #swagger.tags = ['Browse']
   // #swagger.summary = 'Get a page of questions, sorted by date'
