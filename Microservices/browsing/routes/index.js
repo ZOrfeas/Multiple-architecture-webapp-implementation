@@ -172,7 +172,7 @@ async function fillAcountInfo(user) {
 
 }
 
-router.get('/account/info', authenticate, cache.route(),  async (req, res, next) => {
+router.get('/account/info', authenticate, async (req, res, next) => {
   // #swagger.tags = ['Browse']
   // #swagger.summary = 'Get account info of a user by their token'
   try {
