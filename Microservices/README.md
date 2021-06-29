@@ -5,7 +5,9 @@
 
 Run `docker compose up` in this directory to create and setup a working version of the application.
 
-# Components
+# Component architecture
+![Microservices_Components_v2](https://user-images.githubusercontent.com/65095699/122473980-3df96f80-cfcb-11eb-863f-ccf6fd6057ef.jpg)
+
 ## Website
 [Link]()
 
