@@ -50,7 +50,7 @@ function Login() {
               {alert &&
               <Alert className='mb-5' variant='warning'>
                 <div>
-                  <p className='text-center mb-0'>You must me logged in to ask a question</p>
+                  <p className='text-center mb-0'>You must me logged in</p>
                   <p className='text-center mb-0'>Log in or <Link to={{ pathname: '/signup', state: location.state }}>Sign up</Link></p>
                 </div>
               </Alert>}

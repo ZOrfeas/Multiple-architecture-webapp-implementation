@@ -10,7 +10,7 @@ import Card from 'react-bootstrap/Card'
 
 function QuestionsRoute() {
   return (
-      <Router>
+      <div>
         <NavComponent />
         <Container fluid className='content-wrapper'>
           <Container className='questions-content py-5'>
@@ -18,14 +18,13 @@ function QuestionsRoute() {
               <Switch>
                 <Route exact path='/questions/ask' component={AskQuestion} />
                 <Route exact path='/questions/:id' component={Question} />
-                <Route path='/questions' component={BrowseQuestions} />
-                <Route path='/questions/keyword/:id' component={BrowseQuestions} />
+                <Route path={['/questions', '/questions/keyword/:id']} component={BrowseQuestions} />
               </Switch>
             </Card>
           </Container>
         </Container>
         <Footer />
-      </Router>
+      </div>
   )
 }
 

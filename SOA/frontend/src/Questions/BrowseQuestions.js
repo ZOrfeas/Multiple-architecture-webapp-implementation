@@ -1,6 +1,7 @@
 import './Questions.css'
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
+import { useAuth } from '../Auth/AuthContext'
 import BrowseQuestionItem from './BrowseQuestionItem'
 import PaginationComponent from '../Pagination/Pagination'
 import Card from 'react-bootstrap/Card'
@@ -14,6 +15,7 @@ const url = process.env.REACT_APP_BROWSE_URL
 
 function BrowseQuestions() {
   const location = useLocation()
+  const { token, logout } = useAuth()
 
   const [keywordId, setKeywordId] = useState(location.state?.id)
   const [questions, setQuestions] = useState([])
@@ -26,14 +28,22 @@ function BrowseQuestions() {
     // get only questions with particular keyword if id is defined
     const service = keywordId ? `questionsByKeywords?id=${keywordId}` : `questions`
     const sep = keywordId ? '&' : '?'
-    try {
-      axios.get(`${url}/count/${service}`)
-          .then(response => setTotalQuestions(response.data))
-      axios.get(`${url}/${service}${sep}pagesize=${pageSize}&pagenr=${currentPage}`)
-          .then(response => setQuestions(response.data))
-    } catch(error) {
-      console.log(error)
-    }
+    const config = { headers: { 'Authorization': `Bearer ${token}` } }
+
+    axios.get(`${url}/count/${service}`)
+        .then(response => setTotalQuestions(response.data))
+        .catch(error => console.log(error))
+
+    axios.get(`${url}/${service}${sep}pagesize=${pageSize}&pagenr=${currentPage}`, config)
+        .then(response => setQuestions(response.data))
+        .catch(error => {
+          const status = error.response?.status
+          // if unauthorized, prompt user to log in again
+          if (status === 401) {
+            logout()
+            window.location.reload()
+          }
+        })
   }, [keywordId, currentPage])
 
   return (
@@ -44,10 +54,10 @@ function BrowseQuestions() {
               <span className='material-icons-outlined mr-2 hand-icon'>waving_hand</span>
               Want to contribute to <span className='ama-logo'>AskMeAnything</span>?
             </h5>
-            <p className='mb-4'>Ask a question or help others answer theirs.</p>
+            <p className='mb-5'>Ask a question or help others answer theirs.</p>
           </div>
 
-          <h5 className='font-weight-bold mb-0'>
+          <h5 className='font-weight-bold mb-3'>
             {keywordId ? `Questions with keyword '${location.state?.name}'` : 'All questions'}
           </h5>
 

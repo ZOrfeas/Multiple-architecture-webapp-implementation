@@ -1,10 +1,13 @@
 import './Home.css'
 import React from 'react'
+import { useAuth } from '../Auth/AuthContext'
 import CardDeck from 'react-bootstrap/CardDeck'
 import Card from 'react-bootstrap/Card'
 import Container from 'react-bootstrap/Container'
 
 function Home() {
+  const { user } = useAuth()
+
   return (
       <Container className='home-content d-flex py-5'>
         <Card>
@@ -83,7 +86,7 @@ function Home() {
                   </Card.Text>
                 </Card.Body>
                 <Card.Footer className='text-center'>
-                  <a className='home-link' href='/questions'>Browse and answer questions</a>
+                  <a className='home-link' href={user ? '/questions' : '/public-questions'}>Browse and answer questions</a>
                 </Card.Footer>
               </Card>
             </CardDeck>

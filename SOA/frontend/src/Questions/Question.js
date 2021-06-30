@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useAuth } from '../Auth/AuthContext'
 import Card from 'react-bootstrap/Card'
 import Badge from 'react-bootstrap/Badge'
@@ -16,16 +16,22 @@ function Question() {
   const [answerText, setAnswerText] = useState('')
   const [validated, setValidated] = useState(false)
 
-  const history = useHistory()
   const { id } = useParams()
   const { token, logout } = useAuth()
 
   // get question
   useEffect(() => {
-    axios.get(`${browse_url}/question?id=${id}`)
+    const config = { headers: { 'Authorization': `Bearer ${token}` } }
+
+    axios.get(`${browse_url}/question?id=${id}`, config)
         .then(response => setQuestion(response.data))
         .catch(error => {
-          console.log(error)
+          const status = error.response?.status
+          // if unauthorized, prompt user to log in again
+          if (status === 401) {
+            logout()
+            window.location.reload()
+          }
         })
   }, [])
 

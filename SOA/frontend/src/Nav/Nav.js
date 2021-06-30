@@ -1,5 +1,6 @@
 import './Nav.css'
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import { useAuth } from '../Auth/AuthContext'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
@@ -7,11 +8,13 @@ import Button from 'react-bootstrap/Button'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 
 function NavComponent() {
+  const history = useHistory()
   const { user, logout } = useAuth()
 
   // logout
   const handleClick = () => {
     logout()
+    history.push('/')
     window.location.reload()
   }
 
