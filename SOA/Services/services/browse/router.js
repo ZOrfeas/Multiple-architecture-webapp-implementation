@@ -128,7 +128,7 @@ router.get('/publicQuestion', (req, res, next) => {
       res.status(200).json(retObj);
     })
     .catch(next);
-}
+})
 
 router.get('/keywordsByPopularity', (req, res, next) => {
   // #swagger.tags = ['Browse']
