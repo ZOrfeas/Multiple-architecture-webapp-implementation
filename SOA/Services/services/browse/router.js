@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const browseServices = require('./services');
+const { authenticate } = require('../authenticate');
 
-router.get('/questionsByKeywords', (req, res, next) => {
+router.get('/questionsByKeywords', authenticate, (req, res, next) => {
   // #swagger.tags = ['Browse']
   // #swagger.summary = 'Returns all questions containing the specified keywords'
   const idList = req.query.id
@@ -65,7 +66,25 @@ router.get('/count/users', (req, res, next) => {
     .catch(next);
 });
 
-router.get('/questions', (req, res, next) => {
+router.get('/publicQuestions', (req, res, next) => {
+  // #swagger.tags = ['Browse']
+  // #swagger.summary = 'Get 10 public questions, to be used by logged out users'
+  browseServices.getPage(1, 10)
+    .then(dlres => {
+      const retList = [];
+      dlres.data.forEach((element) => {
+        const retObj = element.question;
+        retObj.ansCount = element.ansCount;
+        // delete password if question.user exists
+        !retObj.user || delete retObj.user.password;
+        retList.push(retObj);
+      });
+      res.status(200).json(retList);
+    })
+    .catch(next);
+})
+
+router.get('/questions', authenticate, (req, res, next) => {
   // #swagger.tags = ['Browse']
   // #swagger.summary = 'Get a page of questions, sorted by date'
   const pagesize = req.query.pagesize;
@@ -85,9 +104,22 @@ router.get('/questions', (req, res, next) => {
     .catch(next);
 })
 
-router.get('/question', (req, res, next) => {
+router.get('/question', authenticate, (req, res, next) => {
   // #swagger.tags = ['Browse']
   // #swagger.summary = 'Get all details of a question'
+  const id = req.query.id;
+  browseServices.getQuestionInfo(id)
+    .then(dlres => {
+      const retObj = dlres.data;
+      !retObj.user || delete retObj.user.password;
+      res.status(200).json(retObj);
+    })
+    .catch(next);
+})
+
+router.get('/publicQuestion', (req, res, next) => {
+  // #swagger.tags = ['Browse']
+  // #swagger.summary = 'Get all details of a public question'
   const id = req.query.id;
   browseServices.getQuestionInfo(id)
     .then(dlres => {

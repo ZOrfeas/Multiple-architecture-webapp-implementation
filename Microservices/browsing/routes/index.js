@@ -60,7 +60,7 @@ async function fillQuestionPageInfo(questions) {
 }
 
 /* Attaches answer count and caches for near future */
-router.get('/questions/page', cache.route(), async (req, res, next) => {
+router.get('/questions/page', authenticate, cache.route(), async (req, res, next) => {
   // #swagger.tags = ['Browse']
   // #swagger.summary = 'Fetches a page of questions by most recent'
   try {
@@ -74,10 +74,22 @@ router.get('/questions/page', cache.route(), async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-    
 });
 
-router.get('/questions/byKeywords', cache.route(), async (req, res, next) => {
+router.get('/publicQuestions', cache.route(), async (req, res, next) => {
+  // #swagger.tags = ['Browse']
+  // #swagger.summary = 'Gets 10 public questions, to be used by logged out users'
+  try {
+    const paramWrapper = { pagesize: 10, pagenr: 1 };
+    const questionPage = (await axios.get(QuestionPageUrl, { params: paramWrapper })).data;
+    await fillQuestionPageInfo(questionPage);
+    res.status(200).json(questionPage);
+  } catch (err) {
+    next(err);
+  }
+})
+
+router.get('/questions/byKeywords', authenticate,  cache.route(), async (req, res, next) => {
   // #swagger.tags = ['Browse']
   // #swagger.summary = 'Fetches a page of questions that have the specified keywords'
   try {
@@ -121,9 +133,23 @@ async function fillQuestionInfo(question) {
     })
 }
 
-router.get('/question/:id', cache.route(), async (req, res, next) => {
+router.get('/question/:id', authenticate, cache.route(), async (req, res, next) => {
   // #swagger.tags = ['Browse']
   // #swagger.summary = 'Fetches all info for a question'
+  try {
+    const id = +req.params.id;
+    if (isNaN(id)) throw new BadRequest('Invalid question id path param');
+    const question = (await axios.get(QuestionUrl + `/${id}`)).data;
+    await fillQuestionInfo(question);
+    res.status(200).json(question);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get('/publicQuestion/:id', cache.route(), async (req, res, next) => {
+  // #swagger.tags = ['Browse']
+  // #swagger.summary = 'Fetches all info for a public question'
   try {
     const id = +req.params.id;
     if (isNaN(id)) throw new BadRequest('Invalid question id path param');
