@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { formatDate, formatData, getYears } from '../lib'
 import CalendarComponent from '../Public/CalendarComponent'
 import Card from 'react-bootstrap/Card'
 import InputGroup from 'react-bootstrap/InputGroup'
@@ -26,30 +27,6 @@ function UserQA({ userId, q, count, data }) {
           console.log(error)
         })
   }, [year])
-
-  const formatData = obj => {
-    const data = []
-    let total = 0
-    for (const [key, value] of Object.entries(obj)) {
-      data.push({ day: key, value: parseInt(value) })
-      total += parseInt(value)
-    }
-    return { data, total }
-  }
-
-  const formatDate = date => {
-    const dateObj = new Date(date.split('.')[0])
-    const [, month, dayNum, year] = dateObj.toDateString().split(' ')
-    return `${month}, ${dayNum} ${year}`
-  }
-
-  const getYears = start => {
-    const years = []
-    for (let i = new Date().getFullYear(); i >= start; --i) {
-      years.push(<option key={i}>{i}</option>)
-    }
-    return years
-  }
 
   const colorsQ = [
     'rgba(242,114,12,0.4)',

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { formatDate } from '../lib'
 import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
 import Badge from 'react-bootstrap/Badge'
@@ -21,12 +22,6 @@ function QuestionPublic() {
         .then(response => setQuestion(response.data))
         .catch(error => console.log(error))
   }, [])
-
-  const formatDate = date => {
-    const dateObj = new Date(date.split('.')[0])
-    const [, month, dayNum, year] = dateObj.toDateString().split(' ')
-    return `${month}, ${dayNum} ${year}`
-  }
 
   return (
       <Container className='questions-content py-5'>

@@ -1,20 +1,19 @@
 import React from 'react'
 import { useAuth } from '../Auth/AuthContext'
 import { Link } from 'react-router-dom'
+import { formatName } from '../lib'
 import Card from 'react-bootstrap/Card'
 import Badge from 'react-bootstrap/Badge'
 
 function QPerKeywordItem({ id, name, count }) {
   const { user } = useAuth()
 
-  const formatName = name.split(' ').join('-')
-
   return (
       <Card>
         <Card.Body className='d-flex justify-content-center'>
           <Badge className='keyword-badge'>
             {user
-            ? <Link to={{ pathname: `/questions/keyword/${formatName}`, state: { id, name } }}>{name}</Link>
+            ? <Link to={{ pathname: `/questions/keyword/${formatName(name)}`, state: { id, name } }}>{name}</Link>
             : <span>{name}</span>}
           </Badge>
         </Card.Body>

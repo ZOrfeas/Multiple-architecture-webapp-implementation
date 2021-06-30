@@ -1,6 +1,7 @@
 import './QAPerDay.css'
 import React, { useState, useEffect } from 'react'
 import CalendarComponent from './CalendarComponent'
+import { formatData, getYears } from '../lib'
 import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
@@ -18,41 +19,22 @@ function QAPerDay() {
 
   // get question and answer by year data
   useEffect(() => {
-    try {
-      axios.get(`${url}/questionCountByYear?year=${year}`)
-          .then(response => {
-            const { data, total } = formatData(response.data)
-            setQuestionData(data)
-            setTotalQuestions(total)
-          })
-      axios.get(`${url}/answerCountByYear?year=${year}`)
-          .then(response => {
-            const { data, total } = formatData(response.data)
-            setAnswerData(data)
-            setTotalAnswers(total)
-          })
-    } catch(error) {
-      console.log(error)
-    }
+    axios.get(`${url}/questionCountByYear?year=${year}`)
+        .then(response => {
+          const { data, total } = formatData(response.data)
+          setQuestionData(data)
+          setTotalQuestions(total)
+        })
+        .catch(error => console.log(error))
+
+    axios.get(`${url}/answerCountByYear?year=${year}`)
+        .then(response => {
+          const { data, total } = formatData(response.data)
+          setAnswerData(data)
+          setTotalAnswers(total)
+        })
+        .catch(error => console.log(error))
   }, [year])
-
-  const formatData = obj => {
-    const data = []
-    let total = 0
-    for (const [key, value] of Object.entries(obj)) {
-      data.push({ day: key, value: parseInt(value) })
-      total += parseInt(value)
-    }
-    return { data, total }
-  }
-
-  const getYears = start => {
-    const years = []
-    for (let i = new Date().getFullYear(); i >= start; --i) {
-      years.push(<option key={i}>{i}</option>)
-    }
-    return years
-  }
 
   const colorsQ = [
     'rgba(242,114,12,0.4)',

@@ -16,15 +16,15 @@ function QPerKeyword() {
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize] = useState(48) // multiples of 6
 
+  // get total number of keywords and number of questions per keyword
   useEffect(() => {
-    try {
-      axios.get(`${url}/count/keywords`)
-          .then(response => setTotalKeywords(response.data))
-      axios.get(`${url}/keywordsByPopularity?pagesize=${pageSize}&pagenr=${currentPage}`)
-          .then(response => setKeywords(response.data))
-    } catch(error) {
-      console.log(error)
-    }
+    axios.get(`${url}/count/keywords`)
+        .then(response => setTotalKeywords(response.data))
+        .catch(error => console.log(error))
+
+    axios.get(`${url}/keywordsByPopularity?pagesize=${pageSize}&pagenr=${currentPage}`)
+        .then(response => setKeywords(response.data))
+        .catch(error => console.log(error))
   }, [currentPage])
 
   return (
@@ -33,6 +33,15 @@ function QPerKeyword() {
           <Card.Header className='py-4'>
             <h5 className='mb-0'>Keywords</h5>
           </Card.Header>
+
+          <Card.Body className='pt-4'>
+            <p className='mb-0'>
+              Select a keyword and view questions asked associated with it.
+            </p>
+            <p className='small text-muted'>
+              Applies for logged in users only.
+            </p>
+          </Card.Body>
 
           <Card.Body>
             <Row>

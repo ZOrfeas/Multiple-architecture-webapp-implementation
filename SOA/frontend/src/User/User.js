@@ -1,6 +1,7 @@
 import './User.css'
 import React, { useState, useEffect } from 'react'
 import { useAuth } from '../Auth/AuthContext'
+import { formatDate } from '../lib'
 import NavComponent from '../Nav/Nav'
 import Footer from '../Footer/Footer'
 import UserDetails from './UserDetails'
@@ -20,12 +21,11 @@ function User() {
 
   const { token, logout } = useAuth()
 
+  // get user account info
   useEffect(() => {
     const config = { headers: { 'Authorization': `Bearer ${token}` } }
     axios.get(`${url}/info`, config)
-        .then(response => {
-          setAccountInfo(response.data)
-        })
+        .then(response => setAccountInfo(response.data))
         .catch(error => {
           const status = error.response?.status
           // if unauthorized, prompt user to log in again
@@ -35,12 +35,6 @@ function User() {
           }
         })
   }, [])
-
-  const formatDate = date => {
-    const dateObj = new Date(date.split('.')[0])
-    const [, month, dayNum, year] = dateObj.toDateString().split(' ')
-    return `${month}, ${dayNum} ${year}`
-  }
 
   const getLastAct = () => {
     if (!accountInfo.ansCount && !accountInfo.questCount) {
