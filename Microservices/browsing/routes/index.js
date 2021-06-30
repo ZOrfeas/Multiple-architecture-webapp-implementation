@@ -147,6 +147,20 @@ router.get('/question/:id', authenticate, cache.route(), async (req, res, next) 
   }
 });
 
+router.get('/publicQuestion/:id', cache.route(), async (req, res, next) => {
+  // #swagger.tags = ['Browse']
+  // #swagger.summary = 'Fetches all info for a public question'
+  try {
+    const id = +req.params.id;
+    if (isNaN(id)) throw new BadRequest('Invalid question id path param');
+    const question = (await axios.get(QuestionUrl + `/${id}`)).data;
+    await fillQuestionInfo(question);
+    res.status(200).json(question);
+  } catch (err) {
+    next(err);
+  }
+});
+
 async function fillAcountInfo(user) {
   const paramWrapperUId = { id: user.id };
   const questions = (await axios.get(QuestionsByUserUrl, { params: paramWrapperUId })).data;
