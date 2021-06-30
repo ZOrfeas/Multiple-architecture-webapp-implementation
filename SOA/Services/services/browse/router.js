@@ -117,6 +117,19 @@ router.get('/question', authenticate, (req, res, next) => {
     .catch(next);
 })
 
+router.get('/publicQuestion', (req, res, next) => {
+  // #swagger.tags = ['Browse']
+  // #swagger.summary = 'Get all details of a public question'
+  const id = req.query.id;
+  browseServices.getQuestionInfo(id)
+    .then(dlres => {
+      const retObj = dlres.data;
+      !retObj.user || delete retObj.user.password;
+      res.status(200).json(retObj);
+    })
+    .catch(next);
+}
+
 router.get('/keywordsByPopularity', (req, res, next) => {
   // #swagger.tags = ['Browse']
   // #swagger.summary = 'Get a page of keywords sorted by popularity'
