@@ -5,10 +5,6 @@
 ### A forum like web-app SaaS implemented in two different ways <!-- omit in toc -->
 </div>
 
-## Contents <!-- omit in toc -->
-- [Authors](#authors)
-- [Kubernetes deployment (of both)](#kubernetes-deployment-of-both)
-
 ## Authors
 - [George Thomadakis](https://github.com/on2e)
 - [Orfeas Zografos](https://github.com/ZOrfeas)
