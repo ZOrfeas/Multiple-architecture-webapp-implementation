@@ -1,16 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { formatDate, formatName } from '../lib'
 import Badge from 'react-bootstrap/Badge'
 
 function BrowseQuestionItem({ id, title, summary, keywords, setId, setPage, askedOn, askedBy, answerCount }) {
-  const formatDate = date => {
-    const dateObj = new Date(date.split('.')[0])
-    const [, month, dayNum, year] = dateObj.toDateString().split(' ')
-    return `${month}, ${dayNum} ${year}`
-  }
-
-  const formatName = name => name.split(' ').join('-')
-
   return (
       <div className='d-flex'>
         <div className='question-item'>

@@ -1,5 +1,9 @@
-// const axios = require('axios')
-// const url = process.env.REACT_APP_AUTH_URL
+const axios = require('axios')
+const url = process.env.REACT_APP_AUTH_URL
+
+/**
+ * Class to handle login, logout, etc., methods
+ */
 
 class Auth {
   login({ user, token }) {
@@ -26,26 +30,23 @@ class Auth {
     return JSON.parse(localStorage.getItem('token'))
   }
 
-  /*async isAuth() {
-    const token = localStorage.getItem('token')
+  // check for token validity through auth service request
+  async isAuth() {
+    const token = JSON.parse(localStorage.getItem('token'))
+
     if (!token) return false
+
+    const config = { headers: { 'Authorization': `Bearer ${token}` } }
     try {
-      const response = await axios.get(`${url}/protected`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      // return response.status === 200
-      if (response.status === 200) {
-        return true
-      }
+      const response = await axios.get(`${url}/protected`, config)
+      return response.status === 200
     } catch (error) {
       console.log(error)
       localStorage.removeItem('user')
       localStorage.removeItem('token')
       return false
     }
-  }*/
+  }
 }
 
 export default new Auth()

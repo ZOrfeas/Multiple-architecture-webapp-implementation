@@ -1,6 +1,10 @@
 import React, { useState, useContext } from 'react'
 import auth from './Auth'
 
+/**
+ * Context to pass auth methods between components
+ */
+
 const AuthContext = React.createContext()
 
 export function useAuth() {
@@ -21,11 +25,14 @@ export function AuthProvider({ children }) {
     auth.logout()
   }
 
+  const isAuth = auth.isAuth
+
   return (
       <AuthContext.Provider value={
         {
           user,
           token,
+          isAuth,
           login,
           logout
         }

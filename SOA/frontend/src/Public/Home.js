@@ -86,7 +86,7 @@ function Home() {
                   </Card.Text>
                 </Card.Body>
                 <Card.Footer className='text-center'>
-                  <a className='home-link' href={user ? '/questions' : '/public-questions'}>Browse and answer questions</a>
+                  <a className='home-link' href='/questions'>Browse and answer questions</a>
                 </Card.Footer>
               </Card>
             </CardDeck>

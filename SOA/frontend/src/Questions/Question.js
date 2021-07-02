@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAuth } from '../Auth/AuthContext'
+import { formatDate } from '../lib'
 import Card from 'react-bootstrap/Card'
 import Badge from 'react-bootstrap/Badge'
 import ListGroup from 'react-bootstrap/ListGroup'
@@ -42,8 +43,7 @@ function Question() {
     if (!form.checkValidity()) {
       e.stopPropagation()
       setValidated(true)
-    }
-    else {
+    } else {
       const answer = {
         ansContent: answerText,
         question: question
@@ -61,12 +61,6 @@ function Question() {
             }
           })
     }
-  }
-
-  const formatDate = date => {
-    const dateObj = new Date(date.split('.')[0])
-    const [, month, dayNum, year] = dateObj.toDateString().split(' ')
-    return `${month}, ${dayNum} ${year}`
   }
 
   return (

@@ -39,7 +39,7 @@ function QPerKeyword() {
               Select a keyword and view questions asked associated with it.
             </p>
             <p className='small text-muted'>
-              Applies for logged in users only.
+              Applies to signed up users only.
             </p>
           </Card.Body>
 

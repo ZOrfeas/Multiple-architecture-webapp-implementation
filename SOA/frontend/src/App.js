@@ -24,8 +24,14 @@ function App() {
         <div className='App'>
           <AuthProvider>
             <Switch>
-              <ProtectedRoute path='/signup' onUser redirect='/' component={Signup} />
-              <ProtectedRoute path='/login' onUser redirect='/' component={Login} />
+              <Route path='/signup' component={Signup} />
+              <Route path='/login' component={Login} />
+              <ProtectedRoute
+                  exact
+                  path='/questions'
+                  redirect='/public-questions'
+                  component={QuestionsRoute}
+              />
               <ProtectedRoute
                   path='/questions'
                   redirect='/login'
