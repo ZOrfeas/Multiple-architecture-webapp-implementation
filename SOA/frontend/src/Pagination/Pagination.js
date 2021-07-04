@@ -9,11 +9,11 @@ function PaginationComponent({ totalItems, pageSize, pageRange, pageState }) {
   }
 
   const prevPage = () => {
-    setActivePage(prevActivePage => prevActivePage - 1)
+    setActivePage(prev => prev - 1)
   }
 
   const nextPage = () => {
-    setActivePage(prevActivePage => prevActivePage + 1)
+    setActivePage(prev => prev + 1)
   }
 
   const totalPages = Math.ceil(totalItems / pageSize)
@@ -41,7 +41,7 @@ function PaginationComponent({ totalItems, pageSize, pageRange, pageState }) {
 
   if (pageNumbers[0] !== 1) {
     pages.push(
-        <Pagination.Item key={1} onClick={() => changePage(1)} active={false}>
+        <Pagination.Item key={1} onClick={() => changePage(1)}>
           {1}
         </Pagination.Item>
     )
@@ -67,7 +67,7 @@ function PaginationComponent({ totalItems, pageSize, pageRange, pageState }) {
       )
     }
     pages.push(
-        <Pagination.Item key={totalPages} onClick={() => changePage(totalPages)} active={false}>
+        <Pagination.Item key={totalPages} onClick={() => changePage(totalPages)}>
           {totalPages}
         </Pagination.Item>
     )
@@ -80,6 +80,8 @@ function PaginationComponent({ totalItems, pageSize, pageRange, pageState }) {
         </Pagination.Item>
     )
   }
+
+  console.log(pages)
 
   return (
       <Pagination className='mb-0 py-3 justify-content-end' size='sm'>

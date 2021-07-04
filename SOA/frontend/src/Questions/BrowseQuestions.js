@@ -23,16 +23,21 @@ function BrowseQuestions() {
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize] = useState(10)
 
-  // get total number of questions and questions for current page
+  // get total number of questions
+  useEffect(() => {
+    const service = keywordId ? `questionsByKeywords?id=${keywordId}` : `questions`
+
+    axios.get(`${url}/count/${service}`)
+        .then(response => setTotalQuestions(response.data))
+        .catch(error => console.log(error))
+  }, [keywordId])
+
+  // get questions for current page
   useEffect(() => {
     // get only questions with particular keyword if id is defined
     const service = keywordId ? `questionsByKeywords?id=${keywordId}` : `questions`
     const sep = keywordId ? '&' : '?'
     const config = { headers: { 'Authorization': `Bearer ${token}` } }
-
-    axios.get(`${url}/count/${service}`)
-        .then(response => setTotalQuestions(response.data))
-        .catch(error => console.log(error))
 
     axios.get(`${url}/${service}${sep}pagesize=${pageSize}&pagenr=${currentPage}`, config)
         .then(response => setQuestions(response.data))
@@ -81,8 +86,10 @@ function BrowseQuestions() {
                         title={question.title}
                         summary={question.questContent}
                         keywords={question.keywords}
-                        setId={setKeywordId}
-                        setPage={setCurrentPage}
+                        handleClick={id => { // on keyword select, set keyword id and reset pagination
+                          setKeywordId(id)
+                          setCurrentPage(1)
+                        }}
                         askedOn={question.askedOn}
                         askedBy={question.user?.displayName}
                         answerCount={question.ansCount}

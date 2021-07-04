@@ -3,29 +3,26 @@ import { Link } from 'react-router-dom'
 import { formatDate, formatName } from '../lib'
 import Badge from 'react-bootstrap/Badge'
 
-function BrowseQuestionItem({ id, title, summary, keywords, setId, setPage, askedOn, askedBy, answerCount }) {
+function BrowseQuestionItem({ id, title, summary, keywords, handleClick, askedOn, askedBy, answerCount }) {
   return (
       <div className='d-flex'>
         <div className='question-item'>
-          <h5 className='question-title'><Link to={setId ? `/questions/${id}` : `/public-questions/${id}`}>{title}</Link></h5>
+          <h5 className='question-title'><Link to={handleClick ? `/questions/${id}` : `/public-questions/${id}`}>{title}</Link></h5>
           <p className='question-summary small mb-2'>{summary}</p>
           <div className='keywords mb-2'>
             {keywords.map(keyword => (
                 <Badge key={keyword.id} className='keyword-badge mr-1'>
-                  {setId
-                  ? <Link
+                  {handleClick
+                      ? <Link
                           to={{
                             pathname: `/questions/keyword/${formatName(keyword.name)}`,
                             state: { id: keyword.id, name: keyword.name }
                           }}
-                          onClick={() => {
-                            setId(keyword.id)
-                            setPage(1)
-                          }}
-                      >
-                        {keyword.name}
-                      </Link>
-                  : <span>{keyword.name}</span>}
+                          onClick={() => handleClick(keyword.id)}
+                        >
+                          {keyword.name}
+                        </Link>
+                      : <span>{keyword.name}</span>}
                 </Badge>
             ))}
           </div>

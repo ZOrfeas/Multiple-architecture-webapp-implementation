@@ -1,13 +1,10 @@
 import './Home.css'
 import React from 'react'
-import { useAuth } from '../Auth/AuthContext'
 import CardDeck from 'react-bootstrap/CardDeck'
 import Card from 'react-bootstrap/Card'
 import Container from 'react-bootstrap/Container'
 
 function Home() {
-  const { user } = useAuth()
-
   return (
       <Container className='home-content d-flex py-5'>
         <Card>

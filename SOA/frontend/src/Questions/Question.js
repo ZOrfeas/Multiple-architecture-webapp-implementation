@@ -39,6 +39,7 @@ function Question() {
   // post new answer
   const handleSubmit = e => {
     e.preventDefault()
+
     const form = e.currentTarget
     if (!form.checkValidity()) {
       e.stopPropagation()

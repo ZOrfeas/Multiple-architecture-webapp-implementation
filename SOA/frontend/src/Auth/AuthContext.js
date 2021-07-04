@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import auth from './Auth'
 
 /**
- * Context to pass auth methods between components
+ * Context to pass auth functions between components
  */
 
 const AuthContext = React.createContext()

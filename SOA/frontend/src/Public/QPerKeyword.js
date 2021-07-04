@@ -13,19 +13,26 @@ const url = process.env.REACT_APP_BROWSE_URL
 function QPerKeyword() {
   const [keywords, setKeywords] = useState([])
   const [totalKeywords, setTotalKeywords] = useState(0)
-  const [currentPage, setCurrentPage] = useState(1)
+  const [activePage, setActivePage] = useState(1)
+  const [selectedPage, setSelectedPage] = useState(1)
   const [pageSize] = useState(48) // multiples of 6
 
-  // get total number of keywords and number of questions per keyword
+  // get total number of keywords
   useEffect(() => {
     axios.get(`${url}/count/keywords`)
         .then(response => setTotalKeywords(response.data))
         .catch(error => console.log(error))
+  }, [])
 
-    axios.get(`${url}/keywordsByPopularity?pagesize=${pageSize}&pagenr=${currentPage}`)
-        .then(response => setKeywords(response.data))
+  // get number of questions per keyword
+  useEffect(() => {
+    axios.get(`${url}/keywordsByPopularity?pagesize=${pageSize}&pagenr=${selectedPage}`)
+        .then(response => {
+          setKeywords(response.data)
+          setActivePage(selectedPage)
+        })
         .catch(error => console.log(error))
-  }, [currentPage])
+  }, [selectedPage])
 
   return (
       <Container className='q-per-keyword-content py-5'>
@@ -55,7 +62,7 @@ function QPerKeyword() {
                 totalItems={totalKeywords}
                 pageSize={pageSize}
                 pageRange={5}
-                pageState={[currentPage, setCurrentPage]}
+                pageState={[activePage, setSelectedPage]}
             />
           </Card.Body>
         </Card>
