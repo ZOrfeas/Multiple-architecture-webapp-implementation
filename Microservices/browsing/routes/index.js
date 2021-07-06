@@ -175,6 +175,11 @@ async function fillAcountInfo(user) {
   } else {
     const paramWrapperQids = { id: realAnswers.map(ans => ans.question_id).toString() };
     const respondedTo = (await axios.get(QuestionUrl + '/' + paramWrapperQids.id )).data;
+    console.log("==================")
+    console.log(respondedTo);
+    console.log("==================")
+    console.log(realAnswers);
+    console.log("==================")
     const answers = realAnswers.map(ans => { return {
       answer_id: ans.id,
       question_id: ans.question_id,
