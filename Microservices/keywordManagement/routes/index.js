@@ -30,7 +30,7 @@ router.get('/all', async (req, res, next) => {
   // #swagger.summary = 'Gets all keywords'
   try {
     const allKeywords = await Keyword.findAll({
-      order: [['name', 'DESC']],
+      order: [['name', 'ASC']],
     });
     res.status(200).json(allKeywords);
   } catch (err) {
