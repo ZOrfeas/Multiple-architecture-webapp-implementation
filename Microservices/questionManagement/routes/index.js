@@ -213,7 +213,13 @@ router.get('/:id', async (req, res, next) => {
         where: { id: { [Op.in]: questionIds } }
       });
       const retVal = {}
+      console.log("====================");
+      console.log(questions);
+      console.log("====================");
       questions.forEach(question => retVal[question.id] = question);
+      console.log("====================");
+      console.log(retVal);
+      console.log("====================");
       res.status(200).json(retVal);
     }
   } catch(err) {
