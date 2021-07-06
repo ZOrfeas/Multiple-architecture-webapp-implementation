@@ -1,0 +1,32 @@
+.user-content .card-header {
+    background-color: #fff;
+}
+
+.profile-icon {
+    font-size: 120px;
+}
+
+.user-stats {
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+.stats-icon {
+    font-size: 21px;
+    color: #002eff;
+}
+
+.user-tabs {
+    border-bottom: 1px solid #dee2e6 !important;
+}
+
+.border-bttm {
+    border-bottom: 1px solid rgba(0,0,0,.175);
+}
+
+@media (min-width: 992px) {
+    .tab-wrapper {
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+}

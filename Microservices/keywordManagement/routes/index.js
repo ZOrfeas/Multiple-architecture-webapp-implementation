@@ -30,7 +30,7 @@ router.get('/all', async (req, res, next) => {
   // #swagger.summary = 'Gets all keywords'
   try {
     const allKeywords = await Keyword.findAll({
-      order: [['name', 'DESC']],
+      order: [['name', 'ASC']],
     });
     res.status(200).json(allKeywords);
   } catch (err) {
@@ -54,7 +54,7 @@ router.get('/by/popularity', async (req, res, next) => {
     const pagenr = +req.query.pagenr;
     if (isNaN(pagesize) || isNaN(pagenr))
       throw new BadRequest('Invalid pagesize or pagenr query params');
-    const queryString = `SELECT "keywords"."name", "rel"."keywordId", COUNT("rel"."questionId") as "occurencies"
+    const queryString = `SELECT "keywords"."name", "rel"."keywordId", COUNT("rel"."questionId") as "occurrencies"
       FROM "question_keywords_keywords" as "rel" JOIN "keywords" ON "rel"."keywordId" = "keywords"."id"
       GROUP BY "rel"."keywordId", "keywords"."name" ORDER BY "occurrencies" DESC
       LIMIT ${pagesize} OFFSET ${(pagenr-1) * pagesize}`;

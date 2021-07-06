@@ -1,0 +1,17 @@
+.signup-content,
+.login-content {
+    min-height: 100vh;
+}
+
+.signup-content .card-header,
+.login-content .card-header {
+    background-color: #fff;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.ama-logo:hover {
+    color: #e90c22 !important;
+}

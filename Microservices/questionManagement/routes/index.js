@@ -208,17 +208,30 @@ router.get('/:id', async (req, res, next) => {
         throw new NotFound(`Question with id ${id} not found`);
       }
       res.status(200).json(question);  
-    } else {
-      const questions = await Question.findAll({
-        where: { id: { [Op.in]: questionIds } }
-      });
-      const retVal = {}
-      questions.forEach(question => retVal[question.id] = question);
-      res.status(200).json(retVal);
     }
   } catch(err) {
     next(err);
   }
 });
 
+router.get('/many/:id', async (req, res, next) => {
+  // #swagger.tags = ['Question']
+  // #swagger.summary = 'Fetches all available info about questions'
+  try {
+    const ids = req.params.id;
+    const questionIds = ids.split(',').map((str) => {
+      const nr = +str;
+      if (isNaN(nr)) throw new BadRequest('Invalid keyword id query param');
+      return nr;
+    });
+    const questions = await Question.findAll({
+      where: { id: { [Op.in]: questionIds } }
+    });
+    const retVal = {}
+    questions.forEach(question => retVal[question.id] = question);
+    res.status(200).json(retVal);
+  } catch(err) {
+    next(err);
+  }
+})
 module.exports = router;

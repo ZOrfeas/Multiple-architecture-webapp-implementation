@@ -174,7 +174,7 @@ async function fillAcountInfo(user) {
     user.answers = [];
   } else {
     const paramWrapperQids = { id: realAnswers.map(ans => ans.question_id).toString() };
-    const respondedTo = (await axios.get(QuestionUrl + '/' + paramWrapperQids.id )).data;
+    const respondedTo = (await axios.get(QuestionUrl + '/many/' + paramWrapperQids.id )).data;
     const answers = realAnswers.map(ans => { return {
       answer_id: ans.id,
       question_id: ans.question_id,

@@ -1,0 +1,21 @@
+.content-wrapper {
+  margin-top: 56px;
+  background: #f0f0d0;
+}
+
+.material-icons-sharp,
+.material-icons-outlined {
+  vertical-align: middle;
+}
+
+@media (max-width: 576px) {
+  .content-wrapper,
+  .home-content,
+  .questions-content,
+  .q-per-keyword-content,
+  .qa-per-day-content,
+  .user-content {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
