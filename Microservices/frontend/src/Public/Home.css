@@ -1,0 +1,28 @@
+.home-content {
+    min-height: 100vh;
+}
+
+.home-content .ama-logo {
+    font-size: 2rem;
+}
+
+.home-icon {
+    font-size: 60px;
+    color: #002eff;
+}
+
+.home-link {
+    font-size: 1.2rem;
+    color: #002eff;
+}
+
+.home-link:hover {
+    color: #002eff;
+    text-decoration: underline !important;
+}
+
+@media (max-width: 576px) {
+    .home-header {
+        padding-bottom: 3rem;
+    }
+}

@@ -1,0 +1,7 @@
+version: "3.9"
+services:
+    web:
+        image: zorfeas/ms-web:latest
+        container_name: web
+        ports:
+            - 80:5000

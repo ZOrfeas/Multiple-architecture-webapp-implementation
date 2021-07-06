@@ -1,0 +1,25 @@
+.nav {
+    padding-left: 5% !important;
+    padding-right: 5% !important;
+}
+
+.login-btn {
+    background-color: #000fdd55 !important;
+    color: #ffffffbb !important;
+    border-color: #004eff !important;
+}
+
+.login-btn:hover {
+    background-color: #000fdd88 !important;
+}
+
+.signup-btn {
+    background-color: #000fdd !important;
+    color: #fff !important;
+    border-color: #004eff !important;
+}
+
+.signup-btn:hover {
+    background-color: #000fcc !important;
+    border-color: #004eff88 !important;
+}

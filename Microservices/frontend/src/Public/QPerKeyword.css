@@ -1,0 +1,23 @@
+.keyword-badge {
+    color: #439a80 !important;
+    background-color: #d3e5d9;
+    font-weight: 500 !important;
+    cursor: pointer;
+}
+
+.keyword-badge:hover {
+    background-color: #c5e1ce;
+}
+
+.keyword-badge a {
+    color: #439a80 !important;
+}
+
+.question-count {
+    color: #002eff;
+}
+
+.question-icon {
+    font-size: 21px;
+    color: #002eff;
+}
