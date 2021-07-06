@@ -1,0 +1,99 @@
+# Workflow handling CI/CD of the Microservices Data-Layer Component
+name: (Frontend ms) Build & Push image
+
+on:
+  push: # runs on any push to the main branch
+    branches: [ main ]
+    paths:
+      - 'Microservices/frontend/**'
+      - '!Microservices/frontend/.idea/**'
+      - '!Microservices/frontend/README.md'
+  pull_request: # runs on any pull request with changes on the same files
+    branches: [ main ]
+    paths:
+      - 'Microservices/frontend/**'
+      - '!Microservices/frontend/.idea/**'
+      - '!Microservices/frontend/README.md'
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: Microservices/frontend
+
+jobs:
+  # prep, transpile, run tests
+  build_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch main or PR-merge-branch on runner
+        uses: actions/checkout@v2.3.4
+      
+      - name: Setup node environment
+        uses: actions/setup-node@v2
+        with:
+            node-version: '15'
+      
+      - name: Install dependencies
+        run: |
+          npm install
+      
+      - name: Build for production
+        run: npm run build:ci
+
+      # builds the docker image and pushes to docker hub
+      - name: Login Docker
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Setup Caching for Docker
+        if: github.event_name != 'pull_request'
+        uses: actions/cache@v2
+        with:
+          path: /tmp/ms/web/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      
+      - name: Setup Docker Buildx
+        if: github.event_name != 'pull_request'
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Setup image tags
+        if: github.event_name != 'pull_request'
+        run: |
+          echo "IMAGE_TAG=$(curl -m 20 'http://snf-880282.vm.okeanos.grnet.gr:60080/docker/ms-web-latest-tag.txt')" >> $GITHUB_ENV
+      
+      - name: Build and push image
+        if: github.event_name != 'pull_request'
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: ${{ github.workspace }}/Microservices/frontend
+          file: ${{ github.workspace }}/Microservices/frontend/Dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/ms-web:${{ env.IMAGE_TAG }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/ms-web:latest
+          cache-from: type=local,src=/tmp/ms/web/.buildx-cache
+          cache-to: type=local,dest=/tmp/ms/web/.buildx-cache-new
+
+      - name: Pull & restart containers
+        if: github.event_name != 'pull_request'
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOSTNAME }}
+          username: temp
+          key: ${{ secrets.SERVER_PRIVATE_KEY }}
+          script: cd ~ && ./update-kube.sh ms-web
+
+      # Seems necessary to not bloat the cache, source: https://github.com/docker/build-push-action/blob/master/docs/advanced/cache.md
+      - name: Move cache
+        if: github.event_name != 'pull_request'
+        run: |
+          rm -rf /tmp/web/.buildx-cache
+          mv /tmp/ms/web/.buildx-cache-new /tmp/ms/web/.buildx-cache
