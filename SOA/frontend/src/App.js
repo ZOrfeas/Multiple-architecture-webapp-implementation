@@ -34,8 +34,8 @@ function App() {
               />
               <ProtectedRoute
                   path='/questions'
-                  redirect='/login'
-                  state={{ alert: true }}
+                  redirect='/login'         // redirect user to login page if unauthorized
+                  state={{ alert: true }}   // alert user to log in or sign up
                   component={QuestionsRoute}
               />
               <ProtectedRoute

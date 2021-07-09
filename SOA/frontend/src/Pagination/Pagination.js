@@ -81,8 +81,6 @@ function PaginationComponent({ totalItems, pageSize, pageRange, pageState }) {
     )
   }
 
-  console.log(pages)
-
   return (
       <Pagination className='mb-0 py-3 justify-content-end' size='sm'>
         {pages}

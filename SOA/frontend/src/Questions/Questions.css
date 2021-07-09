@@ -78,3 +78,15 @@
 .answers-header {
     border-bottom: 1px solid rgba(0,0,0,.125);
 }
+
+.invalid-feedback-editor {
+    width: 100%;
+    margin-top: .25rem;
+    font-size: .875em;
+    color: #dc3545;
+}
+
+.question-piece p,
+.answer-piece p {
+    margin-bottom: 0;
+}

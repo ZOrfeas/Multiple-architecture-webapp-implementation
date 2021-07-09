@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAuth } from '../Auth/AuthContext'
 import { formatDate } from '../lib'
+import EditorComponent from './EditorComponent'
 import Card from 'react-bootstrap/Card'
 import Badge from 'react-bootstrap/Badge'
 import ListGroup from 'react-bootstrap/ListGroup'
@@ -14,7 +15,7 @@ const answer_url = process.env.REACT_APP_ANSWER_URL
 
 function Question() {
   const [question, setQuestion] = useState({})
-  const [answerText, setAnswerText] = useState('')
+  const [answerHtml, setAnswerHtml] = useState('')
   const [validated, setValidated] = useState(false)
 
   const { id } = useParams()
@@ -40,13 +41,12 @@ function Question() {
   const handleSubmit = e => {
     e.preventDefault()
 
-    const form = e.currentTarget
-    if (!form.checkValidity()) {
+    if (answerHtml === '') {
       e.stopPropagation()
       setValidated(true)
     } else {
       const answer = {
-        ansContent: answerText,
+        ansContent: answerHtml,
         question: question
       }
       const config = { headers: { 'Authorization': `Bearer ${token}` } }
@@ -71,7 +71,7 @@ function Question() {
         </Card.Header>
 
         <Card.Body className='question'>
-          <p>{question.questContent}</p>
+          <div className='question-piece mb-3' dangerouslySetInnerHTML={{__html: question.questContent}} />
           <div className='keywords mb-2'>
             {question.keywords &&
             question.keywords.map(keyword => (
@@ -96,7 +96,7 @@ function Question() {
             question.answers.map(answer => (
                 <Card className='mb-2' key={answer.id}>
                   <ListGroup.Item className='border-0'>
-                    <p>{answer.ansContent}</p>
+                    <div className='answer-piece mb-3' dangerouslySetInnerHTML={{__html: answer.ansContent}} />
                     <p className='date-user text-muted mb-0 px-0'>
                       answered on {answer.answeredOn && formatDate(answer.answeredOn)} by {answer.displayName ? answer.displayName : '[deleted]'}
                     </p>
@@ -113,19 +113,12 @@ function Question() {
             <p>Post your answer.</p>
           </div>
 
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form noValidate onSubmit={handleSubmit}>
             <Form.Group controlId='formGroupTextarea'>
               <Form.Label className='font-weight-bold'>Your answer</Form.Label>
-              <Form.Control
-                  as='textarea'
-                  name='answer-text'
-                  onChange={e => setAnswerText(e.target.value)}
-                  style={{ height: '175px' }}
-                  required
-              />
-              <Form.Control.Feedback type='invalid'>
-                Answer cannot be empty
-              </Form.Control.Feedback>
+              <EditorComponent setHtml={setAnswerHtml} />
+              {validated && answerHtml === '' &&
+              <div className='invalid-feedback-editor'>Answer cannot be empty</div>}
             </Form.Group>
             <div className='text-right'>
               <Button className='qa-btn' type='submit'>Add your answer</Button>

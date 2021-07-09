@@ -8,7 +8,9 @@ function BrowseQuestionItem({ id, title, summary, keywords, handleClick, askedOn
       <div className='d-flex'>
         <div className='question-item'>
           <h5 className='question-title'><Link to={handleClick ? `/questions/${id}` : `/public-questions/${id}`}>{title}</Link></h5>
-          <p className='question-summary small mb-2'>{summary}</p>
+          <p className='question-summary small mb-2'>
+            <span className='question-piece' dangerouslySetInnerHTML={{__html: summary}} />
+          </p>
           <div className='keywords mb-2'>
             {keywords.map(keyword => (
                 <Badge key={keyword.id} className='keyword-badge mr-1'>
