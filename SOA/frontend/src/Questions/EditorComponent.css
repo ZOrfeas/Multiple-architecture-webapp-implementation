@@ -1,0 +1,10 @@
+.editor-class {
+    height: 200px !important;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}
+
+/* remove margin from editor blocks */
+.public-DraftStyleDefault-block {
+    margin: 0 !important;
+}

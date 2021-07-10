@@ -6,7 +6,7 @@
 Run `docker compose up` in this directory to create and setup a working version of the application.
 
 # Component architecture
-![SOA_Component_diagram_v1](https://user-images.githubusercontent.com/65095699/122473962-3934bb80-cfcb-11eb-9243-87726345ca0b.jpg)
+![SOA_Component_diagram_v2](https://user-images.githubusercontent.com/65095699/125166053-72afaf80-e1a2-11eb-83e2-3bf93ee1fdba.jpg)
 
 ## Website
 [Link](http://saas-15.ddns.net)

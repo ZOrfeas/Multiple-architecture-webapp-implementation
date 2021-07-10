@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { formatDate } from '../lib'
+import EditorComponent from '../Questions/EditorComponent'
 import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
 import Badge from 'react-bootstrap/Badge'
@@ -32,7 +33,7 @@ function QuestionPublic() {
             </Card.Header>
 
             <Card.Body className='question'>
-              <p>{question.questContent}</p>
+              <div className='question-piece mb-3' dangerouslySetInnerHTML={{__html: question.questContent}} />
               <div className='keywords mb-2'>
                 {question.keywords &&
                 question.keywords.map(keyword => (
@@ -57,7 +58,7 @@ function QuestionPublic() {
                 question.answers.map(answer => (
                     <Card className='mb-2' key={answer.id}>
                       <ListGroup.Item className='border-0'>
-                        <p>{answer.ansContent}</p>
+                        <div className='answer-piece mb-3' dangerouslySetInnerHTML={{__html: answer.ansContent}} />
                         <p className='date-user text-muted mb-0 px-0'>
                           answered on {answer.answeredOn && formatDate(answer.answeredOn)} by {answer.displayName ? answer.displayName : '[deleted]'}
                         </p>
@@ -77,17 +78,10 @@ function QuestionPublic() {
               <Form noValidate>
                 <Form.Group controlId='formGroupTextarea'>
                   <Form.Label className='font-weight-bold'>Your answer</Form.Label>
-                  <Form.Control
-                      as='textarea'
-                      name='answer-text'
-                      style={{ height: '175px' }}
-                  />
-                  <Form.Control.Feedback type='invalid'>
-                    Answer cannot be empty
-                  </Form.Control.Feedback>
+                  <EditorComponent />
                 </Form.Group>
                 <div className='text-right'>
-                  <Button className='qa-btn' type='button' href={`/questions/${id}`}>Add your answer</Button>
+                  <Button className='qa-btn' type='submit' href={`/questions/${id}`}>Add your answer</Button>
                 </div>
               </Form>
 

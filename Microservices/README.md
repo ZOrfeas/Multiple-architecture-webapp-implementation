@@ -6,10 +6,10 @@
 Run `docker compose up` in this directory to create and setup a working version of the application.
 
 # Component architecture
-![Microservices_Components_v2](https://user-images.githubusercontent.com/65095699/122473980-3df96f80-cfcb-11eb-863f-ccf6fd6057ef.jpg)
+![Microservices_Components_v3](https://user-images.githubusercontent.com/65095699/125166082-94109b80-e1a2-11eb-8f84-0994a134b634.jpg)
 
 ## Website
-[Link]()
+[Link](http://saas-15.ddns.net:4000/)
 
 ## Auth
 [Documentation](http://saas-15.ddns.net:40000/spec/)

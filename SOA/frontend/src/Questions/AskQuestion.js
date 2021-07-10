@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useAuth } from '../Auth/AuthContext'
+import EditorComponent from './EditorComponent'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
@@ -12,7 +13,7 @@ const url = process.env.REACT_APP_QUESTION_URL
 
 function AskQuestion() {
   const [title, setTitle] = useState('')
-  const [questionText, setQuestionText] = useState('')
+  const [questionHtml, setQuestionHtml] = useState('')
   const [keywordsAll, setKeywordsAll] = useState([])
   const [keywordsSelected, setKeywordsSelected] = useState([])
   const [validated, setValidated] = useState(false)
@@ -42,14 +43,14 @@ function AskQuestion() {
   // post new question
   const handleSubmit = e => {
     e.preventDefault()
-    if (title === '' || questionText === '' || keywordsSelected.length === 0) {
+
+    if (title === '' || questionHtml === '' || keywordsSelected.length === 0) {
       e.stopPropagation()
       setValidated(true)
-    }
-    else {
+    } else {
       const question = {
         title: title,
-        questContent: questionText,
+        questContent: questionHtml,
         keywords: keywordsSelected
       }
       const config = { headers: { 'Authorization': `Bearer ${token}` } }
@@ -105,17 +106,9 @@ function AskQuestion() {
               <Form.Text className='text-muted mt-0 mb-1'>
                 Be specific and provide information needed for your question to be answered
               </Form.Text>
-              <Form.Control
-                  as='textarea'
-                  name='question-text'
-                  onChange={e => setQuestionText(e.target.value)}
-                  isInvalid={validated && questionText === ''}
-                  isValid={validated && questionText !== ''}
-                  style={{ height: '175px' }}
-              />
-              <Form.Control.Feedback type='invalid'>
-                Question cannot be empty
-              </Form.Control.Feedback>
+              <EditorComponent setHtml={setQuestionHtml} />
+              {validated && questionHtml === '' &&
+                <div className='invalid-feedback-editor'>Question cannot be empty</div>}
             </Form.Group>
 
             <label className='font-weight-bold'>Keywords</label>

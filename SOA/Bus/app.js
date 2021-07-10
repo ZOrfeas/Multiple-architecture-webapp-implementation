@@ -9,7 +9,6 @@ const serviceManager = require('./serviceManager');
 /* const redisCon = */ require('./redisUtils');
 const cors = require('cors');
 
-const pokeRouter = require('./routes/poke');
 const httpRouter = require('./routes/httpRouter');
 
 const app = express();
