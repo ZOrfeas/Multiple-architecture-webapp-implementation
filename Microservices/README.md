@@ -3,7 +3,7 @@
 # Microservices architecture
 </div>
 
-Run `docker compose up` in this directory to create and setup a working version of the application.
+Run `docker compose up` in this directory to create and setup a working version of the application. (Might need to re-build frontend image due to REACT_APP environment variables being baked into the image :) )
 
 # Component architecture
 ![Microservices_Components_v3](https://user-images.githubusercontent.com/65095699/125166082-94109b80-e1a2-11eb-8f84-0994a134b634.jpg)
