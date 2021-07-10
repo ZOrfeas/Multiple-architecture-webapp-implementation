@@ -26,12 +26,6 @@ services:
     web:
         image: zorfeas/soa-web:latest
         container_name: web
-        environment:
-            REACT_APP_BROWSE_URL: http://saas-15.ddns.net:3003/ama-services/browse
-            REACT_APP_QUESTION_URL: http://saas-15.ddns.net:3003/ama-services/question
-            REACT_APP_ANSWER_URL: http://saas-15.ddns.net:3003/ama-services/answer
-            REACT_APP_ACCOUNT_URL: http://saas-15.ddns.net:3003/ama-services/account
-            REACT_APP_AUTH_URL: http://saas-15.ddns.net:3003/authenticator
         ports:
             - 8080:5000
 ##########################################################

@@ -1,6 +1,12 @@
 version: "3.9"
 services:
 ##################################################
+    web:
+        image: zorfeas/ms-web:latest
+        container_name: web
+        ports:
+            - 8080:5000
+##################################################
     psql-db:
         image: postgres:9.6.21-alpine
         container_name: psql-db
