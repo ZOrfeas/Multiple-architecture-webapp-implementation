@@ -9,7 +9,8 @@ Run `docker compose up` in this directory to create and setup a working version 
 ![SOA_Component_diagram_v2](https://user-images.githubusercontent.com/65095699/125166053-72afaf80-e1a2-11eb-83e2-3bf93ee1fdba.jpg)
 
 ## Website
-[Link](http://saas-15.ddns.net)
+[Link](http://saas-15.ddns.net:8080/)
+(port changed to 8080)
 
 ## Data-Layer
 Swagger documentation not public for implementation reasons
